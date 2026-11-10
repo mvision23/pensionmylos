@@ -1,0 +1,368 @@
+{
+  "meta": {
+    "siteTitle": "Pension Mylos — 克里特岛阿吉奥斯尼古拉奥斯的住宿加早餐民宿",
+    "siteDescription": "家庭经营的小民宿，坐落于克里特岛阿吉奥斯尼古拉奥斯的米拉贝洛湾之上。全景海景，地道的克里特热情款待，步行一分钟即达海滩。",
+    "address": "24 Sarolidi Str., 希腊克里特岛阿吉奥斯尼古拉奥斯"
+  },
+  "nav": {
+    "pension": "关于民宿",
+    "location": "位置",
+    "blog": "博客",
+    "contact": "联系我们",
+    "reservations": "预订",
+    "bookNow": "立即预订",
+    "bookShort": "预订",
+    "menu": "菜单",
+    "homeLabel": "Pension Mylos，返回首页",
+    "mainLabel": "主导航",
+    "skip": "跳至正文",
+    "language": "语言"
+  },
+  "film": {
+    "ariaLabel": "漫步Pension Mylos",
+    "hint": "向下滚动探索",
+    "routeLabel": "影片场景",
+    "loading": "正在加载视频",
+    "scenes": [
+      {
+        "label": "阿吉奥斯尼古拉奥斯",
+        "eyebrow": "克里特岛，阿吉奥斯尼古拉奥斯",
+        "title": "您找到了阿吉奥斯尼古拉奥斯最棒的住处。",
+        "body": "一家家庭经营的小民宿，坐落在Mylos海滨一带，俯瞰米拉贝洛湾。",
+        "tags": [
+          "TripAdvisor 排名 #1",
+          "家庭经营，始于80年代"
+        ]
+      },
+      {
+        "label": "民宿",
+        "eyebrow": "Pension Mylos",
+        "title": "这里就是您的第二个家。",
+        "body": "自上世纪80年代起，我们一家人便一直迎接着四方旅人。地道的克里特式热情款待，温馨舒适的环境，贴心周到的个人服务。",
+        "tags": [
+          "克里特式热情款待",
+          "贴心的个人服务"
+        ]
+      },
+      {
+        "label": "客房",
+        "eyebrow": "我们的客房",
+        "title": "温馨、整洁、安静。",
+        "body": "双床房、三人房和单人房，每间都拥有全景视野和整洁的设施，白天也格外宁静。",
+        "tags": [
+          "双床房",
+          "三人房",
+          "单人房"
+        ]
+      },
+      {
+        "label": "景色",
+        "eyebrow": "米拉贝洛湾",
+        "title": "阳台上的日出。",
+        "body": "欣赏海湾上空绝美的日出，夜晚伴着海浪声入眠。",
+        "tags": [
+          "全景海景"
+        ]
+      },
+      {
+        "label": "位置",
+        "eyebrow": "我们的理想位置",
+        "title": "一切近在身边，却不失清静。",
+        "body": "海滩、餐厅和咖啡馆都只需短短几步，一整天依然清静安宁。",
+        "tags": [
+          "基特罗普拉蒂亚海滩，1分钟",
+          "港口，3分钟",
+          "沃利斯梅尼湖，6分钟"
+        ]
+      },
+      {
+        "label": "预订",
+        "eyebrow": "直接向我们一家预订",
+        "title": "舒适交给我们，您只管享受。",
+        "body": "选择入住日期，查看有哪些空房。",
+        "tags": [],
+        "ctaPrimary": "查询空房",
+        "ctaSecondary": "探索周边"
+      }
+    ]
+  },
+  "about": {
+    "hostAlt": "Pension Mylos的主人",
+    "heading": "欢迎来到<em>您的第二个家</em>",
+    "text": "我们是一家自上世纪80年代起经营至今的家庭小民宿，为来自世界各地的旅人提供一处宾至如归的港湾。来感受地道的克里特式热情款待吧：温馨舒适的环境、整洁的设施、贴心周到的个人服务，让您在这里安心放松。您的舒适与惬意，就交给我们……您只管享受！",
+    "roomsTitle": "坐拥美景的客房",
+    "roomsCta": "查看客房与价格"
+  },
+  "rooms": [
+    {
+      "name": "双床房",
+      "detail": "全景海景"
+    },
+    {
+      "name": "三人房",
+      "detail": "全景海景"
+    },
+    {
+      "name": "单人房",
+      "detail": "全景视野"
+    }
+  ],
+  "gallery": {
+    "seeAll": "查看全部{n}张照片",
+    "openPhoto": "打开照片：",
+    "dialogLabel": "照片图库",
+    "close": "关闭",
+    "previous": "上一张照片",
+    "next": "下一张照片",
+    "alts": {
+      "slider-5": "阳台上摆着鲜花的桌子，俯瞰米拉贝洛湾",
+      "slider-4": "配有木质家具、通往阳台的双床房",
+      "slider-12": "敞开的百叶窗框住大海与一座小岛",
+      "slider-3": "挂着家庭照片的走廊与拱形门洞",
+      "slider-1": "Mylos的屋顶与海湾，地平线上有一座小岛",
+      "slider-13": "海面之上的阳台，品一杯茶",
+      "slider-15": "黄昏时分华灯初上的阿吉奥斯尼古拉奥斯港口",
+      "slider-2": "刚铺好的床上放着新鲜的花",
+      "slider-6": "越过屋顶望向海湾与群山的景色",
+      "slider-9": "木质百叶窗向大海敞开",
+      "slider-11": "摆着扶手椅和木框镜子的休息角",
+      "slider-7": "从露台望见的海湾与群山",
+      "slider-10": "一位住客在海面之上的阳台上",
+      "slider-14": "傍晚光线中的阿吉奥斯尼古拉奥斯海滨",
+      "slider-16": "小镇上空的傍晚天空",
+      "slider-17": "夜幕下沃利斯梅尼湖上的小船"
+    }
+  },
+  "location": {
+    "heading": "我们的理想<em>位置</em>",
+    "text": "Pension Mylos的魅力，全在米拉贝洛湾的全景视野。我们的位置恰到好处：离海滩、餐厅和咖啡馆都很近，却又不至于太近，因此全天都十分清静。阿吉奥斯尼古拉奥斯的海水非常清澈，拥有许多美丽的海滩，也是前往整个拉西锡地区一日游的理想大本营。",
+    "mapTitle": "Pension Mylos在Google Maps上的位置",
+    "openMaps": "在Google Maps中打开",
+    "fromDoor": "从我们门口出发，24 Sarolidi Str.",
+    "onFoot": "步行",
+    "byCar": "驾车",
+    "sights": [
+      {
+        "name": "基特罗普拉蒂亚海滩",
+        "time": "1分钟",
+        "distance": "100米",
+        "text": "一片干净宜人的海滩，周围有咖啡馆和传统餐厅，您所需的一切都触手可及。"
+      },
+      {
+        "name": "港口",
+        "time": "3分钟",
+        "distance": "200米",
+        "text": "阿吉奥斯尼古拉奥斯的主港口，这里有欧罗巴被劫持的雕像，还有一大片免费停车场。"
+      },
+      {
+        "name": "沃利斯梅尼湖",
+        "time": "6分钟",
+        "distance": "450米",
+        "text": "四周都是传统餐厅，从高处可以欣赏小镇与港口的绝美景色。这座著名的湖泊，连雅克·库斯托也没能找到它的湖底。"
+      },
+      {
+        "name": "市中心",
+        "time": "9分钟",
+        "distance": "600米",
+        "text": "热闹的市中心有咖啡馆、各式商店和一座美丽的东正教教堂。"
+      },
+      {
+        "name": "阿莫斯海滩",
+        "time": "10分钟",
+        "distance": "650米",
+        "text": "一片小小的沙滩，海水平静，周围有不少可以吃点小吃、喝上一杯的地方。"
+      },
+      {
+        "name": "阿穆迪海滩",
+        "time": "18分钟",
+        "distance": "1.2公里",
+        "text": "一片宽阔的沙滩，海水碧绿，有可以喝杯清凉饮品的沙滩酒吧，也有供应传统美食的餐厅。"
+      },
+      {
+        "name": "阿尔米罗斯海滩",
+        "time": "26分钟",
+        "distance": "2.1公里",
+        "text": "阿尔米罗斯河汇入大海之处，海水清澈，沙滩金黄，还有一间不错的小酒吧、洗手间，服务也非常友好。"
+      },
+      {
+        "name": "斯皮纳隆加岛与埃隆达",
+        "time": "23分钟",
+        "distance": "15公里",
+        "text": "海滨小镇埃隆达和斯皮纳隆加岛：威尼斯要塞、蜿蜒的小巷，以及欧洲最后几处麻风病隔离地之一的故事。"
+      },
+      {
+        "name": "克里西岛（耶拉佩特拉）",
+        "time": "42分钟",
+        "distance": "36公里",
+        "text": "前往一座小岛的一日游，会让您怀疑自己究竟身在克里特岛，还是加勒比海。"
+      },
+      {
+        "name": "伊拉克利翁机场",
+        "time": "50分钟",
+        "distance": "62公里",
+        "text": "尼科斯·卡赞扎基斯机场，克里特岛最大的机场，全年也是最繁忙的。"
+      },
+      {
+        "name": "狄克泰洞穴（宙斯洞穴）",
+        "time": "1小时",
+        "distance": "45公里",
+        "text": "壮丽的宙斯洞穴、原汁原味的克里特村庄，以及东克里特未经雕琢的自然风光。"
+      },
+      {
+        "name": "克诺索斯宫",
+        "time": "1小时",
+        "distance": "65公里",
+        "text": "举世闻名的考古遗址，以及伊拉克利翁博物馆：3500年的文明。"
+      }
+    ]
+  },
+  "book": {
+    "heading": "预订您的<em>住宿</em>",
+    "text": "选择入住日期，查看有哪些空房。您可通过我们安全的预订页面，直接向我们一家预订。",
+    "phonePrompt": "想先聊聊？请致电",
+    "checkin": "入住日期",
+    "checkout": "退房日期",
+    "guests": "人数",
+    "guestOptions": [
+      "1位成人",
+      "2位成人",
+      "3位成人",
+      "4位成人",
+      "5位成人",
+      "6位成人"
+    ],
+    "submit": "查询空房"
+  },
+  "blog": {
+    "homeHeading": "来自<em>博客</em>",
+    "allPosts": "全部文章",
+    "indexTitle": "博客",
+    "indexHeading": "来自<em>阿吉奥斯尼古拉奥斯</em>的故事",
+    "indexIntro": "海滩、一日游，以及为您的旅程准备的小贴士，来自Pension Mylos一家人。",
+    "indexDescription": "阿吉奥斯尼古拉奥斯的海滩、一日游与住宿小贴士，来自Pension Mylos一家人。",
+    "empty": "此语言版本暂无文章。",
+    "back": "博客",
+    "updated": "更新于",
+    "ctaTitle": "来阿吉奥斯尼古拉奥斯，住在我们这里",
+    "ctaText": "坐拥米拉贝洛湾全景景观的客房。",
+    "cta": "查询空房",
+    "moreHeading": "更多<em>博客</em>文章",
+    "rssTitle": "Pension Mylos博客",
+    "rssDescription": "克里特岛阿吉奥斯尼古拉奥斯的海滩、一日游与住宿小贴士。"
+  },
+  "newsletter": {
+    "heading": "订阅我们的<em>邮件通讯</em>",
+    "text": "获取专属优惠和重要的旅行资讯。",
+    "emailLabel": "电子邮箱地址",
+    "placeholder": "您的电子邮箱",
+    "submit": "订阅"
+  },
+  "contact": {
+    "heading": "聊一聊，<em>联系我们</em>",
+    "text": "对客房、交通或阿吉奥斯尼古拉奥斯周边的玩法有疑问？欢迎给我们写信、打电话，或直接上门。",
+    "phone": "电话",
+    "email": "电子邮箱",
+    "address": "地址",
+    "formTitle": "想和我们聊聊吗？",
+    "name": "姓名",
+    "emailField": "电子邮箱地址",
+    "message": "留言",
+    "send": "发送留言",
+    "sending": "正在发送…",
+    "error": "您的消息未能发送。请稍后重试，或发送邮件至 {email}。"
+  },
+  "footer": {
+    "tagline": "一家家庭经营的小民宿，坐落于克里特岛阿吉奥斯尼古拉奥斯的米拉贝洛湾之上。",
+    "contactHeading": "<em>联系</em>方式",
+    "explore": "探索",
+    "social": "社交媒体",
+    "rights": "© {year} Pension Mylos，阿吉奥斯尼古拉奥斯。版权所有。",
+    "cookieSettings": "Cookie设置"
+  },
+  "cookies": {
+    "region": "Cookie提示",
+    "text": "我们使用Cookie来保证本网站正常运行，并且仅在您允许的情况下用于统计访问量。",
+    "acceptAll": "全部接受",
+    "onlyNecessary": "仅必要",
+    "configure": "设置",
+    "title": "Cookie设置",
+    "intro": "请选择我们可以使用哪些Cookie。您可随时通过页面底部的“Cookie设置”更改。",
+    "necessary": "必要",
+    "necessaryText": "网站正常运行所必需，例如记住您的这一选择。始终开启。",
+    "necessaryOn": "必要Cookie始终开启",
+    "analytics": "统计分析",
+    "analyticsText": "通过Google Analytics获取的匿名访问统计数据。",
+    "save": "保存偏好",
+    "close": "关闭"
+  },
+  "reservations": {
+    "title": "预订",
+    "description": "查询空房，直接向家庭经营的Pension Mylos（阿吉奥斯尼古拉奥斯）预订您的客房。",
+    "heading": "预订您的<em>住宿</em>",
+    "intro": "请在下方选择入住日期和房型。您将通过安全的Beds24预订页面，直接向我们一家预订。",
+    "loading": "正在加载空房信息……",
+    "iframeTitle": "Pension Mylos在线预订（Beds24）",
+    "bookNow": "立即预订",
+    "fallbackText": "预订表单没有显示？",
+    "fallbackLink": "在新标签页中打开",
+    "roomsTitle": "我们的客房",
+    "questionsTitle": "预订前有疑问？",
+    "questionsText": "日期、房型、交通方面的问题，我们都乐意帮忙。",
+    "address": "地址",
+    "nearby": "周边景点",
+    "searchTitle": "查找房间",
+    "chooseDates": "选择日期，即可查看空房及价格。",
+    "search": "查询空房",
+    "searching": "正在查询空房…",
+    "resultsTitle": "您所选日期的可订房间",
+    "total": "住宿总价",
+    "taxes": "含增值税（{vat}）、市政税（{municipal}）和气候税（每间每晚{climate}）。最终明细将在下一步显示。",
+    "lastOne": "仅剩最后一间",
+    "none": "所选日期和人数暂无空房。请尝试其他日期，或给我们发邮件，我们会帮您寻找合适的选择。",
+    "error": "暂时无法查询空房情况。请几分钟后重试，或与我们联系。",
+    "invalidDates": "退房日期必须晚于入住日期。",
+    "secure": "您将在我们安全的预订页面填写信息并付款。",
+    "firstArrival": "最早可入住日期：{date}",
+    "chooseRooms": "请选择每种房型需要的房间数。",
+    "maxGuests": "最多{guests}",
+    "continue": "继续预订",
+    "notTogether": "这些房间无法一起预订，请分开预订。",
+    "selectOne": "请至少选择一间房。",
+    "detailsTitle": "您的信息与付款",
+    "detailsIntro": "请填写您的信息，确认并付款。此步骤由我们安全的预订系统（Beds24）处理。",
+    "changeRooms": "更改房间",
+    "frameTitle": "Pension Mylos预订：客人信息与付款（Beds24）",
+    "openFull": "表单有问题？请在完整页面中打开",
+    "colRoom": "房型",
+    "colSleeps": "可住人数",
+    "colPrice": "住宿价格",
+    "taxesIncluded": "含税",
+    "colSelect": "选择房间数",
+    "capacityNote": "所选房间最多可住{capacity}，您搜索的是{adults}。"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "heading": "这个页面<em>不存在</em>",
+    "text": "链接可能已过期或输入有误。您可以从下面回到正轨：",
+    "home": "返回首页",
+    "reservations": "预订"
+  },
+  "thanks": {
+    "title": "消息已发送",
+    "description": "感谢您联系Pension Mylos。",
+    "heading": "谢谢，<em>消息已发送</em>",
+    "text": "我们已收到您的消息，会尽快通过电子邮件回复您。",
+    "urgent": "如有急事，请致电：",
+    "home": "返回首页",
+    "blog": "阅读博客"
+  },
+  "bookingDone": {
+    "title": "预订已确认",
+    "description": "您在Pension Mylos的预订已确认。",
+    "heading": "谢谢，<em>克里特岛见</em>",
+    "text": "您的预订已完成。您将收到一封包含全部详情的确认邮件。",
+    "contact": "对住宿有疑问？请发邮件至 {email} 或致电",
+    "home": "返回首页",
+    "blog": "住宿灵感"
+  }
+}

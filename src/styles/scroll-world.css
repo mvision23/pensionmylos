@@ -1,0 +1,190 @@
+/* scroll-world engine styles, themed for Pension Mylos.
+   Lives in the `sw` cascade layer (declared before `components`/`utilities` in
+   global.css), so Tailwind utilities and unlayered rules always win. */
+@layer sw {
+  .sw-world {
+    --sw-bg: #1d2628;
+    --sw-ink: #ffffff;
+    --sw-ink-soft: rgb(255 255 255 / 0.78);
+    --sw-accent: var(--color-mylos-500);
+    --sw-scrim: 20 28 30;
+    position: relative;
+    color: var(--sw-ink);
+    background: var(--sw-bg);
+  }
+
+  /* ---- Pre-mount poster: server-rendered first scene, same framing as the
+     engine's still (scale 1.03 at the top of the film). Removed on mount. ---- */
+  .sw-root .sw-prestage { position: fixed; inset: 0; z-index: 9; overflow: hidden; pointer-events: none; }
+  .sw-root .sw-prestage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; transform: scale(1.03); }
+
+  /* ---- Film layers (the copy layer is server-rendered; the rest is built by the engine) ---- */
+  .sw-root .sw-sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: var(--sw-bg); }
+
+  .sw-root .sw-scrollbar { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 95; background: rgb(255 255 255 / 0.18); }
+  .sw-root .sw-scrollbar span { display: block; height: 100%; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: var(--color-mylos-500); }
+
+  .sw-root .sw-stage { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+  .sw-root .sw-scene { position: absolute; inset: 0; opacity: 0; overflow: hidden; will-change: opacity; }
+  .sw-root .sw-scene__video,
+  .sw-root .sw-scene__still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
+  .sw-root .sw-scene__still { will-change: transform; }
+  .sw-root .sw-scene.has-clip .sw-scene__still { opacity: 0; }
+  .sw-root .sw-scene__video { z-index: 1; }
+
+  .sw-root .sw-copylayer { position: fixed; inset: 0; z-index: 20; pointer-events: none; }
+  /* Scrims live on the stage (always painted), not on the copy layer. */
+  /* Left shade behind the copy: flat and dark under the whole text column
+     (copy ends ~620px in), then a long fade so the film stays open on the right. */
+  .sw-root .sw-stage::before,
+  .sw-root .sw-prestage::before {
+    content: ""; position: absolute; inset: 0; z-index: 300; width: min(78vw, 1120px);
+    background: linear-gradient(90deg,
+      rgb(var(--sw-scrim) / 0.86) 0%,
+      rgb(var(--sw-scrim) / 0.8) 45%,
+      rgb(var(--sw-scrim) / 0.52) 68%,
+      rgb(var(--sw-scrim) / 0.18) 86%,
+      transparent 100%);
+  }
+  .sw-root .sw-stage::after,
+  .sw-root .sw-prestage::after {
+    /* top shade so the header stays legible on bright skies */
+    content: ""; position: absolute; inset: 0 0 auto 0; z-index: 300; height: 160px;
+    background: linear-gradient(180deg, rgb(var(--sw-scrim) / 0.45), transparent);
+  }
+  .sw-root .sw-copy {
+    position: absolute; left: clamp(20px, 6vw, 96px); top: 50%; translate: 0 -50%;
+    width: min(44vw, 520px); opacity: 0; will-change: opacity, transform;
+    transform: translateY(2vh);   /* = the engine's offset at the top of each scene */
+  }
+  /* The first scene's copy greets on landing — visible before the engine runs. */
+  .sw-root .sw-copy:first-child { opacity: 1; }
+
+  /* ---- Copy typography (shared by mounted + no-JS) ---- */
+  .sw-copy__num { font-size: 0.8125rem; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; color: var(--sw-ink-soft); }
+  .sw-copy__num b { color: var(--sw-ink); font-weight: 600; }
+  .sw-copy__eyebrow {
+    display: flex; align-items: center; gap: 0.75rem; margin: 1.25rem 0 0;
+    font-size: 1.0625rem; font-weight: 500; color: #fff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.35);
+  }
+  /* The orange dash carries the brand accent; the label itself stays white for contrast. */
+  .sw-copy__eyebrow::before { content: ""; width: 2.25rem; height: 2px; background: var(--color-mylos-500); }
+  .sw-copy__title {
+    margin: 0.75rem 0 0; font-weight: 400; color: var(--sw-ink);
+    font-size: clamp(2.25rem, 4.6vw, 4rem); line-height: 1.02; letter-spacing: -0.015em;
+    text-wrap: balance; text-shadow: 0 2px 24px rgb(0 0 0 / 0.25);
+  }
+  :lang(ja) .sw-copy__title, :lang(zh-Hans) .sw-copy__title { font-size: clamp(2rem, 3.6vw, 3.25rem); line-height: 1.22; letter-spacing: 0; }
+  .sw-copy__body {
+    margin: 1.25rem 0 0; max-width: 38ch; font-size: clamp(1.0625rem, 1.3vw, 1.1875rem); line-height: 1.55;
+    color: var(--sw-ink-soft); text-shadow: 0 1px 14px rgb(0 0 0 / 0.3);
+  }
+  .sw-copy__tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 0; padding: 0; }
+  .sw-copy__tags li {
+    font-size: 0.875rem; font-weight: 500; color: #fff; padding: 0.4rem 0.85rem;
+    border: 1px solid rgb(255 255 255 / 0.4); background: rgb(255 255 255 / 0.1);
+    backdrop-filter: blur(6px);
+  }
+  .sw-copy__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+
+  /* ---- Route rail ---- */
+  .sw-root .sw-route {
+    position: fixed; right: clamp(14px, 2.4vw, 32px); top: 50%; z-index: 40; translate: 0 -50%;
+    display: flex; flex-direction: column; gap: 22px; padding: 18px 10px; transition: opacity 0.3s;
+  }
+  .sw-root .sw-route::before {
+    content: ""; position: absolute; left: 50%; top: 22px; bottom: 22px; width: 1px;
+    translate: -50% 0; background: rgb(255 255 255 / 0.5);
+  }
+  .sw-route__dot { position: relative; border: 0; background: transparent; cursor: pointer; width: 14px; height: 14px; display: grid; place-items: center; padding: 0; }
+  .sw-route__dot i { width: 9px; height: 9px; border-radius: 50%; background: rgb(255 255 255 / 0.65); transition: transform 0.3s, background 0.3s, box-shadow 0.3s; }
+  .sw-route__dot:hover i { transform: scale(1.25); background: #fff; }
+  .sw-route__dot.is-active i { background: var(--color-mylos-500); transform: scale(1.45); box-shadow: 0 0 0 5px rgb(255 79 2 / 0.25); }
+  .sw-route__dot:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 50%; }
+  /* Scene names are not shown next to the dots — kept for screen readers only. */
+  .sw-route__label {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
+
+  /* ---- Scroll hint ---- */
+  .sw-root .sw-hint {
+    position: fixed; left: 50%; bottom: 28px; z-index: 30; translate: -50% 0;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    font-size: 0.875rem; color: #fff; transition: opacity 0.3s; text-shadow: 0 1px 10px rgb(0 0 0 / 0.4);
+  }
+  .sw-hint i { width: 22px; height: 34px; border-radius: 12px; border: 2px solid rgb(255 255 255 / 0.7); position: relative; }
+  .sw-hint i::after {
+    content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 7px; border-radius: 2px;
+    background: var(--color-mylos-500); translate: -50% 0; animation: sw-wheel 1.7s ease-in-out infinite;
+  }
+  @keyframes sw-wheel { 0% { opacity: 0; top: 6px; } 40% { opacity: 1; } 100% { opacity: 0; top: 17px; } }
+
+  /* ---- Loading indicator (clip on screen still downloading) ---- */
+  .sw-root .sw-loader {
+    position: fixed; right: clamp(14px, 2.4vw, 32px); bottom: 26px; z-index: 30;
+    display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.75rem 0.4rem 0.5rem;
+    font-size: 0.8125rem; color: #fff; background: rgb(var(--sw-scrim) / 0.6); backdrop-filter: blur(8px);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  /* Appear only if the wait is noticeable — no flash on fast connections. */
+  .sw-root .sw-loader.is-on { opacity: 1; transition-delay: 0.5s; }
+  .sw-loader svg { width: 1rem; height: 1rem; rotate: -90deg; }
+  .sw-loader circle { fill: none; stroke-width: 2.5; stroke: rgb(255 255 255 / 0.25); }
+  .sw-loader .sw-loader__arc { stroke: var(--color-mylos-500); stroke-dasharray: 100; stroke-dashoffset: 100; stroke-linecap: round; transition: stroke-dashoffset 0.25s; }
+  .sw-loader b { font-weight: 500; font-variant-numeric: tabular-nums; min-width: 2.6em; }
+
+  .sw-root .sw-track { position: relative; z-index: 1; width: 100%; pointer-events: none; }
+
+  /* ?debug diagnostics panel */
+  .sw-debug {
+    position: fixed; left: 8px; bottom: 8px; z-index: 500; max-width: calc(100vw - 16px); max-height: 60vh; overflow: auto;
+    margin: 0; padding: 8px 10px; font: 11px/1.4 ui-monospace, Menlo, Consolas, monospace; white-space: pre;
+    color: #b8f5c8; background: rgb(0 0 0 / 0.85); pointer-events: auto; user-select: text;
+  }
+
+  /* Once the page content fully covers the film, stop painting the fixed layers. */
+  .sw-root.sw-leaving .sw-route,
+  .sw-root.sw-leaving .sw-hint { opacity: 0; pointer-events: none; }
+  .sw-root.sw-past .sw-sky,
+  .sw-root.sw-past .sw-stage,
+  .sw-root.sw-past .sw-copylayer,
+  .sw-root.sw-past .sw-route,
+  .sw-root.sw-past .sw-hint,
+  .sw-root.sw-past .sw-scrollbar { visibility: hidden; }
+
+  @media (max-width: 860px) {
+    .sw-root .sw-stage::before,
+    .sw-root .sw-prestage::before {
+      width: 100%; height: 80%; top: auto; bottom: 0;
+      background: linear-gradient(0deg,
+        rgb(var(--sw-scrim) / 0.9) 0%,
+        rgb(var(--sw-scrim) / 0.84) 40%,
+        rgb(var(--sw-scrim) / 0.55) 64%,
+        rgb(var(--sw-scrim) / 0.2) 84%,
+        transparent 100%);
+    }
+    .sw-root .sw-copy {
+      left: 20px; right: 20px; top: auto; translate: none; width: auto; max-width: 560px;
+      bottom: clamp(64px, 12vh, 120px);
+      bottom: calc(clamp(56px, 10dvh, 110px) + env(safe-area-inset-bottom));
+    }
+    .sw-copy__title { font-size: clamp(2rem, 8.4vw, 2.75rem); }
+    .sw-copy__body { max-width: none; font-size: 1.0625rem; }
+    .sw-root .sw-scene__video, .sw-root .sw-scene__still, .sw-root .sw-prestage img { object-position: center 46%; }
+    .sw-root .sw-hint { bottom: calc(18px + env(safe-area-inset-bottom)); }
+    .sw-root .sw-hint span { display: none; }
+    .sw-root .sw-loader { bottom: calc(18px + env(safe-area-inset-bottom)); right: 12px; }
+    .sw-root .sw-route { gap: 16px; right: 4px; }
+  }
+  @media (max-width: 860px) and (orientation: portrait) {
+    .sw-root .sw-scene__video, .sw-root .sw-scene__still, .sw-root .sw-prestage img { object-position: center 44%; }
+  }
+  @media (hover: none) and (pointer: coarse) {
+    .sw-root .sw-route { padding: 14px 4px; }
+    .sw-route__dot { width: 28px; height: 28px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sw-hint i::after { animation: none; }
+  }
+}

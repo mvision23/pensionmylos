@@ -1,0 +1,149 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Locale } from '../i18n/config';
+import { fmt, getMessages } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+const t = getMessages(Astro.props.locale).gallery;
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/gallery/*.jpg', { eager: true });
+
+// Photos from the current pensionmylos.com gallery, in display order (alt texts in messages.gallery.alts).
+const order = ['slider-5', 'slider-4', 'slider-12', 'slider-3', 'slider-1', 'slider-13', 'slider-15', 'slider-2',
+  'slider-6', 'slider-9', 'slider-11', 'slider-7', 'slider-10', 'slider-14', 'slider-16', 'slider-17'] as const;
+const photos = order.map((file) => ({ file, alt: t.alts[file] }));
+
+const items = await Promise.all(
+  photos.map(async (p) => {
+    const src = files[`../assets/gallery/${p.file}.jpg`].default;
+    const large = await getImage({ src, width: 1600, format: 'webp' });
+    return { ...p, src, large: large.src };
+  }),
+);
+
+const SHOWN = 5;
+---
+
+<div class="gallery" data-gallery>
+  <ul class="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4 md:grid-rows-[repeat(2,minmax(0,14rem))] lg:grid-rows-[repeat(2,minmax(0,16rem))]">
+    {
+      items.slice(0, SHOWN).map((p, i) => (
+        <li class:list={['relative overflow-hidden', i === 0 && 'col-span-2 md:row-span-2']}>
+          <button type="button" data-open={i} class="group block size-full cursor-zoom-in">
+            <span class="sr-only">{t.openPhoto} {p.alt}</span>
+            <Image
+              src={p.src}
+              alt=""
+              widths={i === 0 ? [640, 960, 1280] : [400, 640]}
+              sizes={i === 0 ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 768px) 25vw, 50vw'}
+              class:list={['aspect-[3/2] size-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.03] md:aspect-auto', i === 0 && 'object-[center_75%]']}
+            />
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="mt-5 flex justify-end">
+    <button type="button" data-open="0" class="btn-outline">{fmt(t.seeAll, { n: items.length })}</button>
+  </div>
+
+  <dialog class="lightbox" aria-label={t.dialogLabel}>
+    <figure class="flex h-full flex-col items-center justify-center gap-4 px-4 py-16 sm:px-20">
+      <img data-lightbox-img alt="" class="max-h-full max-w-full object-contain" />
+      <figcaption class="text-center text-white/85" data-lightbox-caption></figcaption>
+    </figure>
+    <p class="absolute top-5 left-5 text-sm text-white/70 tabular-nums" data-lightbox-count></p>
+    <button type="button" data-close class="absolute top-3 right-3 grid size-12 place-items-center text-white hover:text-mylos-400">
+      <span class="sr-only">{t.close}</span>
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="size-7" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <button type="button" data-prev class="absolute top-1/2 left-2 grid size-12 -translate-y-1/2 place-items-center text-white hover:text-mylos-400 sm:left-5">
+      <span class="sr-only">{t.previous}</span>
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="size-8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7" /></svg>
+    </button>
+    <button type="button" data-next class="absolute top-1/2 right-2 grid size-12 -translate-y-1/2 place-items-center text-white hover:text-mylos-400 sm:right-5">
+      <span class="sr-only">{t.next}</span>
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="size-8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7" /></svg>
+    </button>
+    <script type="application/json" data-lightbox-data set:html={JSON.stringify(items.map((p) => ({ src: p.large, alt: p.alt })))} />
+  </dialog>
+</div>
+
+<style>
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(20 28 30 / 0.96);
+  }
+  .lightbox::backdrop {
+    background: transparent;
+  }
+  .lightbox[open] img {
+    animation: lb-in 0.35s var(--ease-out-soft);
+  }
+  @keyframes lb-in {
+    from { opacity: 0; scale: 0.98; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox[open] img { animation: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
+    const dialog = root.querySelector('dialog')!;
+    const img = dialog.querySelector<HTMLImageElement>('[data-lightbox-img]')!;
+    const caption = dialog.querySelector('[data-lightbox-caption]')!;
+    const count = dialog.querySelector('[data-lightbox-count]')!;
+    const data: { src: string; alt: string }[] = JSON.parse(
+      dialog.querySelector('[data-lightbox-data]')!.textContent || '[]',
+    );
+    let index = 0;
+
+    const show = (i: number) => {
+      index = (i + data.length) % data.length;
+      img.src = data[index].src;
+      img.alt = data[index].alt;
+      caption.textContent = data[index].alt;
+      count.textContent = `${index + 1} / ${data.length}`;
+      // Warm the next photo.
+      new Image().src = data[(index + 1) % data.length].src;
+    };
+
+    root.querySelectorAll<HTMLElement>('[data-open]').forEach((btn) =>
+      btn.addEventListener('click', () => {
+        show(Number(btn.dataset.open));
+        dialog.showModal();
+      }),
+    );
+    dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-prev]')!.addEventListener('click', () => show(index - 1));
+    dialog.querySelector('[data-next]')!.addEventListener('click', () => show(index + 1));
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(index - 1);
+      if (e.key === 'ArrowRight') show(index + 1);
+    });
+    // Click on the dark area (not the photo or controls) closes.
+    dialog.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t === dialog || t.tagName === 'FIGURE') dialog.close();
+    });
+    // Swipe on touch screens.
+    let x0: number | null = null;
+    dialog.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    dialog.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+      x0 = null;
+    });
+  });
+</script>

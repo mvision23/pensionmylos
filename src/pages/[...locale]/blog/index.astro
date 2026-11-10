@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { getMessages, localeFromParam, localeParams } from '../../../i18n/utils';
+import { getPosts } from '../../../i18n/blog';
+
+export const getStaticPaths = localeParams;
+
+const locale = localeFromParam(Astro.params.locale);
+const t = getMessages(locale).blog;
+const posts = await getPosts(locale);
+---
+
+<BaseLayout locale={locale} title={t.indexTitle} description={t.indexDescription}>
+  <section class="mx-auto max-w-7xl px-5 pt-32 pb-12 sm:px-8 md:pt-40">
+    <h1 class="mylos-heading max-w-3xl" set:html={t.indexHeading} />
+    <p class="mt-8 max-w-xl text-lg text-ink-soft">{t.indexIntro}</p>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-5 pb-24 sm:px-8 md:pb-32">
+    {
+      posts.length ? (
+        <div class="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => <PostCard post={post} headingLevel="h2" />)}
+        </div>
+      ) : (
+        <p class="text-ink-soft">{t.empty}</p>
+      )
+    }
+  </section>
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+/**
+ * Google Analytics — the same snippet the current pensionmylos.com ships
+ * (Universal Analytics, property UA-64966588-1).
+ *
+ * Loaded on every page, regardless of the cookie banner choice (as requested
+ * for now). To respect the choice, load it only when
+ * `window.mylosConsent?.analytics === true` or on the `mylos:consent` event
+ * dispatched by CookieBanner.astro.
+ */
+---
+
+<!-- google analytics -->
+<script is:inline>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'UA-64966588-1', 'auto');
+  ga('send', 'pageview');
+</script>

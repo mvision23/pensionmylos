@@ -1,0 +1,160 @@
+/* Layer order: the scroll-world engine (`sw`) sits below components/utilities,
+   so Tailwind classes always win over engine defaults. */
+@layer theme, base, sw, components, utilities;
+
+@import "tailwindcss";
+@import "./scroll-world.css";
+
+@plugin "@tailwindcss/typography";
+
+/* ------------------------------------------------------------------
+   Jost, self-hosted (files in public/fonts, latin preloaded in <head>).
+   font-display: block — with the preload the font arrives in a fraction
+   of a second, and the text appears directly in Jost instead of being
+   drawn in a fallback first and re-flowing when Jost swaps in.
+   "Jost Fallback" is Arial resized to Jost's width and line metrics, for
+   the rare case the font takes longer than the ~3 s block period.
+   ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Jost Variable";
+  font-style: normal;
+  font-display: block;
+  font-weight: 100 900;
+  src: url("/fonts/jost-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Jost Variable";
+  font-style: normal;
+  font-display: block;
+  font-weight: 100 900;
+  src: url("/fonts/jost-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Jost Variable";
+  font-style: normal;
+  font-display: block;
+  font-weight: 100 900;
+  src: url("/fonts/jost-cyrillic-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Jost Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("Helvetica");
+  size-adjust: 95.7%;
+  ascent-override: 111.8%;
+  descent-override: 39.7%;
+  line-gap-override: 0%;
+}
+
+/* ------------------------------------------------------------------
+   Pension Mylos tokens — taken from the current pensionmylos.com:
+   orange #FF4F02 (accent), teal #7EC3BB (newsletter), charcoal #2E2E2E,
+   limestone #C8C1B3 (heading rules), Tw Cen MT → Jost.
+   ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Jost Variable", "Jost Fallback", system-ui, sans-serif;
+
+  --color-mylos-50: #fff4ee;
+  --color-mylos-100: #ffe3d3;
+  --color-mylos-400: #ff7a3d;
+  --color-mylos-500: #ff4f02; /* brand — large elements, rules, highlights */
+  --color-mylos-600: #d64000; /* buttons (white text ≥ 4.5:1) */
+  --color-mylos-700: #b33500; /* small orange text on light bg */
+
+  --color-sea-100: #e3f2ef;
+  --color-sea-300: #7ec3bb; /* brand teal */
+  --color-sea-500: #4fa79d;
+  --color-sea-700: #2e6e67;
+  --color-sea-900: #1d2628;
+
+  --color-navy: #012155; /* logo */
+  --color-ink: #2e2e2e;
+  --color-ink-soft: #5f5f5f;
+  --color-stone: #c8c1b3;
+  --color-stone-100: #f1eee8;
+  --color-mist: #eef6f4;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+  /* Jost covers Latin and Cyrillic. Greek, Japanese and Chinese characters fall
+     through to good system fonts for each script (Latin letters stay in Jost). */
+  :lang(el) { font-family: "Jost Variable", "Jost Fallback", "Noto Sans", "Segoe UI", Arial, sans-serif; }
+  :lang(ja) { font-family: "Jost Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif; }
+  :lang(zh-Hans) { font-family: "Jost Variable", "PingFang SC", "Noto Sans SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif; }
+  :lang(ja) body, :lang(zh-Hans) body { line-height: 1.75; }
+  /* Japanese: break lines between phrases, not inside words (Chrome/Edge). */
+  :lang(ja) { word-break: auto-phrase; line-break: strict; }
+  :lang(zh-Hans) { line-break: strict; }
+  ::selection { background: var(--color-mylos-100); color: var(--color-ink); }
+  :focus-visible { outline: 2px solid var(--color-mylos-500); outline-offset: 3px; }
+  img, video { max-width: 100%; }
+}
+
+@layer components {
+  /* Two-tone heading with the limestone rule underneath — the current site's signature. */
+  .mylos-heading {
+    @apply relative text-ink;
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    padding-bottom: 1.5rem;
+  }
+  .mylos-heading em {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--color-mylos-500);
+  }
+  .mylos-heading::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 140px;
+    height: 1px;
+    background: var(--color-stone);
+  }
+  .mylos-heading[data-align="center"]::after { left: 50%; translate: -50% 0; }
+  .mylos-heading[data-tone="light"] { color: #fff; }
+  .mylos-heading[data-tone="light"] em { color: var(--color-mylos-400); }
+  .mylos-heading[data-tone="light"]::after { background: rgb(255 255 255 / 0.5); }
+
+  .field {
+    @apply block w-full border border-stone bg-white px-4 py-3 text-base text-ink placeholder:text-ink-soft/80 transition-colors;
+  }
+  .field:focus { @apply border-sea-500; outline: 2px solid var(--color-sea-300); outline-offset: 0; }
+  .field-label { @apply mb-1.5 block text-sm font-medium text-ink; }
+}
+
+/* Buttons — square corners and uppercase, like the current site. */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold uppercase transition-colors duration-200;
+  letter-spacing: 0.06em;
+}
+@utility btn-primary {
+  @apply btn bg-mylos-600 text-white hover:bg-mylos-700;
+}
+@utility btn-outline {
+  @apply btn border border-mylos-600 text-mylos-700 hover:bg-mylos-600 hover:text-white;
+}
+@utility btn-ghost-light {
+  @apply btn border border-white/60 text-white hover:bg-white hover:text-ink;
+}

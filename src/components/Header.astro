@@ -1,0 +1,198 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+import { localeInfo, locales, type Locale } from '../i18n/config';
+import { getMessages, localePath } from '../i18n/utils';
+
+interface Props {
+  variant?: 'overlay' | 'solid';
+  locale: Locale;
+  /** URL of the current page in each language. */
+  alternates: Partial<Record<Locale, string>>;
+}
+const { variant = 'solid', locale, alternates } = Astro.props;
+const t = getMessages(locale);
+const path = Astro.url.pathname;
+const items = nav.map((n) => ({ href: localePath(locale, n.path), label: t.nav[n.key] }));
+const isCurrent = (href: string) => !href.includes('#') && path.startsWith(href);
+const reservations = localePath(locale, '/reservations/');
+const languages = locales.map((l) => ({ code: l, name: localeInfo[l].name, lang: localeInfo[l].htmlLang, href: alternates[l] ?? localePath(l, '/') }));
+---
+
+<header
+  id="site-header"
+  data-variant={variant}
+  data-solid={variant === 'solid' ? '' : undefined}
+  class="group/header fixed inset-x-0 top-0 z-[90] transition-[background-color,box-shadow,color] duration-300"
+>
+  <div class="mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
+    <a href={localePath(locale, '/')} class="shrink-0" aria-label={t.nav.homeLabel}>
+      <Logo decorative class="h-11 w-auto text-white transition-colors duration-300 group-data-[solid]/header:text-navy sm:h-12" />
+    </a>
+
+    <nav aria-label={t.nav.mainLabel} class="hidden items-center gap-1 lg:flex">
+      {
+        items.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isCurrent(item.href) ? 'page' : undefined}
+            class="px-3 py-2 text-[1.0625rem] whitespace-nowrap text-white transition-colors hover:text-mylos-400 aria-[current=page]:text-mylos-400 group-data-[solid]/header:text-ink group-data-[solid]/header:hover:text-mylos-700 group-data-[solid]/header:aria-[current=page]:text-mylos-700"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+
+      <!-- Language selector -->
+      <details class="lang-menu relative ml-1" data-lang-menu>
+        <summary
+          class="flex cursor-pointer list-none items-center gap-1.5 px-3 py-2 text-sm font-medium tracking-wide text-white uppercase transition-colors hover:text-mylos-400 group-data-[solid]/header:text-ink group-data-[solid]/header:hover:text-mylos-700"
+          aria-label={`${t.nav.language}: ${localeInfo[locale].name}`}
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="size-[1.1rem]" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" /></svg>
+          {locale}
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="chev size-3.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+        </summary>
+        <ul class="absolute right-0 mt-2 w-48 border border-stone bg-white py-1.5 shadow-[0_12px_30px_rgb(0_0_0/0.15)]">
+          {
+            languages.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  hreflang={l.lang}
+                  lang={l.lang}
+                  aria-current={l.code === locale ? 'true' : undefined}
+                  class="flex items-center justify-between px-4 py-2 text-[0.9375rem] text-ink hover:bg-mist aria-[current=true]:font-medium aria-[current=true]:text-mylos-700"
+                >
+                  {l.name}
+                  <span class="text-xs tracking-wide text-ink-soft uppercase">{l.code}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+
+      <a href={reservations} class="btn-primary ml-2 px-5 py-2.5 text-sm whitespace-nowrap">{t.nav.bookNow}</a>
+    </nav>
+
+    <div class="flex items-center gap-2 lg:hidden">
+      <a href={reservations} class="btn-primary px-4 py-2 text-sm">{t.nav.bookShort}</a>
+      <button
+        type="button"
+        id="menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        class="grid size-11 place-items-center text-white group-data-[solid]/header:text-ink"
+      >
+        <span class="sr-only">{t.nav.menu}</span>
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="size-6" fill="none" stroke="currentColor" stroke-width="1.75">
+          <path class="menu-open" d="M4 7h16M4 12h16M4 17h16" />
+          <path class="menu-close hidden" d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" aria-label={t.nav.mainLabel} class="hidden max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-stone/60 bg-white lg:hidden">
+    <ul class="px-5 py-3">
+      {
+        items.map((item) => (
+          <li>
+            <a href={item.href} class="block border-b border-stone-100 py-3.5 text-lg text-ink">
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a href={reservations} class="block py-3.5 text-lg font-medium text-mylos-700">{t.nav.reservations}</a>
+      </li>
+    </ul>
+    <div class="border-t border-stone-100 px-5 pt-4 pb-6">
+      <p class="text-sm text-ink-soft">{t.nav.language}</p>
+      <ul class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        {
+          languages.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                hreflang={l.lang}
+                lang={l.lang}
+                aria-current={l.code === locale ? 'true' : undefined}
+                class="block border border-stone-100 px-3 py-2 text-ink aria-[current=true]:border-mylos-600 aria-[current=true]:text-mylos-700"
+              >
+                {l.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<style>
+  #site-header[data-solid] {
+    background: rgb(255 255 255 / 0.97);
+    box-shadow: 0 1px 0 var(--color-stone);
+  }
+  .lang-menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .lang-menu[open] .chev {
+    rotate: 180deg;
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header')!;
+  const toggle = document.getElementById('menu-toggle')!;
+  const panel = document.getElementById('mobile-nav')!;
+
+  const setSolid = (on: boolean) => {
+    if (on) header.setAttribute('data-solid', '');
+    else header.removeAttribute('data-solid');
+  };
+
+  // Mobile menu
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    panel.classList.toggle('hidden', !open);
+    toggle.querySelector('.menu-open')?.classList.toggle('hidden', open);
+    toggle.querySelector('.menu-close')?.classList.toggle('hidden', !open);
+    if (header.dataset.variant === 'overlay') update(open);
+  });
+  panel.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) toggle.click();
+  });
+
+  // Language menu: close on outside click and on Escape.
+  const langMenu = document.querySelector<HTMLDetailsElement>('[data-lang-menu]');
+  if (langMenu) {
+    document.addEventListener('click', (e) => {
+      if (langMenu.open && !langMenu.contains(e.target as Node)) langMenu.open = false;
+    });
+    langMenu.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { langMenu.open = false; langMenu.querySelector('summary')?.focus(); }
+    });
+  }
+
+  // Overlay header turns solid once the page content (after the film) reaches it.
+  const after = document.getElementById('after-film');
+  function update(forceSolid = toggle.getAttribute('aria-expanded') === 'true') {
+    if (header.dataset.variant !== 'overlay') return;
+    const reached = after ? after.getBoundingClientRect().top <= header.offsetHeight : window.scrollY > 40;
+    setSolid(forceSolid || reached);
+  }
+  if (header.dataset.variant === 'overlay') {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { update(); ticking = false; });
+    }, { passive: true });
+    update();
+  }
+</script>

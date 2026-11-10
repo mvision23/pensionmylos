@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScrollFilm from '../../components/ScrollFilm.astro';
+import Gallery from '../../components/Gallery.astro';
+import Sights from '../../components/Sights.astro';
+import BookingSearch from '../../components/BookingSearch.astro';
+import PostCard from '../../components/PostCard.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import ContactSection from '../../components/ContactSection.astro';
+import host from '../../assets/site/pella-img.png';
+import bookBg from '../../assets/site/agios-nikolaos_1920_2.jpg';
+import { site } from '../../data/site';
+import { getMessages, localeFromParam, localeParams, localePath } from '../../i18n/utils';
+import { getPosts } from '../../i18n/blog';
+
+export const getStaticPaths = localeParams;
+
+const locale = localeFromParam(Astro.params.locale);
+const t = getMessages(locale);
+const posts = (await getPosts(locale)).slice(0, 3);
+---
+
+<BaseLayout header="overlay" locale={locale}>
+  <link slot="head" rel="preload" as="image" href="/scenes/town.webp" fetchpriority="high" />
+
+  <ScrollFilm locale={locale} />
+
+  <!-- Page content rises over the last frame of the film like a curtain. -->
+  <div id="after-film" class="relative z-[70] bg-white shadow-[0_-30px_60px_rgb(0_0_0/0.28)]">
+    <!-- About -->
+    <section id="about" class="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+      <div class="grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] lg:gap-20">
+        <div>
+          <Image src={host} alt={t.about.hostAlt} width={132} height={132} class="size-24 rounded-full ring-4 ring-mist sm:size-28" />
+          <h2 class="mylos-heading mt-8" set:html={t.about.heading} />
+          <p class="mt-8 max-w-[62ch] text-lg text-ink-soft">{t.about.text}</p>
+        </div>
+        <div class="self-end border-t border-stone pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+          <h3 class="text-xl font-medium">{t.about.roomsTitle}</h3>
+          <ul class="mt-4">
+            {
+              t.rooms.map((r) => (
+                <li class="flex items-baseline justify-between gap-4 border-b border-stone-100 py-3">
+                  <span class="text-lg">{r.name}</span>
+                  <span class="text-right text-ink-soft">{r.detail}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <a href={localePath(locale, '/reservations/')} class="btn-outline mt-6 w-full">{t.about.roomsCta}</a>
+        </div>
+      </div>
+      <div class="mt-16 md:mt-20">
+        <Gallery locale={locale} />
+      </div>
+    </section>
+
+    <!-- Location -->
+    <section id="location" class="bg-mist">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+        <Sights locale={locale} />
+      </div>
+    </section>
+
+    <!-- Book -->
+    <section id="book" class="relative isolate overflow-hidden bg-sea-900">
+      <Image
+        src={bookBg}
+        alt=""
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        class="absolute inset-0 -z-10 size-full object-cover opacity-55"
+      />
+      <div class="absolute inset-0 -z-10 bg-gradient-to-r from-sea-900/85 via-sea-900/55 to-sea-900/20"></div>
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+        <h2 class="mylos-heading max-w-2xl" data-tone="light" set:html={t.book.heading} />
+        <p class="mt-8 max-w-xl text-lg text-white/85">{t.book.text}</p>
+        <div class="mt-10 max-w-4xl">
+          <BookingSearch tone="dark" locale={locale} />
+        </div>
+        <p class="mt-6 text-white/80">
+          {t.book.phonePrompt} <a class="text-white underline underline-offset-4 hover:text-mylos-400" href={site.phoneHref}>{site.phone}</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Blog -->
+    {
+      posts.length > 0 && (
+        <section id="blog" class="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+          <div class="flex flex-wrap items-end justify-between gap-6">
+            <h2 class="mylos-heading" set:html={t.blog.homeHeading} />
+            <a href={localePath(locale, '/blog/')} class="btn-outline">{t.blog.allPosts}</a>
+          </div>
+          <div class="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => <PostCard post={post} />)}
+          </div>
+        </section>
+      )
+    }
+
+    <Newsletter locale={locale} />
+
+    <!-- Contact -->
+    <section id="contact" class="mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+      <ContactSection locale={locale} />
+    </section>
+  </div>
+</BaseLayout>

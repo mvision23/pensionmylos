@@ -1,0 +1,233 @@
+/*
+ * Pension Mylos — custom CSS for the Beds24 booking page.
+ *
+ * The guest-details and payment steps are Beds24's page, shown in an iframe
+ * on /reservations/. This makes that page look like the website: Jost type,
+ * square corners, the site's orange buttons, and a transparent background so
+ * the iframe blends into the page.
+ *
+ * Where: Beds24 → Settings → Booking Engine → Booking Page, in the field for
+ * custom CSS (developer settings). Paste this whole file there and save.
+ * It also applies when the booking page is opened full-window.
+ *
+ * Fonts load from pensionmylos.com, so they only work once the new site is
+ * live and serves /fonts/* with "Access-Control-Allow-Origin: *" (see
+ * public/_headers). Until then the text falls back to Arial with Jost-like
+ * metrics, which looks almost the same.
+ */
+
+@font-face {
+  font-family: "Jost Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("https://pensionmylos.com/fonts/jost-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Jost Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("https://pensionmylos.com/fonts/jost-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Jost Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("https://pensionmylos.com/fonts/jost-cyrillic-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Jost Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("Helvetica");
+  size-adjust: 95.7%;
+  ascent-override: 111.8%;
+  descent-override: 39.7%;
+  line-gap-override: 0%;
+}
+
+/* ---- page ---- */
+html,
+body.colorbody {
+  overflow-x: hidden;
+}
+body.colorbody {
+  background: transparent !important;
+  color: #2e2e2e !important;
+  font-family: "Jost Variable", "Jost Fallback", Arial, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.5;
+}
+body.colorbody #bookingpage.container {
+  background: transparent !important;
+  width: auto;
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+body.colorbody a {
+  color: #b33500;
+}
+
+/* Title strip ("Book Pension Mylos" + Back) */
+body.colorbody #bookingpage > .row,
+body.colorbody #selectorstripinfo,
+body.colorbody #selectorstripinfo > div {
+  background: transparent !important;
+}
+body.colorbody #selectorstripinfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+body.colorbody .ssi_makeabooking {
+  font-size: 22px;
+  font-weight: 400;
+  color: #2e2e2e;
+}
+body.colorbody .ssi_makeabooking .ssi_propname {
+  font-weight: 500;
+}
+
+/* ---- panels ---- */
+body.colorbody .panel {
+  border: 1px solid #c8c1b3 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #fff !important;
+}
+body.colorbody .panel-heading,
+body.colorbody .colorbookingstrip {
+  background: #fff !important;
+  color: #2e2e2e !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid #c8c1b3 !important;
+  padding: 16px 20px !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+}
+body.colorbody .panel-heading .at_roomnametext {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+body.colorbody .panel-body {
+  padding: 20px !important;
+}
+body.colorbody .at_roomnametext,
+body.colorbody .at_offername {
+  font-weight: 500;
+}
+body.colorbody .b24-checkout-divder,
+body.colorbody hr {
+  border-color: #c8c1b3 !important;
+}
+body.colorbody #totaldispprice,
+body.colorbody .bookingpageamount {
+  font-variant-numeric: tabular-nums;
+}
+body.colorbody #totaldispprice {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2e2e2e;
+}
+
+/* ---- form fields ---- */
+body.colorbody .form-control,
+body.colorbody .booktextinput,
+body.colorbody .booktextareainput,
+body.colorbody .bookselect,
+body.colorbody select,
+body.colorbody textarea,
+body.colorbody input[type="text"],
+body.colorbody input[type="email"],
+body.colorbody input[type="tel"] {
+  border: 1px solid #c8c1b3 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background-color: #fff !important;
+  color: #2e2e2e !important;
+  font-size: 16px !important;
+  min-height: 44px;
+  padding: 8px 12px;
+}
+body.colorbody textarea {
+  min-height: 88px;
+}
+body.colorbody .form-control:focus,
+body.colorbody select:focus,
+body.colorbody textarea:focus,
+body.colorbody input:focus {
+  border-color: #ff4f02 !important;
+  outline: 2px solid rgba(255, 79, 2, 0.25) !important;
+  outline-offset: 0;
+}
+body.colorbody label,
+body.colorbody .booktextdiv {
+  color: #5f5f5f;
+  font-weight: 400;
+}
+
+/* ---- buttons ---- */
+body.colorbody .button,
+body.colorbody .btn,
+body.colorbody .btn-primary,
+body.colorbody input[type="submit"],
+body.colorbody button[type="submit"] {
+  background: #d64000 !important;
+  background-image: none !important;
+  border: 1px solid #d64000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  color: #fff !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 13px 28px !important;
+  line-height: 1.2 !important;
+  height: auto !important;
+}
+body.colorbody .button:hover,
+body.colorbody .btn:hover,
+body.colorbody input[type="submit"]:hover,
+body.colorbody button[type="submit"]:hover {
+  background: #b33500 !important;
+  border-color: #b33500 !important;
+}
+/* Secondary "Back" buttons: outlined */
+body.colorbody .fakebutton,
+body.colorbody .book_bookingback .button,
+body.colorbody .book_bookingback input {
+  background: transparent !important;
+  color: #b33500 !important;
+  border: 1px solid #d64000 !important;
+  font-size: 13px !important;
+  padding: 8px 16px !important;
+}
+body.colorbody .fakebutton:hover,
+body.colorbody .book_bookingback .button:hover,
+body.colorbody .book_bookingback input:hover {
+  background: #fff4ee !important;
+  color: #b33500 !important;
+}
+body.colorbody .btn.dropdown-toggle {
+  background: #fff !important;
+  color: #2e2e2e !important;
+  border-color: #c8c1b3 !important;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400 !important;
+}
+
+/* ---- footer ---- */
+body.colorbody .book_poweredby,
+body.colorbody .book_poweredby a {
+  color: #5f5f5f !important;
+  font-size: 12px;
+}

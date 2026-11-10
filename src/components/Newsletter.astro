@@ -1,0 +1,36 @@
+---
+import { site } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { getMessages } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+const t = getMessages(Astro.props.locale).newsletter;
+---
+
+<section class="bg-sea-300" aria-labelledby="newsletter-title">
+  <div class="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-8 md:grid-cols-2 md:items-end md:py-20">
+    <div>
+      <h2 id="newsletter-title" class="mylos-heading [&_em]:text-ink" set:html={t.heading} />
+      <p class="mt-6 text-lg text-ink">{t.text}</p>
+    </div>
+    <form action={site.mailchimp.action} method="post" target="_blank" class="flex flex-col gap-3 sm:flex-row">
+      <label for="mce-EMAIL" class="sr-only">{t.emailLabel}</label>
+      <input
+        type="email"
+        name="EMAIL"
+        id="mce-EMAIL"
+        required
+        autocomplete="email"
+        placeholder={t.placeholder}
+        class="field min-w-0 flex-1 border-white"
+      />
+      <!-- Mailchimp bot trap -->
+      <div class="absolute -left-[5000px]" aria-hidden="true">
+        <input type="text" name={site.mailchimp.honeypot} tabindex="-1" value="" />
+      </div>
+      <button type="submit" class="btn bg-ink text-white hover:bg-black">{t.submit}</button>
+    </form>
+  </div>
+</section>

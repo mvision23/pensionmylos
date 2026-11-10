@@ -1,0 +1,368 @@
+{
+  "meta": {
+    "siteTitle": "Pension Mylos — Cazare cu mic dejun în Agios Nikolaos, Creta",
+    "siteDescription": "Mică pensiune de familie deasupra golfului Mirabello, în Agios Nikolaos, Creta. Priveliști panoramice, ospitalitate cretană și plaja la un minut de ușă.",
+    "address": "24 Sarolidi Str., Agios Nikolaos, Creta, Grecia"
+  },
+  "nav": {
+    "pension": "Pensiunea",
+    "location": "Locație",
+    "blog": "Blog",
+    "contact": "Contact",
+    "reservations": "Rezervări",
+    "bookNow": "Rezervă acum",
+    "bookShort": "Rezervă",
+    "menu": "Meniu",
+    "homeLabel": "Pension Mylos, pagina principală",
+    "mainLabel": "Principal",
+    "skip": "Sari la conținut",
+    "language": "Limbă"
+  },
+  "film": {
+    "ariaLabel": "O plimbare prin Pension Mylos",
+    "hint": "Derulează pentru a explora",
+    "routeLabel": "Scenele filmului",
+    "loading": "Se încarcă videoclipul",
+    "scenes": [
+      {
+        "label": "Agios Nikolaos",
+        "eyebrow": "Agios Nikolaos, Creta",
+        "title": "Ai găsit cel mai bun loc din Agios Nikolaos.",
+        "body": "O mică pensiune de familie în zona de coastă Mylos, cu vedere spre golful Mirabello.",
+        "tags": [
+          "#1 pe TripAdvisor",
+          "Afacere de familie din anii '80"
+        ]
+      },
+      {
+        "label": "Pensiunea",
+        "eyebrow": "Pension Mylos",
+        "title": "Casa ta departe de casă.",
+        "body": "O afacere de familie care primește călători încă din anii '80. Ospitalitate cretană adevărată, un cadru primitor și atenție personală din toată inima.",
+        "tags": [
+          "Ospitalitate cretană",
+          "Asistență personală"
+        ]
+      },
+      {
+        "label": "Camere",
+        "eyebrow": "Camerele",
+        "title": "Primitoare, curate și liniștite.",
+        "body": "Camere twin, triple și single, fiecare cu vedere panoramică, dotări curate și liniște deplină pe tot parcursul zilei.",
+        "tags": [
+          "Twin",
+          "Triplă",
+          "Single"
+        ]
+      },
+      {
+        "label": "Priveliștea",
+        "eyebrow": "Golful Mirabello",
+        "title": "Răsăritul, chiar de pe balconul tău.",
+        "body": "Bucură-te de un răsărit minunat deasupra golfului și adormi seara ascultând valurile.",
+        "tags": [
+          "Vedere panoramică spre mare"
+        ]
+      },
+      {
+        "label": "Locație",
+        "eyebrow": "Locul nostru de vis",
+        "title": "Aproape de tot, dar niciodată prea aproape.",
+        "body": "Plaja, restaurantele și cafenelele sunt la câțiva pași, iar ziua rămâne liniștită.",
+        "tags": [
+          "Plaja Kitroplatia, 1 min",
+          "Portul, 3 min",
+          "Lacul Voulismeni, 6 min"
+        ]
+      },
+      {
+        "label": "Rezervă",
+        "eyebrow": "Rezervă direct, de la familie",
+        "title": "Confortul tău e treaba noastră. Tu doar bucură-te.",
+        "body": "Alege datele și vezi ce camere sunt libere.",
+        "tags": [],
+        "ctaPrimary": "Vezi disponibilitatea",
+        "ctaSecondary": "Explorează zona"
+      }
+    ]
+  },
+  "about": {
+    "hostAlt": "Gazda ta la Pension Mylos",
+    "heading": "Bun venit în <em>casa ta</em> departe de casă",
+    "text": "Suntem o mică afacere de familie, care funcționează încă din anii '80 și oferă călătorilor din toată lumea un refugiu în care se pot simți ca acasă. Trăiește adevărata ospitalitate cretană și bucură-te de liniștea cadrului nostru primitor, a dotărilor curate și a atenției noastre personale. Confortul și odihna ta sunt treaba noastră… Tu doar bucură-te!",
+    "roomsTitle": "Camere cu priveliște",
+    "roomsCta": "Vezi camerele și prețurile"
+  },
+  "rooms": [
+    {
+      "name": "Cameră twin",
+      "detail": "Vedere panoramică spre mare"
+    },
+    {
+      "name": "Cameră triplă",
+      "detail": "Vedere panoramică spre mare"
+    },
+    {
+      "name": "Cameră single",
+      "detail": "Vedere panoramică"
+    }
+  ],
+  "gallery": {
+    "seeAll": "Vezi toate cele {n} fotografii",
+    "openPhoto": "Deschide fotografia:",
+    "dialogLabel": "Galerie foto",
+    "close": "Închide",
+    "previous": "Fotografia anterioară",
+    "next": "Fotografia următoare",
+    "alts": {
+      "slider-5": "Masă pe balcon cu flori proaspete, cu vedere spre golful Mirabello",
+      "slider-4": "Cameră twin cu mobilier din lemn și ușă spre balcon",
+      "slider-12": "Obloane deschise care încadrează marea și o insulă",
+      "slider-3": "Hol cu fotografii de familie și o ușă arcuită",
+      "slider-1": "Acoperișurile din Mylos și golful, cu o insulă la orizont",
+      "slider-13": "Ceai pe balcon, deasupra mării",
+      "slider-15": "Portul din Agios Nikolaos luminat la amurg",
+      "slider-2": "Flori proaspete pe un pat proaspăt făcut",
+      "slider-6": "Priveliște peste acoperișuri spre golf și munți",
+      "slider-9": "Obloane de lemn care se deschid spre mare",
+      "slider-11": "Colț de relaxare cu fotolii și o oglindă cu ramă de lemn",
+      "slider-7": "Golful și munții, văzuți de pe terasă",
+      "slider-10": "Un oaspete pe balcon, deasupra mării",
+      "slider-14": "Faleza din Agios Nikolaos în lumina serii",
+      "slider-16": "Cerul de seară deasupra orașului",
+      "slider-17": "Bărci pe lacul Voulismeni, noaptea"
+    }
+  },
+  "location": {
+    "heading": "<em>Locația</em> noastră de vis",
+    "text": "Pension Mylos înseamnă, înainte de toate, priveliști panoramice spre golful Mirabello. Suntem într-un loc perfect: foarte aproape de plajă, de restaurante și de cafenele, dar în același timp nu prea aproape, așa că ai liniște deplină toată ziua. Agios Nikolaos are apă de mare foarte curată, multe plaje frumoase și este baza ideală pentru excursii de o zi în toată prefectura Lasithi.",
+    "mapTitle": "Pension Mylos pe Google Maps",
+    "openMaps": "Deschide în Google Maps",
+    "fromDoor": "De la ușa noastră, 24 Sarolidi Str.",
+    "onFoot": "Pe jos",
+    "byCar": "Cu mașina",
+    "sights": [
+      {
+        "name": "Plaja Kitroplatia",
+        "time": "1 min",
+        "distance": "100 m",
+        "text": "O plajă foarte frumoasă și curată, cu cafenele și restaurante tradiționale în jur, așa că ai tot ce-ți trebuie la îndemână."
+      },
+      {
+        "name": "Portul",
+        "time": "3 min",
+        "distance": "200 m",
+        "text": "Portul principal din Agios Nikolaos, cu statuia răpirii Europei și o parcare mare, gratuită."
+      },
+      {
+        "name": "Lacul Voulismeni",
+        "time": "6 min",
+        "distance": "450 m",
+        "text": "Restaurante tradiționale peste tot în jur și o priveliște uimitoare asupra orașului și a portului din partea de sus. Faimosul lac al cărui fund nu l-a găsit nici măcar Jacques Cousteau."
+      },
+      {
+        "name": "Centrul orașului",
+        "time": "9 min",
+        "distance": "600 m",
+        "text": "Un centru plin de viață, cu cafenele, magazine de toate felurile și o frumoasă biserică ortodoxă."
+      },
+      {
+        "name": "Plaja Ámmos",
+        "time": "10 min",
+        "distance": "650 m",
+        "text": "O plajă mică, cu nisip, cu ape liniștite și multe locuri în jur pentru o gustare și o băutură."
+      },
+      {
+        "name": "Plaja Ammoudi",
+        "time": "18 min",
+        "distance": "1,2 km",
+        "text": "O plajă mare, cu nisip, cu ape verzi, baruri de plajă pentru o băutură răcoritoare și restaurante cu bucătărie tradițională."
+      },
+      {
+        "name": "Plaja Almirós",
+        "time": "26 min",
+        "distance": "2,1 km",
+        "text": "Ape limpezi și nisip auriu, acolo unde râul Almirós se întâlnește cu marea, cu un barișor simpatic, toalete și personal foarte prietenos."
+      },
+      {
+        "name": "Spinalonga și Elounda",
+        "time": "23 min",
+        "distance": "15 km",
+        "text": "Satul de coastă Elounda și insula Spinalonga: fortăreață venețiană, alei șerpuite și povestea uneia dintre ultimele leprozerii din Europa."
+      },
+      {
+        "name": "Insula Chrissi, Ierapetra",
+        "time": "42 min",
+        "distance": "36 km",
+        "text": "O excursie de o zi pe o insulă care te va face să te întrebi dacă ești în Creta sau în Caraibe."
+      },
+      {
+        "name": "Aeroportul Heraklion",
+        "time": "50 min",
+        "distance": "62 km",
+        "text": "Aeroportul Nikos Kazantzakis, cel mai mare din Creta și cel mai aglomerat tot timpul anului."
+      },
+      {
+        "name": "Peștera lui Zeus",
+        "time": "1 h",
+        "distance": "45 km",
+        "text": "Glorioasa peșteră a lui Zeus, sate cretane autentice și natura neatinsă din estul Cretei."
+      },
+      {
+        "name": "Palatul Knossos",
+        "time": "1 h",
+        "distance": "65 km",
+        "text": "Situl arheologic cunoscut în toată lumea și Muzeul din Heraklion: 3.500 de ani de civilizație."
+      }
+    ]
+  },
+  "book": {
+    "heading": "Rezervă-ți <em>sejurul</em>",
+    "text": "Alege datele ca să vezi ce camere sunt libere. Rezervi direct de la familie, prin pagina noastră de rezervări securizată.",
+    "phonePrompt": "Preferi să vorbim mai întâi? Sună",
+    "checkin": "Sosire",
+    "checkout": "Plecare",
+    "guests": "Oaspeți",
+    "guestOptions": [
+      "1 adult",
+      "2 adulți",
+      "3 adulți",
+      "4 adulți",
+      "5 adulți",
+      "6 adulți"
+    ],
+    "submit": "Vezi disponibilitatea"
+  },
+  "blog": {
+    "homeHeading": "Din <em>blog</em>",
+    "allPosts": "Toate articolele",
+    "indexTitle": "Blog",
+    "indexHeading": "Povești din <em>Agios Nikolaos</em>",
+    "indexIntro": "Plaje, excursii de o zi și sfaturi pentru sejurul tău, de la familia de la Pension Mylos.",
+    "indexDescription": "Plaje, excursii de o zi și sfaturi pentru sejurul tău în Agios Nikolaos, de la familia de la Pension Mylos.",
+    "empty": "Încă nu există articole în această limbă.",
+    "back": "Blog",
+    "updated": "Actualizat",
+    "ctaTitle": "Stai la noi, în Agios Nikolaos",
+    "ctaText": "Camere cu vedere panoramică spre golful Mirabello.",
+    "cta": "Vezi disponibilitatea",
+    "moreHeading": "Mai multe din <em>blog</em>",
+    "rssTitle": "Blogul Pension Mylos",
+    "rssDescription": "Plaje, excursii de o zi și sfaturi pentru sejurul tău în Agios Nikolaos, Creta."
+  },
+  "newsletter": {
+    "heading": "Abonează-te la <em>newsletter</em>-ul nostru",
+    "text": "Primește oferte exclusive și vești importante pentru călători.",
+    "emailLabel": "Adresa de e-mail",
+    "placeholder": "Adresa ta de e-mail",
+    "submit": "Abonează-te"
+  },
+  "contact": {
+    "heading": "Hai să vorbim, <em>scrie-ne</em>",
+    "text": "Ai întrebări despre camere, despre drumul până la noi sau despre ce poți face prin Agios Nikolaos? Scrie-ne, sună-ne sau trece pe la noi.",
+    "phone": "Telefon",
+    "email": "E-mail",
+    "address": "Adresă",
+    "formTitle": "Vrei să vorbești cu noi?",
+    "name": "Nume complet",
+    "emailField": "Adresa de e-mail",
+    "message": "Mesaj",
+    "send": "Trimite mesajul",
+    "sending": "Se trimite…",
+    "error": "Nu am putut trimite mesajul. Încearcă din nou peste câteva momente sau scrie-ne la {email}."
+  },
+  "footer": {
+    "tagline": "O mică pensiune de familie deasupra golfului Mirabello, în Agios Nikolaos, Creta.",
+    "contactHeading": "Date de <em>contact</em>",
+    "explore": "Explorează",
+    "social": "Rețele sociale",
+    "rights": "© {year} Pension Mylos, Agios Nikolaos. Toate drepturile rezervate.",
+    "cookieSettings": "Setări cookie-uri"
+  },
+  "cookies": {
+    "region": "Notificare cookie-uri",
+    "text": "Folosim cookie-uri pentru ca site-ul să funcționeze și, doar dacă ești de acord, pentru a măsura numărul de vizite.",
+    "acceptAll": "Acceptă toate",
+    "onlyNecessary": "Doar necesare",
+    "configure": "Configurează",
+    "title": "Setări cookie-uri",
+    "intro": "Alege ce cookie-uri putem folosi. Poți schimba oricând această alegere din „Setări cookie-uri”, din partea de jos a paginii.",
+    "necessary": "Necesare",
+    "necessaryText": "Sunt necesare pentru funcționarea site-ului, de exemplu pentru a reține această alegere. Mereu active.",
+    "necessaryOn": "Cookie-urile necesare sunt mereu active",
+    "analytics": "Statistici",
+    "analyticsText": "Statistici anonime despre vizite, cu Google Analytics.",
+    "save": "Salvează preferințele",
+    "close": "Închide"
+  },
+  "reservations": {
+    "title": "Rezervări",
+    "description": "Verifică disponibilitatea și rezervă-ți camera la Pension Mylos, Agios Nikolaos, direct de la familie.",
+    "heading": "Rezervă-ți <em>sejurul</em>",
+    "intro": "Alege mai jos datele și camera. Rezervi direct de la familie, prin pagina noastră securizată de rezervări Beds24.",
+    "loading": "Se încarcă disponibilitatea…",
+    "iframeTitle": "Rezervări online Pension Mylos (Beds24)",
+    "bookNow": "Rezervă acum",
+    "fallbackText": "Nu se afișează formularul de rezervare?",
+    "fallbackLink": "Deschide-l într-o filă nouă",
+    "roomsTitle": "Camerele noastre",
+    "questionsTitle": "Ai întrebări înainte de a rezerva?",
+    "questionsText": "Te ajutăm cu drag cu datele, camerele și drumul până la noi.",
+    "address": "Adresă",
+    "nearby": "Ce se află în apropiere",
+    "searchTitle": "Găsește-ți camera",
+    "chooseDates": "Alege datele ca să vezi ce camere sunt libere și cât costă.",
+    "search": "Verifică disponibilitatea",
+    "searching": "Se verifică disponibilitatea…",
+    "resultsTitle": "Disponibile pentru datele tale",
+    "total": "Total pentru sejur",
+    "taxes": "Include TVA ({vat}), taxa municipală ({municipal}) și taxa de climă ({climate} pe cameră pe noapte). Detalierea finală apare la pasul următor.",
+    "lastOne": "Ultima disponibilă",
+    "none": "Nu sunt camere libere pentru aceste date și acest număr de persoane. Încearcă alte date sau scrie-ne și te ajutăm să găsești o variantă.",
+    "error": "Nu am putut verifica disponibilitatea acum. Încearcă din nou în câteva minute sau contactează-ne.",
+    "invalidDates": "Data plecării trebuie să fie după data sosirii.",
+    "secure": "Vei introduce datele și vei plăti pe pagina noastră securizată de rezervări.",
+    "firstArrival": "Prima sosire disponibilă: {date}",
+    "chooseRooms": "Alege câte camere vrei din fiecare tip.",
+    "maxGuests": "Max. {guests}",
+    "continue": "Continuă rezervarea",
+    "notTogether": "Aceste camere nu pot fi rezervate împreună. Rezervă-le separat.",
+    "selectOne": "Alege cel puțin o cameră.",
+    "detailsTitle": "Datele tale și plata",
+    "detailsIntro": "Completează datele, confirmă și plătește. Acest pas este gestionat de sistemul nostru securizat de rezervări (Beds24).",
+    "changeRooms": "Schimbă camerele",
+    "frameTitle": "Rezervare la Pension Mylos: datele oaspetelui și plata (Beds24)",
+    "openFull": "Probleme cu formularul? Deschide-l pe o pagină completă",
+    "colRoom": "Tip de cameră",
+    "colSleeps": "Capacitate",
+    "colPrice": "Prețul sejurului",
+    "taxesIncluded": "Taxe incluse",
+    "colSelect": "Alege camerele",
+    "capacityNote": "Camerele alese au loc pentru cel mult {capacity}; ai căutat pentru {adults}."
+  },
+  "notFound": {
+    "title": "Pagina nu a fost găsită",
+    "heading": "Această pagină <em>nu există</em>",
+    "text": "Linkul poate fi vechi sau scris greșit. Acestea te readuc pe drumul cel bun:",
+    "home": "Mergi la pagina principală",
+    "reservations": "Rezervări"
+  },
+  "thanks": {
+    "title": "Mesaj trimis",
+    "description": "Îți mulțumim că ne-ai scris la Pension Mylos.",
+    "heading": "Mulțumim, <em>mesajul a fost trimis</em>",
+    "text": "Am primit mesajul tău și îți vom răspunde prin e-mail cât mai curând.",
+    "urgent": "Dacă e urgent, sună-ne:",
+    "home": "Înapoi la pagina principală",
+    "blog": "Citește blogul"
+  },
+  "bookingDone": {
+    "title": "Rezervare confirmată",
+    "description": "Rezervarea ta la Pension Mylos este confirmată.",
+    "heading": "Mulțumim, <em>ne vedem în Creta</em>",
+    "text": "Rezervarea ta este finalizată. Vei primi un e-mail de confirmare cu toate detaliile.",
+    "contact": "Întrebări despre sejur? Scrie-ne la {email} sau sună la",
+    "home": "Înapoi la pagina principală",
+    "blog": "Idei pentru sejur"
+  }
+}

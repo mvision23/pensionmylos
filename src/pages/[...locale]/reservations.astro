@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookingWidget from '../../components/BookingWidget.astro';
+import { site } from '../../data/site';
+import { getMessages, localeFromParam, localeParams, localePath } from '../../i18n/utils';
+
+export const getStaticPaths = localeParams;
+
+const locale = localeFromParam(Astro.params.locale);
+const m = getMessages(locale);
+const t = m.reservations;
+---
+
+<BaseLayout locale={locale} title={t.title} description={t.description}>
+  <section class="relative isolate overflow-hidden bg-sea-900 pt-18">
+    <img
+      src="/scenes/view.webp"
+      alt=""
+      class="absolute inset-0 -z-10 size-full object-cover object-[center_60%] opacity-60"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-sea-900/85 via-sea-900/50 to-transparent"></div>
+    <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 md:py-24">
+      <h1 class="mylos-heading max-w-2xl" data-tone="light" set:html={t.heading} />
+      <p class="mt-8 max-w-xl text-lg text-white/85">{t.intro}</p>
+    </div>
+  </section>
+
+  <section class="bg-mist">
+    <div class="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:py-16 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-12">
+      <div class="min-w-0">
+        <BookingWidget locale={locale} />
+      </div>
+
+      <aside class="space-y-8 lg:sticky lg:top-24 lg:self-start">
+        <div class="border-t-2 border-mylos-500 bg-white p-6">
+          <h2 class="text-xl font-medium">{t.questionsTitle}</h2>
+          <p class="mt-2 text-ink-soft">{t.questionsText}</p>
+          <ul class="mt-4 space-y-2">
+            <li><a class="text-lg hover:text-mylos-700" href={site.phoneHref}>{site.phone}</a></li>
+            <li><a class="text-lg break-all hover:text-mylos-700" href={`mailto:${site.email}`}>{site.email}</a></li>
+          </ul>
+        </div>
+
+        <div class="p-6 pt-0 lg:p-0">
+          <h2 class="text-sm text-ink-soft">{t.address}</h2>
+          <p class="mt-1">{m.meta.address}</p>
+          <a class="mt-2 inline-block text-mylos-700 underline underline-offset-4 hover:no-underline" href={localePath(locale, '/#location')}>
+            {t.nearby}
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

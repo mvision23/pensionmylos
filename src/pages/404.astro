@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getMessages } from '../i18n/utils';
+const t = getMessages('en').notFound;
+---
+
+<BaseLayout locale="en" title={t.title}>
+  <section class="mx-auto flex min-h-[70vh] max-w-3xl flex-col justify-center px-5 pt-32 pb-20 sm:px-8">
+    <h1 class="mylos-heading" set:html={t.heading} />
+    <p class="mt-8 text-lg text-ink-soft">{t.text}</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/" class="btn-primary">{t.home}</a>
+      <a href="/reservations/" class="btn-outline">{t.reservations}</a>
+    </div>
+  </section>
+</BaseLayout>

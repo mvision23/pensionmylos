@@ -1,0 +1,368 @@
+{
+  "meta": {
+    "siteTitle": "Pension Mylos — Bed & breakfast in Agios Nikolaos, Kreta",
+    "siteDescription": "Kleine familiepension boven de baai van Mirabello in Agios Nikolaos, Kreta. Panoramisch zeezicht, Kretenzische gastvrijheid en het strand op één minuut lopen.",
+    "address": "24 Sarolidi Str., Agios Nikolaos, Kreta, Griekenland"
+  },
+  "nav": {
+    "pension": "De pension",
+    "location": "Locatie",
+    "blog": "Blog",
+    "contact": "Contact",
+    "reservations": "Reserveren",
+    "bookNow": "Boek nu",
+    "bookShort": "Boek",
+    "menu": "Menu",
+    "homeLabel": "Pension Mylos, startpagina",
+    "mainLabel": "Hoofdmenu",
+    "skip": "Direct naar de inhoud",
+    "language": "Taal"
+  },
+  "film": {
+    "ariaLabel": "Een wandeling door Pension Mylos",
+    "hint": "Scroll om te ontdekken",
+    "routeLabel": "Filmscènes",
+    "loading": "Video laden",
+    "scenes": [
+      {
+        "label": "Agios Nikolaos",
+        "eyebrow": "Agios Nikolaos, Kreta",
+        "title": "Je hebt de beste plek van Agios Nikolaos gevonden.",
+        "body": "Een kleine familiepension in de kustwijk Mylos, met uitzicht over de baai van Mirabello.",
+        "tags": [
+          "#1 op TripAdvisor",
+          "Familiebedrijf sinds de jaren 80"
+        ]
+      },
+      {
+        "label": "De pension",
+        "eyebrow": "Pension Mylos",
+        "title": "Je thuis weg van huis.",
+        "body": "Een familiebedrijf dat al sinds de jaren 80 reizigers verwelkomt. Echte Kretenzische gastvrijheid, een gezellige sfeer en persoonlijke, vriendelijke aandacht.",
+        "tags": [
+          "Kretenzische gastvrijheid",
+          "Persoonlijke aandacht"
+        ]
+      },
+      {
+        "label": "Kamers",
+        "eyebrow": "De kamers",
+        "title": "Gezellig, schoon en rustig.",
+        "body": "Twin-, driepersoons- en eenpersoonskamers, elk met panoramisch uitzicht, schone voorzieningen en de hele dag volledige rust.",
+        "tags": [
+          "Twin",
+          "Driepersoons",
+          "Eenpersoons"
+        ]
+      },
+      {
+        "label": "Het uitzicht",
+        "eyebrow": "Baai van Mirabello",
+        "title": "Zonsopgang vanaf je balkon.",
+        "body": "Geniet van een prachtige zonsopgang boven de baai en val 's avonds in slaap met het geluid van de golven.",
+        "tags": [
+          "Panoramisch zeezicht"
+        ]
+      },
+      {
+        "label": "Locatie",
+        "eyebrow": "Onze droomlocatie",
+        "title": "Dichtbij alles, nooit te dichtbij.",
+        "body": "Het strand, restaurants en koffiehuisjes liggen op loopafstand, en toch blijft het de hele dag rustig.",
+        "tags": [
+          "Kitroplatia-strand, 1 min",
+          "Haven, 3 min",
+          "Voulismeni-meer, 6 min"
+        ]
+      },
+      {
+        "label": "Boeken",
+        "eyebrow": "Boek direct bij de familie",
+        "title": "Voor je comfort zorgen wij. Geniet er gewoon van.",
+        "body": "Kies je data en zie welke kamers vrij zijn.",
+        "tags": [],
+        "ctaPrimary": "Bekijk beschikbaarheid",
+        "ctaSecondary": "Ontdek de omgeving"
+      }
+    ]
+  },
+  "about": {
+    "hostAlt": "Wie je ontvangt bij Pension Mylos",
+    "heading": "Welkom in <em>je thuis</em> weg van huis",
+    "text": "Wij zijn een klein familiebedrijf dat al sinds de jaren 80 bestaat en reizigers uit de hele wereld een plek biedt waar ze zich thuis kunnen voelen. Ervaar echte Kretenzische gastvrijheid en geniet van de rust van onze gezellige omgeving, schone voorzieningen en persoonlijke, vriendelijke aandacht. Voor je comfort en ontspanning zorgen wij… Geniet er gewoon van!",
+    "roomsTitle": "Kamers met uitzicht",
+    "roomsCta": "Bekijk kamers en prijzen"
+  },
+  "rooms": [
+    {
+      "name": "Twinkamer",
+      "detail": "Panoramisch zeezicht"
+    },
+    {
+      "name": "Driepersoonskamer",
+      "detail": "Panoramisch zeezicht"
+    },
+    {
+      "name": "Eenpersoonskamer",
+      "detail": "Panoramisch uitzicht"
+    }
+  ],
+  "gallery": {
+    "seeAll": "Bekijk alle {n} foto's",
+    "openPhoto": "Foto openen:",
+    "dialogLabel": "Fotogalerij",
+    "close": "Sluiten",
+    "previous": "Vorige foto",
+    "next": "Volgende foto",
+    "alts": {
+      "slider-5": "Balkontafel met verse bloemen, met uitzicht over de baai van Mirabello",
+      "slider-4": "Twinkamer met houten meubels en een deur naar het balkon",
+      "slider-12": "Open luiken met uitzicht op de zee en een eiland",
+      "slider-3": "Gang met familiefoto's en een boogvormige deuropening",
+      "slider-1": "De daken van Mylos en de baai, met een eiland aan de horizon",
+      "slider-13": "Thee op het balkon boven de zee",
+      "slider-15": "De haven van Agios Nikolaos verlicht in de schemering",
+      "slider-2": "Verse bloemen op een vers opgemaakt bed",
+      "slider-6": "Uitzicht over de daken naar de baai en de bergen",
+      "slider-9": "Houten luiken die openen naar de zee",
+      "slider-11": "Zithoek met fauteuils en een houten spiegel",
+      "slider-7": "De baai en de bergen vanaf het terras",
+      "slider-10": "Een gast op het balkon boven de zee",
+      "slider-14": "De kade van Agios Nikolaos in het avondlicht",
+      "slider-16": "Avondlucht boven de stad",
+      "slider-17": "Boten op het Voulismeni-meer bij nacht"
+    }
+  },
+  "location": {
+    "heading": "Onze <em>droomlocatie</em>",
+    "text": "Bij Pension Mylos draait alles om het panoramische uitzicht over de baai van Mirabello. We zitten op de perfecte plek: heel dicht bij het strand, restaurants en koffiehuisjes, en tegelijk net niet te dichtbij, zodat het de hele dag lekker rustig is. Agios Nikolaos heeft heel schoon zeewater, veel mooie stranden en is de ideale uitvalsbasis voor dagtochten door de hele regio Lasithi.",
+    "mapTitle": "Pension Mylos op Google Maps",
+    "openMaps": "Openen in Google Maps",
+    "fromDoor": "Vanaf onze deur, 24 Sarolidi Str.",
+    "onFoot": "Te voet",
+    "byCar": "Met de auto",
+    "sights": [
+      {
+        "name": "Kitroplatia-strand",
+        "time": "1 min",
+        "distance": "100 m",
+        "text": "Een heel mooi, schoon strand met koffiehuisjes en traditionele restaurants in de buurt, zodat je alles bij de hand hebt."
+      },
+      {
+        "name": "Haven",
+        "time": "3 min",
+        "distance": "200 m",
+        "text": "De hoofdhaven van Agios Nikolaos, met het standbeeld van de schaking van Europa en een grote gratis parkeerplaats."
+      },
+      {
+        "name": "Voulismeni-meer",
+        "time": "6 min",
+        "distance": "450 m",
+        "text": "Overal traditionele restaurants en aan de bovenkant een schitterend uitzicht over de stad en de haven. Het beroemde meer waarvan zelfs Jacques Cousteau de bodem niet kon vinden."
+      },
+      {
+        "name": "Stadscentrum",
+        "time": "9 min",
+        "distance": "600 m",
+        "text": "Een levendig centrum met koffiehuisjes, winkels van allerlei soort en een mooie orthodoxe kerk."
+      },
+      {
+        "name": "Ámmos-strand",
+        "time": "10 min",
+        "distance": "650 m",
+        "text": "Een klein zandstrand met rustig water en genoeg plekjes in de buurt voor een hapje en een drankje."
+      },
+      {
+        "name": "Ammoudi-strand",
+        "time": "18 min",
+        "distance": "1,2 km",
+        "text": "Een groot zandstrand met groen water, strandtenten voor een verfrissend drankje en restaurants met traditionele keuken."
+      },
+      {
+        "name": "Almirós-strand",
+        "time": "26 min",
+        "distance": "2,1 km",
+        "text": "Helder water en goudkleurig zand waar de rivier de Almirós de zee ontmoet, met een leuk barretje, toiletten en heel vriendelijke bediening."
+      },
+      {
+        "name": "Spinalonga & Elounda",
+        "time": "23 min",
+        "distance": "15 km",
+        "text": "Het kustdorp Elounda en het eiland Spinalonga: een Venetiaanse vesting, kronkelende steegjes en het verhaal van een van de laatste leprakolonies van Europa."
+      },
+      {
+        "name": "Eiland Chrissi, Ierapetra",
+        "time": "42 min",
+        "distance": "36 km",
+        "text": "Een dagtocht naar een eiland waar je je afvraagt of je op Kreta bent of in het Caribisch gebied."
+      },
+      {
+        "name": "Luchthaven Heraklion",
+        "time": "50 min",
+        "distance": "62 km",
+        "text": "Luchthaven Nikos Kazantzakis, de grootste van Kreta en het hele jaar door de drukste."
+      },
+      {
+        "name": "Grot van Zeus",
+        "time": "1 uur",
+        "distance": "45 km",
+        "text": "De prachtige grot van Zeus, authentieke Kretenzische dorpen en de ongerepte natuur van Oost-Kreta."
+      },
+      {
+        "name": "Paleis van Knossos",
+        "time": "1 uur",
+        "distance": "65 km",
+        "text": "De wereldberoemde archeologische vindplaats en het museum van Heraklion: 3500 jaar beschaving."
+      }
+    ]
+  },
+  "book": {
+    "heading": "Boek je <em>verblijf</em>",
+    "text": "Kies je data om te zien welke kamers vrij zijn. Je boekt rechtstreeks bij de familie, via onze beveiligde boekingspagina.",
+    "phonePrompt": "Liever eerst even praten? Bel",
+    "checkin": "Aankomst",
+    "checkout": "Vertrek",
+    "guests": "Gasten",
+    "guestOptions": [
+      "1 volwassene",
+      "2 volwassenen",
+      "3 volwassenen",
+      "4 volwassenen",
+      "5 volwassenen",
+      "6 volwassenen"
+    ],
+    "submit": "Bekijk beschikbaarheid"
+  },
+  "blog": {
+    "homeHeading": "Uit de <em>blog</em>",
+    "allPosts": "Alle berichten",
+    "indexTitle": "Blog",
+    "indexHeading": "Verhalen uit <em>Agios Nikolaos</em>",
+    "indexIntro": "Stranden, dagtochten en tips voor je verblijf, van de familie van Pension Mylos.",
+    "indexDescription": "Stranden, dagtochten en tips voor je verblijf in Agios Nikolaos, van de familie van Pension Mylos.",
+    "empty": "Nog geen berichten in deze taal.",
+    "back": "Blog",
+    "updated": "Bijgewerkt",
+    "ctaTitle": "Logeer bij ons in Agios Nikolaos",
+    "ctaText": "Kamers met panoramisch uitzicht over de baai van Mirabello.",
+    "cta": "Bekijk beschikbaarheid",
+    "moreHeading": "Meer uit de <em>blog</em>",
+    "rssTitle": "Blog van Pension Mylos",
+    "rssDescription": "Stranden, dagtochten en tips voor je verblijf in Agios Nikolaos, Kreta."
+  },
+  "newsletter": {
+    "heading": "Schrijf je in voor onze <em>nieuwsbrief</em>",
+    "text": "Ontvang exclusieve aanbiedingen en belangrijk reisnieuws.",
+    "emailLabel": "E-mailadres",
+    "placeholder": "Je e-mailadres",
+    "submit": "Inschrijven"
+  },
+  "contact": {
+    "heading": "Laten we praten, <em>neem contact op</em>",
+    "text": "Vragen over de kamers, hoe je hier komt of wat je kunt doen rond Agios Nikolaos? Schrijf ons, bel, of kom gewoon langs.",
+    "phone": "Telefoon",
+    "email": "E-mail",
+    "address": "Adres",
+    "formTitle": "Wil je ons iets vragen?",
+    "name": "Volledige naam",
+    "emailField": "E-mailadres",
+    "message": "Bericht",
+    "send": "Verstuur bericht",
+    "sending": "Bezig met verzenden…",
+    "error": "Je bericht kon niet worden verzonden. Probeer het zo opnieuw of mail ons op {email}."
+  },
+  "footer": {
+    "tagline": "Een kleine familiepension boven de baai van Mirabello, in Agios Nikolaos, Kreta.",
+    "contactHeading": "<em>Contactgegevens</em>",
+    "explore": "Ontdek",
+    "social": "Sociale media",
+    "rights": "© {year} Pension Mylos, Agios Nikolaos. Alle rechten voorbehouden.",
+    "cookieSettings": "Cookie-instellingen"
+  },
+  "cookies": {
+    "region": "Cookiemelding",
+    "text": "We gebruiken cookies om deze site te laten werken en, alleen als je dat toestaat, om bezoeken te meten.",
+    "acceptAll": "Alles accepteren",
+    "onlyNecessary": "Alleen noodzakelijke",
+    "configure": "Instellen",
+    "title": "Cookie-instellingen",
+    "intro": "Kies welke cookies we mogen gebruiken. Je kunt dit op elk moment wijzigen via “Cookie-instellingen” onderaan de pagina.",
+    "necessary": "Noodzakelijk",
+    "necessaryText": "Nodig om de site te laten werken, bijvoorbeeld om deze keuze te onthouden. Altijd aan.",
+    "necessaryOn": "Noodzakelijke cookies staan altijd aan",
+    "analytics": "Statistieken",
+    "analyticsText": "Anonieme statistieken over bezoeken, met Google Analytics.",
+    "save": "Voorkeuren opslaan",
+    "close": "Sluiten"
+  },
+  "reservations": {
+    "title": "Reserveren",
+    "description": "Bekijk de beschikbaarheid en boek je kamer bij Pension Mylos in Agios Nikolaos, rechtstreeks bij de familie.",
+    "heading": "Boek je <em>verblijf</em>",
+    "intro": "Kies hieronder je data en kamer. Je boekt rechtstreeks bij de familie via onze beveiligde Beds24-boekingspagina.",
+    "loading": "Beschikbaarheid laden…",
+    "iframeTitle": "Online boeken bij Pension Mylos (Beds24)",
+    "bookNow": "Boek nu",
+    "fallbackText": "Zie je het boekingsformulier niet?",
+    "fallbackLink": "Open het in een nieuw tabblad",
+    "roomsTitle": "Onze kamers",
+    "questionsTitle": "Vragen voor je boekt?",
+    "questionsText": "We helpen je graag met data, kamers en de weg hiernaartoe.",
+    "address": "Adres",
+    "nearby": "In de buurt",
+    "searchTitle": "Vind je kamer",
+    "chooseDates": "Kies je data om te zien welke kamers vrij zijn en wat ze kosten.",
+    "search": "Beschikbaarheid bekijken",
+    "searching": "Beschikbaarheid controleren…",
+    "resultsTitle": "Beschikbaar op jouw data",
+    "total": "Totaal voor je verblijf",
+    "taxes": "Inclusief btw ({vat}), gemeentebelasting ({municipal}) en klimaatheffing ({climate} per kamer per nacht). De definitieve specificatie zie je in de volgende stap.",
+    "lastOne": "Laatste beschikbaar",
+    "none": "Er zijn geen kamers vrij voor deze data en dit aantal personen. Probeer andere data of mail ons, dan helpen we je verder.",
+    "error": "We konden de beschikbaarheid nu niet controleren. Probeer het over een paar minuten opnieuw of neem contact met ons op.",
+    "invalidDates": "De vertrekdatum moet na de aankomstdatum liggen.",
+    "secure": "Je vult je gegevens in en betaalt op onze beveiligde boekingspagina.",
+    "firstArrival": "Eerst mogelijke aankomst: {date}",
+    "chooseRooms": "Kies hoeveel kamers je van elk type wilt.",
+    "maxGuests": "Max. {guests}",
+    "continue": "Verder met boeken",
+    "notTogether": "Deze kamers kunnen niet samen worden geboekt. Boek ze apart.",
+    "selectOne": "Kies minstens één kamer.",
+    "detailsTitle": "Je gegevens en betaling",
+    "detailsIntro": "Vul je gegevens in, bevestig en betaal. Deze stap verloopt via ons beveiligde boekingssysteem (Beds24).",
+    "changeRooms": "Kamers wijzigen",
+    "frameTitle": "Boeking Pension Mylos: gastgegevens en betaling (Beds24)",
+    "openFull": "Problemen met het formulier? Open het op een volledige pagina",
+    "colRoom": "Kamertype",
+    "colSleeps": "Gasten",
+    "colPrice": "Prijs voor je verblijf",
+    "taxesIncluded": "Inclusief belastingen",
+    "colSelect": "Kies kamers",
+    "capacityNote": "De gekozen kamers zijn voor maximaal {capacity}; je zocht voor {adults}."
+  },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "heading": "Deze pagina <em>bestaat niet</em>",
+    "text": "De link is misschien oud of verkeerd getypt. Hiermee kom je weer op weg:",
+    "home": "Naar de homepage",
+    "reservations": "Reserveren"
+  },
+  "thanks": {
+    "title": "Bericht verzonden",
+    "description": "Bedankt voor je bericht aan Pension Mylos.",
+    "heading": "Bedankt, <em>bericht verzonden</em>",
+    "text": "We hebben je bericht ontvangen en antwoorden zo snel mogelijk per e-mail.",
+    "urgent": "Is het dringend? Bel ons:",
+    "home": "Terug naar de homepage",
+    "blog": "Lees de blog"
+  },
+  "bookingDone": {
+    "title": "Boeking bevestigd",
+    "description": "Je boeking bij Pension Mylos is bevestigd.",
+    "heading": "Bedankt, <em>tot ziens op Kreta</em>",
+    "text": "Je boeking is rond. Je ontvangt een bevestigingsmail met alle details.",
+    "contact": "Vragen over je verblijf? Mail ons op {email} of bel",
+    "home": "Terug naar de homepage",
+    "blog": "Ideeën voor je verblijf"
+  }
+}

@@ -1,0 +1,51 @@
+---
+/**
+ * Where Beds24 sends the guest after a completed booking — set
+ * https://pensionmylos.com/booking-confirmed/ as the "Booking Return URL" in
+ * Beds24 (Settings → Booking Engine → Property Booking Page → Behaviour).
+ * Beds24 has a single return URL, so the English page forwards the guest to
+ * the language they were browsing in (remembered when they left for Beds24).
+ * Conversion page for Analytics; kept out of search engines and the sitemap.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../data/site';
+import { defaultLocale, locales } from '../../i18n/config';
+import { fmt, getMessages, localeFromParam, localeParams, localePath } from '../../i18n/utils';
+
+export const getStaticPaths = localeParams;
+
+const locale = localeFromParam(Astro.params.locale);
+const t = getMessages(locale).bookingDone;
+const targets = Object.fromEntries(locales.filter((l) => l !== defaultLocale).map((l) => [l, localePath(l, '/booking-confirmed/')]));
+---
+
+<BaseLayout locale={locale} title={t.title} description={t.description} noindex>
+  <script is:inline slot="head">
+    try { if (window.top !== window.self) window.top.location.replace(location.href); } catch (e) {}
+  </script>
+  {
+    locale === defaultLocale && (
+      <script is:inline slot="head" define:vars={{ targets }}>
+        try {
+          const l = sessionStorage.getItem('mylos-lang');
+          if (l && targets[l]) location.replace(targets[l] + location.search);
+        } catch (e) {}
+      </script>
+    )
+  }
+  <section class="mx-auto flex min-h-[75vh] max-w-3xl flex-col justify-center px-5 pt-32 pb-20 sm:px-8">
+    <span class="grid size-14 place-items-center rounded-full bg-sea-100 text-sea-700" aria-hidden="true">
+      <svg viewBox="0 0 24 24" class="size-7" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+    </span>
+    <h1 class="mylos-heading mt-8" set:html={t.heading} />
+    <p class="mt-8 text-lg text-ink-soft">{t.text}</p>
+    <p class="mt-4 text-lg text-ink-soft">
+      {fmt(t.contact, { email: site.email })}
+      <a class="text-ink underline underline-offset-4 hover:text-mylos-700" href={site.phoneHref}>{site.phone}</a>
+    </p>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href={localePath(locale, '/')} class="btn-primary">{t.home}</a>
+      <a href={localePath(locale, '/blog/')} class="btn-outline">{t.blog}</a>
+    </div>
+  </section>
+</BaseLayout>

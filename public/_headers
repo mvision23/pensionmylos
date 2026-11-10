@@ -1,0 +1,5 @@
+# Response headers for hosts that read this file (Netlify, Cloudflare Pages).
+# The Beds24 booking page (beds24/booking-page.css) loads our Jost fonts
+# cross-origin, which browsers only allow with this header.
+/fonts/*
+  Access-Control-Allow-Origin: *

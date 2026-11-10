@@ -1,0 +1,160 @@
+---
+/**
+ * Contact form → Formspree, submitted with JavaScript so the visitor stays on
+ * the site and lands on our own thank-you page (/<lang>/thanks/), which is the
+ * conversion URL for Analytics. A `generate_lead` event is sent too.
+ *
+ * If Formspree rejects the JavaScript submission for a non-field reason (e.g.
+ * its own reCAPTCHA is still enabled for the form), the form is re-submitted
+ * the classic way so the message is never lost — the visitor then goes through
+ * Formspree's CAPTCHA page instead of ours.
+ *
+ * Without JavaScript the form posts directly to Formspree, as before.
+ */
+import { site } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { fmt, getMessages, localePath } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const m = getMessages(locale);
+const t = m.contact;
+const turnstileLang = locale === 'zh' ? 'zh-cn' : locale;
+---
+
+<div class="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
+  <div>
+    <h2 class="mylos-heading" set:html={t.heading} />
+    <p class="mt-8 max-w-prose text-ink-soft">{t.text}</p>
+    <dl class="mt-10 space-y-6">
+      <div>
+        <dt class="text-sm text-ink-soft">{t.phone}</dt>
+        <dd class="mt-1 text-xl"><a class="hover:text-mylos-700" href={site.phoneHref}>{site.phone}</a></dd>
+      </div>
+      <div>
+        <dt class="text-sm text-ink-soft">{t.email}</dt>
+        <dd class="mt-1 text-xl"><a class="hover:text-mylos-700" href={`mailto:${site.email}`}>{site.email}</a></dd>
+      </div>
+      <div>
+        <dt class="text-sm text-ink-soft">{t.address}</dt>
+        <dd class="mt-1 text-xl">
+          <a class="hover:text-mylos-700" href={site.mapsUrl} target="_blank" rel="noopener">{m.meta.address}</a>
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <form
+    action={site.formspree}
+    method="post"
+    class="grid gap-5 self-start border border-stone bg-white p-6 sm:p-10"
+    data-contact-form
+    data-thanks={localePath(locale, '/thanks/')}
+    data-lang={locale}
+    data-sending={t.sending}
+    data-error={fmt(t.error, { email: site.email })}
+  >
+    <p class="text-2xl font-normal">{t.formTitle}</p>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label class="field-label" for="c-name">{t.name}</label>
+        <input class="field" id="c-name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div>
+        <label class="field-label" for="c-email">{t.emailField}</label>
+        <input class="field" id="c-email" name="email" type="email" autocomplete="email" required />
+      </div>
+    </div>
+    <div>
+      <label class="field-label" for="c-message">{t.message}</label>
+      <textarea class="field min-h-36" id="c-message" name="message" rows="5" required></textarea>
+    </div>
+
+    <!-- Context for the email the pension receives -->
+    <input type="hidden" name="language" value={locale} />
+    <input type="hidden" name="_subject" value={`Pension Mylos website — new message (${locale.toUpperCase()})`} />
+    <!-- Formspree bot trap -->
+    <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    {
+      site.turnstileSiteKey && (
+        <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-language={turnstileLang} data-size="flexible" />
+      )
+    }
+
+    <p data-form-status role="alert" class="hidden border-l-2 border-mylos-600 bg-mylos-50 px-4 py-3 text-ink"></p>
+
+    <button type="submit" class="btn-primary justify-self-start disabled:cursor-wait disabled:opacity-70">{t.send}</button>
+  </form>
+</div>
+
+{site.turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<script>
+  type FsError = { field?: string; code?: string; message?: string };
+
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-form-status]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const label = button.textContent ?? '';
+    const { thanks = '/thanks/', lang = 'en', sending = '…', error = '' } = form.dataset;
+
+    const setBusy = (busy: boolean) => {
+      button.disabled = busy;
+      button.textContent = busy ? sending : label;
+    };
+    const showError = (text: string) => {
+      status.textContent = text;
+      status.classList.remove('hidden');
+    };
+
+    // Tell Analytics about the lead, then go to the thank-you page. The redirect
+    // happens on the hit callback or after 1 s at most, whichever comes first.
+    const succeed = () => {
+      let done = false;
+      const go = () => { if (!done) { done = true; window.location.assign(thanks); } };
+      const w = window as any;
+      try {
+        if (typeof w.gtag === 'function') {
+          w.gtag('event', 'generate_lead', { form_id: 'contact', language: lang, event_callback: go, event_timeout: 1000 });
+        } else if (typeof w.ga === 'function') {
+          w.ga('send', 'event', 'Contact form', 'submit', lang, { hitCallback: go });
+        }
+      } catch { /* analytics must never block the redirect */ }
+      setTimeout(go, 1000);
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.classList.add('hidden');
+      setBusy(true);
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (res.ok) {
+          succeed();
+          return;
+        }
+        const data = (await res.json().catch(() => ({}))) as { errors?: FsError[] };
+        const errors = data.errors ?? [];
+        if (errors.some((e) => e.field)) {
+          // A field Formspree didn't accept (the browser already checks the basics).
+          showError(error);
+          setBusy(false);
+          return;
+        }
+        // Rejected for another reason (typically Formspree's own CAPTCHA):
+        // fall back to the classic submission so the message still gets through.
+        HTMLFormElement.prototype.submit.call(form);
+      } catch {
+        showError(error);
+        setBusy(false);
+      }
+    });
+  });
+</script>

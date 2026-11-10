@@ -1,0 +1,35 @@
+---
+/**
+ * Inlines public/logo.svg with its fill switched to `currentColor`, so the same
+ * file renders white over the film / dark footer and navy on light headers.
+ * Set the colour with a text-* class.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  class?: string;
+  /** Accessible name; pass `decorative` when the surrounding link already names it. */
+  title?: string;
+  decorative?: boolean;
+}
+const { class: className, title = 'Pension Mylos', decorative = false } = Astro.props;
+
+const raw = fs.readFileSync(path.join(process.cwd(), 'public/logo.svg'), 'utf8');
+const viewBox = raw.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 1762 794';
+const inner = raw
+  .replace(/^[\s\S]*?<svg[^>]*>/, '')
+  .replace(/<\/svg>\s*$/, '')
+  .replace(/fill="#[0-9a-fA-F]{3,8}"/g, 'fill="currentColor"');
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={viewBox}
+  class={className}
+  role={decorative ? undefined : 'img'}
+  aria-label={decorative ? undefined : title}
+  aria-hidden={decorative ? 'true' : undefined}
+  focusable="false"
+  set:html={inner}
+/>

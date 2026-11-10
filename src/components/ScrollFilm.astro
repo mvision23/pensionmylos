@@ -1,0 +1,106 @@
+---
+/**
+ * The scroll-scrubbed fly-through (scroll-world). The source film is
+ * videos/all.mp4, cut into one clip per scene at the marks in src/data/site.ts.
+ * Clips are consecutive cuts of one continuous take, so every seam frame is
+ * identical and no connector clips are needed (architecture A).
+ */
+import { film } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { getMessages, localePath } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getMessages(locale).film;
+const scenes = film.map((f, i) => ({ ...f, ...t.scenes[i] }));
+
+const N = scenes.length;
+// Scroll length of the film in viewport heights (+1 so the last scene completes),
+// the same formula the engine uses — rendered up front so nothing below the film
+// shows (or jumps) before the engine mounts.
+const trackVh = film.reduce((sum, s) => sum + s.scroll, 0) + 1;
+const pad = (n: number) => String(n).padStart(2, '0');
+
+const config = {
+  hint: t.hint,
+  routeLabel: t.routeLabel,
+  loadingLabel: t.loading,
+  crossfade: 0.06,
+  sections: scenes.map((s) => ({
+    id: s.id,
+    label: s.label,
+    still: `/scenes/${s.id}.webp`,
+    clip: `/video/${s.id}.mp4`,
+    clipMobile: `/video/${s.id}-m.mp4`,
+    // AV1 versions, used only where the browser decodes AV1 in hardware.
+    clipAv1: `/video/${s.id}.av1.mp4`,
+    clipMobileAv1: `/video/${s.id}-m.av1.mp4`,
+    scroll: s.scroll,
+    linger: s.linger,
+  })),
+  connectors: [],
+};
+---
+
+<!--
+  `sw-root` is rendered server-side so the copy sits in its final position
+  from the first paint (no jump when the engine mounts). The first poster is
+  rendered here too, so the hero image doesn't wait for JavaScript; the engine
+  removes it once its own first scene is up. No-JS fallback: <noscript> below.
+-->
+<section id="world" class="sw-world sw-root" aria-label={t.ariaLabel}>
+  <div class="sw-prestage" aria-hidden="true">
+    <img src={config.sections[0].still} alt="" fetchpriority="high" decoding="async" />
+  </div>
+  <noscript>
+    <style>
+      .sw-world .sw-prestage { position: relative; height: 60vh; }
+      .sw-world .sw-copylayer { position: static; padding: 3rem 1.25rem 4rem; display: grid; gap: 4rem; max-width: 40rem; margin-inline: auto; }
+      .sw-world .sw-copy { position: static; opacity: 1; transform: none; translate: none; width: auto; }
+      .sw-world .sw-track { display: none; }
+    </style>
+  </noscript>
+  <div class="sw-copylayer">
+    {
+      scenes.map((s, i) => (
+        <article class="sw-copy" id={`scene-${s.id}`}>
+          <span class="sw-copy__num">
+            <b>{pad(i + 1)}</b> / {pad(N)}
+          </span>
+          <p class="sw-copy__eyebrow">{s.eyebrow}</p>
+          {i === 0 ? <h1 class="sw-copy__title">{s.title}</h1> : <h2 class="sw-copy__title">{s.title}</h2>}
+          <p class="sw-copy__body">{s.body}</p>
+          {s.tags.length > 0 && (
+            <ul class="sw-copy__tags">
+              {s.tags.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+          )}
+          {'ctaPrimary' in s && s.ctaPrimary && (
+            <div class="sw-copy__cta">
+              <a class="btn-primary" href={localePath(locale, '/reservations/')}>
+                {s.ctaPrimary}
+              </a>
+              <a class="btn-ghost-light" href="#location">
+                {s.ctaSecondary}
+              </a>
+            </div>
+          )}
+        </article>
+      ))
+    }
+  </div>
+  <div class="sw-track" style={`height: ${trackVh * 100}vh`}></div>
+  <script type="application/json" id="sw-config" set:html={JSON.stringify(config)} />
+</section>
+
+<script>
+  import { mountScrollWorld } from '../scripts/scroll-world.js';
+
+  const container = document.getElementById('world');
+  const raw = document.getElementById('sw-config')?.textContent;
+  if (container && raw) mountScrollWorld(container, JSON.parse(raw));
+</script>

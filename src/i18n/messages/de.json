@@ -1,0 +1,368 @@
+{
+  "meta": {
+    "siteTitle": "Pension Mylos — Bed & Breakfast in Agios Nikolaos, Kreta",
+    "siteDescription": "Kleine familiengeführte Pension über der Mirabello-Bucht in Agios Nikolaos, Kreta. Panorama-Meerblick, kretische Gastfreundschaft, Strand eine Minute entfernt.",
+    "address": "24 Sarolidi Str., Agios Nikolaos, Kreta, Griechenland"
+  },
+  "nav": {
+    "pension": "Die Pension",
+    "location": "Lage",
+    "blog": "Blog",
+    "contact": "Kontakt",
+    "reservations": "Reservierung",
+    "bookNow": "Jetzt buchen",
+    "bookShort": "Buchen",
+    "menu": "Menü",
+    "homeLabel": "Pension Mylos, Startseite",
+    "mainLabel": "Hauptmenü",
+    "skip": "Zum Inhalt springen",
+    "language": "Sprache"
+  },
+  "film": {
+    "ariaLabel": "Ein Rundgang durch die Pension Mylos",
+    "hint": "Scrollen zum Entdecken",
+    "routeLabel": "Filmszenen",
+    "loading": "Video wird geladen",
+    "scenes": [
+      {
+        "label": "Agios Nikolaos",
+        "eyebrow": "Agios Nikolaos, Kreta",
+        "title": "Sie haben den schönsten Ort in Agios Nikolaos gefunden.",
+        "body": "Eine kleine, familiengeführte Pension im Küstenviertel Mylos mit Blick auf die Mirabello-Bucht.",
+        "tags": [
+          "#1 auf TripAdvisor",
+          "Familienbetrieb seit den 80ern"
+        ]
+      },
+      {
+        "label": "Die Pension",
+        "eyebrow": "Pension Mylos",
+        "title": "Ihr Zuhause in der Ferne.",
+        "body": "Ein Familienbetrieb, der seit den 80er-Jahren Reisende willkommen heißt. Echte kretische Gastfreundschaft, eine gemütliche Atmosphäre und persönliche, herzliche Betreuung.",
+        "tags": [
+          "Kretische Gastfreundschaft",
+          "Persönliche Betreuung"
+        ]
+      },
+      {
+        "label": "Zimmer",
+        "eyebrow": "Die Zimmer",
+        "title": "Gemütlich, sauber und ruhig.",
+        "body": "Zweibett-, Dreibett- und Einzelzimmer, alle mit Panoramablick, sauberer Ausstattung und den ganzen Tag über himmlischer Ruhe.",
+        "tags": [
+          "Zweibettzimmer",
+          "Dreibettzimmer",
+          "Einzelzimmer"
+        ]
+      },
+      {
+        "label": "Die Aussicht",
+        "eyebrow": "Mirabello-Bucht",
+        "title": "Sonnenaufgang auf Ihrem Balkon.",
+        "body": "Genießen Sie einen traumhaften Sonnenaufgang über der Bucht und schlafen Sie abends zum Rauschen der Wellen ein.",
+        "tags": [
+          "Panorama-Meerblick"
+        ]
+      },
+      {
+        "label": "Lage",
+        "eyebrow": "Unsere Traumlage",
+        "title": "Nah an allem, aber nie zu nah.",
+        "body": "Strand, Restaurants und Cafés sind nur wenige Schritte entfernt, und trotzdem bleibt der ganze Tag ruhig.",
+        "tags": [
+          "Strand Kitroplatia, 1 Min.",
+          "Hafen, 3 Min.",
+          "Voulismeni-See, 6 Min."
+        ]
+      },
+      {
+        "label": "Buchen",
+        "eyebrow": "Direkt bei der Familie buchen",
+        "title": "Um Ihr Wohlbefinden kümmern wir uns. Genießen Sie einfach.",
+        "body": "Wählen Sie Ihre Reisedaten und sehen Sie, welche Zimmer frei sind.",
+        "tags": [],
+        "ctaPrimary": "Verfügbarkeit prüfen",
+        "ctaSecondary": "Umgebung entdecken"
+      }
+    ]
+  },
+  "about": {
+    "hostAlt": "Ihre Gastgeber in der Pension Mylos",
+    "heading": "Willkommen in <em>Ihrem Zuhause</em> in der Ferne",
+    "text": "Wir sind ein kleiner Familienbetrieb, den es seit den 80er-Jahren gibt und der Reisenden aus aller Welt einen Zufluchtsort bietet, an dem sie sich wie zu Hause fühlen können. Erleben Sie echte kretische Gastfreundschaft und spüren Sie die Ruhe unserer gemütlichen Umgebung, der sauberen Ausstattung und der persönlichen, herzlichen Betreuung. Um Ihr Wohlbefinden und Ihre Erholung kümmern wir uns … Genießen Sie einfach!",
+    "roomsTitle": "Zimmer mit Aussicht",
+    "roomsCta": "Zimmer und Preise ansehen"
+  },
+  "rooms": [
+    {
+      "name": "Zweibettzimmer",
+      "detail": "Panorama-Meerblick"
+    },
+    {
+      "name": "Dreibettzimmer",
+      "detail": "Panorama-Meerblick"
+    },
+    {
+      "name": "Einzelzimmer",
+      "detail": "Panoramablick"
+    }
+  ],
+  "gallery": {
+    "seeAll": "Alle {n} Fotos ansehen",
+    "openPhoto": "Foto öffnen:",
+    "dialogLabel": "Fotogalerie",
+    "close": "Schließen",
+    "previous": "Vorheriges Foto",
+    "next": "Nächstes Foto",
+    "alts": {
+      "slider-5": "Balkontisch mit frischen Blumen und Blick auf die Mirabello-Bucht",
+      "slider-4": "Zweibettzimmer mit Holzmöbeln und einer Tür zum Balkon",
+      "slider-12": "Geöffnete Fensterläden rahmen das Meer und eine Insel ein",
+      "slider-3": "Flur mit Familienfotos und einem Durchgang mit Rundbogen",
+      "slider-1": "Die Dächer von Mylos und die Bucht, mit einer Insel am Horizont",
+      "slider-13": "Tee auf dem Balkon über dem Meer",
+      "slider-15": "Der Hafen von Agios Nikolaos, in der Abenddämmerung beleuchtet",
+      "slider-2": "Frische Blumen auf einem frisch bezogenen Bett",
+      "slider-6": "Blick über die Dächer auf die Bucht und die Berge",
+      "slider-9": "Holzfensterläden, die sich zum Meer hin öffnen",
+      "slider-11": "Sitzecke mit Sesseln und einem Holzspiegel",
+      "slider-7": "Die Bucht und die Berge von der Terrasse aus",
+      "slider-10": "Ein Gast auf dem Balkon über dem Meer",
+      "slider-14": "Die Uferpromenade von Agios Nikolaos im Abendlicht",
+      "slider-16": "Abendhimmel über der Stadt",
+      "slider-17": "Boote auf dem Voulismeni-See bei Nacht"
+    }
+  },
+  "location": {
+    "heading": "Unsere <em>Traumlage</em>",
+    "text": "Bei der Pension Mylos dreht sich alles um den Panoramablick auf die Mirabello-Bucht. Wir liegen an der perfekten Stelle: ganz nah an Strand, Restaurants und Cafés und doch nicht zu nah, sodass den ganzen Tag über völlige Ruhe herrscht. Agios Nikolaos hat sehr sauberes Meerwasser und viele schöne Strände und ist der ideale Ausgangspunkt für Tagesausflüge durch die gesamte Präfektur Lassithi.",
+    "mapTitle": "Pension Mylos auf Google Maps",
+    "openMaps": "In Google Maps öffnen",
+    "fromDoor": "Von unserer Haustür, 24 Sarolidi Str.",
+    "onFoot": "Zu Fuß",
+    "byCar": "Mit dem Auto",
+    "sights": [
+      {
+        "name": "Strand Kitroplatia",
+        "time": "1 Min.",
+        "distance": "100 m",
+        "text": "Ein sehr schöner, sauberer Strand, umgeben von Cafés und traditionellen Restaurants, sodass Sie alles in Reichweite haben."
+      },
+      {
+        "name": "Hafen",
+        "time": "3 Min.",
+        "distance": "200 m",
+        "text": "Der Haupthafen von Agios Nikolaos mit der Statue der Entführung der Europa und einem großen, kostenlosen Parkplatz."
+      },
+      {
+        "name": "Voulismeni-See",
+        "time": "6 Min.",
+        "distance": "450 m",
+        "text": "Ringsum traditionelle Restaurants und von oben ein atemberaubender Blick auf Stadt und Hafen. Der berühmte See, dessen Grund nicht einmal Jacques Cousteau finden konnte."
+      },
+      {
+        "name": "Stadtzentrum",
+        "time": "9 Min.",
+        "distance": "600 m",
+        "text": "Ein lebhaftes Zentrum mit Cafés, Geschäften aller Art und einer schönen orthodoxen Kirche."
+      },
+      {
+        "name": "Strand Ámmos",
+        "time": "10 Min.",
+        "distance": "650 m",
+        "text": "Ein kleiner Sandstrand mit ruhigem Wasser und vielen Lokalen in der Nähe für einen Snack und einen Drink."
+      },
+      {
+        "name": "Strand Ammoudi",
+        "time": "18 Min.",
+        "distance": "1,2 km",
+        "text": "Ein großer Sandstrand mit grünem Wasser, Strandbars für ein erfrischendes Getränk und Restaurants mit traditioneller Küche."
+      },
+      {
+        "name": "Strand Almirós",
+        "time": "26 Min.",
+        "distance": "2,1 km",
+        "text": "Klares Wasser und goldener Sand dort, wo der Fluss Almirós ins Meer mündet, mit einer netten kleinen Bar, Toiletten und sehr freundlichem Service."
+      },
+      {
+        "name": "Spinalonga & Elounda",
+        "time": "23 Min.",
+        "distance": "15 km",
+        "text": "Das Küstendorf Elounda und die Insel Spinalonga: venezianische Festung, verwinkelte Gassen und die Geschichte einer der letzten Leprakolonien Europas."
+      },
+      {
+        "name": "Insel Chrissi, Ierapetra",
+        "time": "42 Min.",
+        "distance": "36 km",
+        "text": "Ein Tagesausflug zu einer Insel, bei der Sie sich fragen werden, ob Sie auf Kreta oder in der Karibik sind."
+      },
+      {
+        "name": "Flughafen Heraklion",
+        "time": "50 Min.",
+        "distance": "62 km",
+        "text": "Der Flughafen Nikos Kazantzakis, der größte Kretas und das ganze Jahr über der meistfrequentierte."
+      },
+      {
+        "name": "Zeus-Höhle",
+        "time": "1 Std.",
+        "distance": "45 km",
+        "text": "Die großartige Zeus-Höhle, authentische kretische Dörfer und die unberührte Natur Ostkretas."
+      },
+      {
+        "name": "Palast von Knossos",
+        "time": "1 Std.",
+        "distance": "65 km",
+        "text": "Die weltberühmte archäologische Stätte und das Museum von Heraklion: 3.500 Jahre Kulturgeschichte."
+      }
+    ]
+  },
+  "book": {
+    "heading": "Buchen Sie Ihren <em>Aufenthalt</em>",
+    "text": "Wählen Sie Ihre Reisedaten und sehen Sie, welche Zimmer frei sind. Sie buchen direkt bei der Familie, über unsere sichere Buchungsseite.",
+    "phonePrompt": "Möchten Sie lieber erst sprechen? Rufen Sie uns an:",
+    "checkin": "Anreise",
+    "checkout": "Abreise",
+    "guests": "Gäste",
+    "guestOptions": [
+      "1 Erwachsener",
+      "2 Erwachsene",
+      "3 Erwachsene",
+      "4 Erwachsene",
+      "5 Erwachsene",
+      "6 Erwachsene"
+    ],
+    "submit": "Verfügbarkeit prüfen"
+  },
+  "blog": {
+    "homeHeading": "Aus dem <em>Blog</em>",
+    "allPosts": "Alle Beiträge",
+    "indexTitle": "Blog",
+    "indexHeading": "Geschichten aus <em>Agios Nikolaos</em>",
+    "indexIntro": "Strände, Tagesausflüge und Tipps für Ihren Aufenthalt, von der Familie der Pension Mylos.",
+    "indexDescription": "Strände, Tagesausflüge und Tipps für Ihren Aufenthalt in Agios Nikolaos, von der Familie der Pension Mylos.",
+    "empty": "In dieser Sprache gibt es noch keine Beiträge.",
+    "back": "Blog",
+    "updated": "Aktualisiert",
+    "ctaTitle": "Übernachten Sie bei uns in Agios Nikolaos",
+    "ctaText": "Zimmer mit Panoramablick auf die Mirabello-Bucht.",
+    "cta": "Verfügbarkeit prüfen",
+    "moreHeading": "Mehr aus dem <em>Blog</em>",
+    "rssTitle": "Blog der Pension Mylos",
+    "rssDescription": "Strände, Tagesausflüge und Tipps für Ihren Aufenthalt in Agios Nikolaos, Kreta."
+  },
+  "newsletter": {
+    "heading": "Abonnieren Sie unseren <em>Newsletter</em>",
+    "text": "Erhalten Sie exklusive Angebote und wichtige Reiseneuigkeiten.",
+    "emailLabel": "E-Mail-Adresse",
+    "placeholder": "Ihre E-Mail-Adresse",
+    "submit": "Abonnieren"
+  },
+  "contact": {
+    "heading": "Lassen Sie uns reden, <em>kontaktieren Sie uns</em>",
+    "text": "Fragen zu den Zimmern, zur Anreise oder dazu, was es rund um Agios Nikolaos zu erleben gibt? Schreiben Sie uns, rufen Sie an oder schauen Sie einfach vorbei.",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "address": "Adresse",
+    "formTitle": "Möchten Sie mit uns sprechen?",
+    "name": "Vor- und Nachname",
+    "emailField": "E-Mail-Adresse",
+    "message": "Nachricht",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet…",
+    "error": "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es gleich noch einmal oder schreiben Sie uns an {email}."
+  },
+  "footer": {
+    "tagline": "Eine kleine familiengeführte Pension über der Mirabello-Bucht in Agios Nikolaos, Kreta.",
+    "contactHeading": "<em>Kontaktdaten</em>",
+    "explore": "Entdecken",
+    "social": "Social Media",
+    "rights": "© {year} Pension Mylos, Agios Nikolaos. Alle Rechte vorbehalten.",
+    "cookieSettings": "Cookie-Einstellungen"
+  },
+  "cookies": {
+    "region": "Cookie-Hinweis",
+    "text": "Wir verwenden Cookies, damit diese Website funktioniert, und – nur mit Ihrer Erlaubnis – um Besuche zu messen.",
+    "acceptAll": "Alle akzeptieren",
+    "onlyNecessary": "Nur notwendige",
+    "configure": "Anpassen",
+    "title": "Cookie-Einstellungen",
+    "intro": "Wählen Sie, welche Cookies wir verwenden dürfen. Sie können dies jederzeit über „Cookie-Einstellungen“ am Ende der Seite ändern.",
+    "necessary": "Notwendig",
+    "necessaryText": "Erforderlich, damit die Website funktioniert, zum Beispiel um diese Auswahl zu speichern. Immer aktiv.",
+    "necessaryOn": "Notwendige Cookies sind immer aktiv",
+    "analytics": "Analyse",
+    "analyticsText": "Anonyme Besuchsstatistiken mit Google Analytics.",
+    "save": "Auswahl speichern",
+    "close": "Schließen"
+  },
+  "reservations": {
+    "title": "Reservierung",
+    "description": "Prüfen Sie die Verfügbarkeit und buchen Sie Ihr Zimmer in der Pension Mylos, Agios Nikolaos, direkt bei der Familie.",
+    "heading": "Buchen Sie Ihren <em>Aufenthalt</em>",
+    "intro": "Wählen Sie unten Ihre Reisedaten und Ihr Zimmer. Sie buchen direkt bei der Familie, über unsere sichere Buchungsseite von Beds24.",
+    "loading": "Verfügbarkeit wird geladen …",
+    "iframeTitle": "Online-Buchung der Pension Mylos (Beds24)",
+    "bookNow": "Jetzt buchen",
+    "fallbackText": "Das Buchungsformular wird nicht angezeigt?",
+    "fallbackLink": "In neuem Tab öffnen",
+    "roomsTitle": "Unsere Zimmer",
+    "questionsTitle": "Fragen vor der Buchung?",
+    "questionsText": "Wir helfen Ihnen gern bei Reisedaten, Zimmern und der Anreise.",
+    "address": "Adresse",
+    "nearby": "In der Nähe",
+    "searchTitle": "Ihr Zimmer finden",
+    "chooseDates": "Wählen Sie Ihre Daten, um zu sehen, welche Zimmer frei sind und was sie kosten.",
+    "search": "Verfügbarkeit prüfen",
+    "searching": "Verfügbarkeit wird geprüft…",
+    "resultsTitle": "Verfügbar für Ihre Daten",
+    "total": "Gesamtpreis für Ihren Aufenthalt",
+    "taxes": "Inklusive MwSt. ({vat}), Gemeindesteuer ({municipal}) und Klimaabgabe ({climate} pro Zimmer und Nacht). Die genaue Aufstellung sehen Sie im nächsten Schritt.",
+    "lastOne": "Nur noch eins frei",
+    "none": "Für diese Daten und Personenzahl ist kein Zimmer frei. Versuchen Sie andere Daten oder schreiben Sie uns – wir helfen Ihnen gern.",
+    "error": "Die Verfügbarkeit konnte gerade nicht abgefragt werden. Bitte versuchen Sie es in ein paar Minuten erneut oder kontaktieren Sie uns.",
+    "invalidDates": "Das Abreisedatum muss nach dem Anreisedatum liegen.",
+    "secure": "Ihre Daten geben Sie ein und bezahlen auf unserer sicheren Buchungsseite.",
+    "firstArrival": "Frühestmögliche Anreise: {date}",
+    "chooseRooms": "Wählen Sie, wie viele Zimmer Sie von jeder Art möchten.",
+    "maxGuests": "Max. {guests}",
+    "continue": "Weiter zur Buchung",
+    "notTogether": "Diese Zimmer können nicht zusammen gebucht werden. Bitte buchen Sie sie separat.",
+    "selectOne": "Wählen Sie mindestens ein Zimmer.",
+    "detailsTitle": "Ihre Daten und Zahlung",
+    "detailsIntro": "Geben Sie Ihre Daten ein, bestätigen und bezahlen Sie. Dieser Schritt läuft über unser sicheres Buchungssystem (Beds24).",
+    "changeRooms": "Zimmer ändern",
+    "frameTitle": "Buchung Pension Mylos: Gastdaten und Zahlung (Beds24)",
+    "openFull": "Probleme mit dem Formular? Auf ganzer Seite öffnen",
+    "colRoom": "Zimmertyp",
+    "colSleeps": "Belegung",
+    "colPrice": "Preis für den Aufenthalt",
+    "taxesIncluded": "Inkl. Steuern",
+    "colSelect": "Zimmer wählen",
+    "capacityNote": "Die gewählten Zimmer bieten Platz für höchstens {capacity}; Sie haben nach {adults} gesucht."
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "heading": "Diese Seite <em>existiert nicht</em>",
+    "text": "Der Link ist möglicherweise veraltet oder falsch geschrieben. Von hier aus finden Sie wieder zurück:",
+    "home": "Zur Startseite",
+    "reservations": "Reservierung"
+  },
+  "thanks": {
+    "title": "Nachricht gesendet",
+    "description": "Vielen Dank für Ihre Nachricht an die Pension Mylos.",
+    "heading": "Vielen Dank, <em>Nachricht gesendet</em>",
+    "text": "Wir haben Ihre Nachricht erhalten und antworten Ihnen so bald wie möglich per E-Mail.",
+    "urgent": "Wenn es dringend ist, rufen Sie uns an:",
+    "home": "Zurück zur Startseite",
+    "blog": "Zum Blog"
+  },
+  "bookingDone": {
+    "title": "Buchung bestätigt",
+    "description": "Ihre Buchung in der Pension Mylos ist bestätigt.",
+    "heading": "Vielen Dank, <em>bis bald auf Kreta</em>",
+    "text": "Ihre Buchung ist abgeschlossen. Sie erhalten eine Bestätigungs-E-Mail mit allen Details.",
+    "contact": "Fragen zu Ihrem Aufenthalt? Schreiben Sie uns an {email} oder rufen Sie an:",
+    "home": "Zurück zur Startseite",
+    "blog": "Ideen für Ihren Aufenthalt"
+  }
+}

@@ -1,0 +1,195 @@
+---
+/**
+ * Cookie notice (preview). Two categories: necessary (always on) and
+ * analytics (off by default). The choice is stored in localStorage under
+ * `mylos-cookie-consent` and exposed as `window.mylosConsent`, with a
+ * `mylos:consent` event on change.
+ *
+ * NOTE: for now this is visual only — Analytics.astro loads regardless of the
+ * choice. Gate it on `mylosConsent.analytics` before going live.
+ */
+import type { Locale } from '../i18n/config';
+import { getMessages } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+const t = getMessages(Astro.props.locale).cookies;
+---
+
+<div
+  id="cookie-banner"
+  role="region"
+  aria-label={t.region}
+  hidden
+  class="fixed inset-x-3 bottom-3 z-[100] sm:right-auto sm:bottom-5 sm:left-5 sm:max-w-[25rem]"
+>
+  <div class="bg-sea-900/95 px-4 py-3.5 text-[0.8125rem] leading-snug text-white/85 shadow-[0_8px_30px_rgb(0_0_0/0.3)] backdrop-blur">
+    <p>
+      {t.text}
+    </p>
+    <div class="mt-3 flex flex-wrap items-center gap-2">
+      <button type="button" data-cookie-accept class="bg-mylos-600 px-3 py-1.5 text-xs font-semibold tracking-wide text-white uppercase hover:bg-mylos-700">
+        {t.acceptAll}
+      </button>
+      <button type="button" data-cookie-reject class="border border-white/40 px-3 py-1.5 text-xs font-semibold tracking-wide text-white uppercase hover:border-white">
+        {t.onlyNecessary}
+      </button>
+      <button type="button" data-cookie-settings class="ml-auto px-1 py-1.5 text-xs text-white underline underline-offset-4 hover:text-mylos-400">
+        {t.configure}
+      </button>
+    </div>
+  </div>
+</div>
+
+<dialog id="cookie-settings" aria-labelledby="cookie-settings-title" class="cookie-dialog">
+  <form method="dialog" class="p-6 sm:p-8">
+    <h2 id="cookie-settings-title" class="text-2xl font-normal">{t.title}</h2>
+    <p class="mt-2 text-ink-soft">
+      {t.intro}
+    </p>
+
+    <ul class="mt-6 divide-y divide-stone-100 border-y border-stone-100">
+      <li class="flex items-start justify-between gap-6 py-4">
+        <div>
+          <p class="font-medium text-ink" id="ck-necessary-label">{t.necessary}</p>
+          <p class="mt-0.5 text-sm text-ink-soft">{t.necessaryText}</p>
+        </div>
+        <span class="switch" aria-hidden="true" data-on data-locked><span></span></span>
+        <span class="sr-only">{t.necessaryOn}</span>
+      </li>
+      <li class="flex items-start justify-between gap-6 py-4">
+        <div>
+          <label for="ck-analytics" class="font-medium text-ink">{t.analytics}</label>
+          <p class="mt-0.5 text-sm text-ink-soft">{t.analyticsText}</p>
+        </div>
+        <input id="ck-analytics" type="checkbox" role="switch" class="switch-input" />
+      </li>
+    </ul>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button type="submit" value="save" class="btn-primary px-5 py-2.5 text-sm">{t.save}</button>
+      <button type="submit" value="all" class="btn-outline px-5 py-2.5 text-sm">{t.acceptAll}</button>
+    </div>
+  </form>
+  <button type="button" data-cookie-close class="absolute top-3 right-3 grid size-10 place-items-center text-ink-soft hover:text-ink">
+    <span class="sr-only">{t.close}</span>
+    <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M6 6l12 12M18 6L6 18" /></svg>
+  </button>
+</dialog>
+
+<style>
+  .cookie-dialog {
+    width: min(100vw - 2rem, 32rem);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    color: var(--color-ink);
+    background: #fff;
+    box-shadow: 0 20px 60px rgb(0 0 0 / 0.3);
+  }
+  .cookie-dialog::backdrop {
+    background: rgb(29 38 40 / 0.55);
+  }
+
+  /* Toggle switch (native checkbox underneath). */
+  .switch-input,
+  .switch {
+    appearance: none;
+    flex: none;
+    position: relative;
+    width: 2.75rem;
+    height: 1.5rem;
+    margin-top: 0.15rem;
+    border-radius: 999px;
+    background: var(--color-stone);
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .switch-input::after,
+  .switch > span {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+    transition: translate 0.2s;
+  }
+  .switch-input:checked,
+  .switch[data-on] {
+    background: var(--color-sea-700);
+  }
+  .switch-input:checked::after,
+  .switch[data-on] > span {
+    translate: 1.25rem 0;
+  }
+  .switch[data-locked] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .switch-input:focus-visible {
+    outline: 2px solid var(--color-mylos-500);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .switch-input,
+    .switch-input::after,
+    .switch > span { transition: none; }
+  }
+</style>
+
+<script>
+  type Consent = { necessary: true; analytics: boolean; date: string };
+  const KEY = 'mylos-cookie-consent';
+
+  const banner = document.getElementById('cookie-banner')!;
+  const dialog = document.getElementById('cookie-settings') as HTMLDialogElement;
+  const analytics = document.getElementById('ck-analytics') as HTMLInputElement;
+
+  const read = (): Consent | null => {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? (JSON.parse(raw) as Consent) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const save = (allowAnalytics: boolean) => {
+    const consent: Consent = { necessary: true, analytics: allowAnalytics, date: new Date().toISOString() };
+    try {
+      localStorage.setItem(KEY, JSON.stringify(consent));
+    } catch {
+      /* storage blocked: the choice lasts for this page view only */
+    }
+    (window as any).mylosConsent = consent;
+    window.dispatchEvent(new CustomEvent('mylos:consent', { detail: consent }));
+    banner.hidden = true;
+  };
+
+  const current = read();
+  (window as any).mylosConsent = current;
+  if (!current) banner.hidden = false;
+
+  banner.querySelector('[data-cookie-accept]')!.addEventListener('click', () => save(true));
+  banner.querySelector('[data-cookie-reject]')!.addEventListener('click', () => save(false));
+
+  // Any element with [data-cookie-settings] (banner button, footer link) opens the panel.
+  document.addEventListener('click', (e) => {
+    if (!(e.target as HTMLElement).closest('[data-cookie-settings]')) return;
+    e.preventDefault();
+    analytics.checked = read()?.analytics ?? false; // analytics off by default
+    dialog.showModal();
+  });
+
+  dialog.querySelector('[data-cookie-close]')!.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('close', () => {
+    if (dialog.returnValue === 'save') save(analytics.checked);
+    if (dialog.returnValue === 'all') save(true);
+    dialog.returnValue = '';
+  });
+</script>

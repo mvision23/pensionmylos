@@ -1,0 +1,80 @@
+---
+/**
+ * Date search that hands off to the embedded Beds24 booking page on /reservations/.
+ * Beds24 reads checkin / checkout (YYYY-MM-DD) and numadult from the URL; the
+ * reservations page forwards them into the iframe.
+ */
+import type { Locale } from '../i18n/config';
+import { getMessages, localePath } from '../i18n/utils';
+import { getBeds24Opening } from '../lib/beds24';
+
+interface Props {
+  tone?: 'light' | 'dark';
+  locale: Locale;
+}
+const { tone = 'dark', locale } = Astro.props;
+const t = getMessages(locale).book;
+const opening = await getBeds24Opening();
+const labelClass = tone === 'dark' ? 'text-white' : 'text-ink';
+---
+
+<form action={localePath(locale, '/reservations/')} method="get" data-opening={opening ? JSON.stringify(opening) : undefined} class="booking-search grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_0.8fr_auto] lg:items-end" data-booking-search>
+  <div>
+    <label for="bs-checkin" class:list={['field-label', labelClass]}>{t.checkin}</label>
+    <input id="bs-checkin" name="checkin" type="date" required class="field" />
+  </div>
+  <div>
+    <label for="bs-checkout" class:list={['field-label', labelClass]}>{t.checkout}</label>
+    <input id="bs-checkout" name="checkout" type="date" required class="field" />
+  </div>
+  <div>
+    <label for="bs-adults" class:list={['field-label', labelClass]}>{t.guests}</label>
+    <select id="bs-adults" name="numadult" class="field select-chevron appearance-none pr-10">
+      {t.guestOptions.map((label, i) => <option value={i + 1} selected={i === 1}>{label}</option>)}
+    </select>
+  </div>
+  <button type="submit" class="btn-primary h-[3.125rem] sm:col-span-2 lg:col-span-1">{t.submit}</button>
+</form>
+
+<style>
+  .select-chevron {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232e2e2e' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-size: 1.1rem;
+    background-position: right 0.9rem center;
+    background-repeat: no-repeat;
+  }
+</style>
+
+<script>
+  const iso = (d: Date) => {
+    const z = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+    return z.toISOString().slice(0, 10);
+  };
+  const addDays = (s: string, n: number) => {
+    const d = new Date(`${s}T12:00:00`);
+    d.setDate(d.getDate() + n);
+    return iso(d);
+  };
+
+  document.querySelectorAll<HTMLFormElement>('[data-booking-search]').forEach((form) => {
+    const checkin = form.querySelector<HTMLInputElement>('[name=checkin]')!;
+    const checkout = form.querySelector<HTMLInputElement>('[name=checkout]')!;
+    // Start at the first arrival Beds24 accepts (next season), pre-filled like Beds24 does.
+    const today = iso(new Date());
+    const o = form.dataset.opening ? JSON.parse(form.dataset.opening) as { arrival: string; departure: string } : null;
+    const opening = o && o.arrival > today ? o : null;
+    const earliest = opening ? opening.arrival : today;
+    checkin.min = earliest;
+    checkout.min = addDays(earliest, 1);
+    if (opening) {
+      checkin.value = opening.arrival;
+      checkout.value = opening.departure;
+    }
+
+    checkin.addEventListener('change', () => {
+      if (!checkin.value) return;
+      checkout.min = addDays(checkin.value, 1);
+      if (!checkout.value || checkout.value <= checkin.value) checkout.value = addDays(checkin.value, 3);
+    });
+  });
+</script>

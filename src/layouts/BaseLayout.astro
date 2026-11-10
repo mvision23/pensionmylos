@@ -1,0 +1,112 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import Analytics from '../components/Analytics.astro';
+import { site } from '../data/site';
+import { defaultLocale, localeInfo, locales, type Locale } from '../i18n/config';
+import { getMessages, localePath, splitLocale } from '../i18n/utils';
+
+interface Props {
+  locale?: Locale;
+  title?: string;
+  description?: string;
+  /** Absolute or root-relative URL for social previews. */
+  image?: string;
+  /** `overlay` = transparent header over the film (home); `solid` elsewhere. */
+  header?: 'overlay' | 'solid';
+  article?: { published: Date; modified?: Date };
+  /**
+   * URL of this page in each language (for hreflang + the language selector).
+   * Defaults to the same path under every language prefix.
+   */
+  alternates?: Partial<Record<Locale, string>>;
+  /** Keep this page out of search engines (e.g. the thank-you page). */
+  noindex?: boolean;
+}
+
+const { locale = splitLocale(Astro.url.pathname).locale, title, image = '/scenes/view.webp', header = 'solid', article, noindex = false } = Astro.props;
+const t = getMessages(locale);
+const description = Astro.props.description ?? t.meta.siteDescription;
+const { path } = splitLocale(Astro.url.pathname);
+const alternates: Partial<Record<Locale, string>> =
+  Astro.props.alternates ?? Object.fromEntries(locales.map((l) => [l, localePath(l, path)]));
+
+const fullTitle = title ? `${title} | ${site.name}` : t.meta.siteTitle;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const info = localeInfo[locale];
+
+const lodging = {
+  '@context': 'https://schema.org',
+  '@type': 'BedAndBreakfast',
+  name: site.name,
+  description: t.meta.siteDescription,
+  url: new URL(localePath(locale, '/'), Astro.site).href,
+  logo: new URL('/logo.svg', Astro.site).href,
+  telephone: site.phone,
+  email: site.email,
+  image: new URL('/scenes/view.webp', Astro.site).href,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '24 Sarolidi Str.',
+    addressLocality: 'Agios Nikolaos',
+    addressRegion: 'Crete',
+    addressCountry: 'GR',
+  },
+  sameAs: [site.social.facebook, site.social.instagram],
+};
+---
+
+<!doctype html>
+<html lang={info.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="preload" href="/fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+    {
+      Object.entries(alternates).map(([l, href]) => (
+        <link rel="alternate" hreflang={localeInfo[l as Locale].htmlLang} href={new URL(href!, Astro.site)} />
+      ))
+    }
+    {alternates[defaultLocale] && <link rel="alternate" hreflang="x-default" href={new URL(alternates[defaultLocale]!, Astro.site)} />}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={t.blog.rssTitle} href={new URL(localePath(locale, '/rss.xml'), Astro.site)} />
+    <meta name="theme-color" content="#1d2628" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={info.ogLocale} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    {article && <meta property="article:published_time" content={article.published.toISOString()} />}
+    {article?.modified && <meta property="article:modified_time" content={article.modified.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(lodging)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="sr-only z-[100] bg-white px-4 py-2 focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
+      {t.nav.skip}
+    </a>
+    <Header variant={header} locale={locale} alternates={alternates} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <CookieBanner locale={locale} />
+    <Analytics />
+  </body>
+</html>

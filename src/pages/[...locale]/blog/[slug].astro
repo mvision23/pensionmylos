@@ -1,0 +1,127 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { defaultLocale, locales, type Locale } from '../../../i18n/config';
+import { getMessages, localePath } from '../../../i18n/utils';
+import { getPosts, postSlug } from '../../../i18n/blog';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { locale: post.data.lang === defaultLocale ? undefined : post.data.lang, slug: postSlug(post) },
+    props: { post, all: posts },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  all: CollectionEntry<'blog'>[];
+}
+const { post, all } = Astro.props;
+const { Content } = await render(post);
+const locale = post.data.lang as Locale;
+const slug = postSlug(post);
+const t = getMessages(locale).blog;
+
+// Language selector / hreflang: this article where it's translated, the blog index elsewhere.
+const translated = new Set(all.filter((p) => postSlug(p) === slug).map((p) => p.data.lang));
+const alternates = Object.fromEntries(
+  locales.map((l) => [l, translated.has(l) ? localePath(l, `/blog/${slug}/`) : localePath(l, '/blog/')]),
+) as Record<Locale, string>;
+
+const more = (await getPosts(locale)).filter((p) => p.id !== post.id).slice(0, 2);
+---
+
+<BaseLayout
+  locale={locale}
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.heroImage?.src}
+  alternates={alternates}
+  article={{ published: post.data.pubDate, modified: post.data.updatedDate }}
+>
+  <article>
+    <header class="mx-auto max-w-3xl px-5 pt-32 sm:px-8 md:pt-40">
+      <a href={localePath(locale, '/blog/')} class="text-mylos-700 underline-offset-4 hover:underline">{t.back}</a>
+      <h1 class="mylos-heading mt-4">{post.data.title}</h1>
+      <p class="mt-6 text-ink-soft">
+        <FormattedDate date={post.data.pubDate} lang={locale} />
+        {post.data.updatedDate && <span> · {t.updated} <FormattedDate date={post.data.updatedDate} lang={locale} /></span>}
+      </p>
+    </header>
+
+    {
+      post.data.heroImage && (
+        <div class="mx-auto mt-10 max-w-5xl px-0 sm:px-8">
+          <Image
+            src={post.data.heroImage}
+            alt={post.data.heroAlt ?? ''}
+            widths={[640, 960, 1280, 1600]}
+            sizes="(min-width: 1024px) 64rem, 100vw"
+            loading="eager"
+            class="aspect-[16/9] w-full object-cover"
+          />
+        </div>
+      )
+    }
+
+    <div class="prose prose-lg mx-auto max-w-3xl px-5 pt-12 pb-16 sm:px-8 prose-mylos">
+      <Content />
+    </div>
+  </article>
+
+  <aside class="mx-auto max-w-3xl px-5 pb-20 sm:px-8">
+    <div class="flex flex-col gap-6 bg-sea-900 p-8 text-white sm:flex-row sm:items-center sm:justify-between sm:p-10">
+      <div>
+        <p class="text-2xl">{t.ctaTitle}</p>
+        <p class="mt-2 text-white/80">{t.ctaText}</p>
+      </div>
+      <a href={localePath(locale, '/reservations/')} class="btn-primary shrink-0">{t.cta}</a>
+    </div>
+  </aside>
+
+  {
+    more.length > 0 && (
+      <section class="bg-mist">
+        <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+          <h2 class="mylos-heading" set:html={t.moreHeading} />
+          <div class="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:max-w-4xl">
+            {more.map((p) => <PostCard post={p} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style is:global>
+  .prose-mylos {
+    --tw-prose-body: var(--color-ink);
+    --tw-prose-headings: var(--color-ink);
+    --tw-prose-links: var(--color-mylos-700);
+    --tw-prose-bold: var(--color-ink);
+    --tw-prose-hr: var(--color-stone);
+    --tw-prose-bullets: var(--color-mylos-500);
+    --tw-prose-counters: var(--color-mylos-700);
+    --tw-prose-quotes: var(--color-ink);
+    --tw-prose-quote-borders: var(--color-mylos-500);
+  }
+  .prose-mylos :where(h2, h3) {
+    font-weight: 500;
+  }
+  .prose-mylos :where(a):hover {
+    text-decoration: none;
+  }
+  /* In-article photos: full column width, 3:2, a little breathing room. */
+  .prose-mylos :where(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    margin-block: 2.25em;
+  }
+</style>

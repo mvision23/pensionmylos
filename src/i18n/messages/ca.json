@@ -1,0 +1,368 @@
+{
+  "meta": {
+    "siteTitle": "Pension Mylos — Allotjament i esmorzar a Agios Nikolaos, Creta",
+    "siteDescription": "Petita pensió familiar sobre el golf de Mirabello, a Agios Nikolaos, Creta. Vistes panoràmiques al mar, autèntica hospitalitat cretenca i la platja a un minut.",
+    "address": "24 Sarolidi Str., Agios Nikolaos, Creta, Grècia"
+  },
+  "nav": {
+    "pension": "La pensió",
+    "location": "Ubicació",
+    "blog": "Blog",
+    "contact": "Contacte",
+    "reservations": "Reserves",
+    "bookNow": "Reserva ara",
+    "bookShort": "Reserva",
+    "menu": "Menú",
+    "homeLabel": "Pension Mylos, inici",
+    "mainLabel": "Principal",
+    "skip": "Salta al contingut",
+    "language": "Idioma"
+  },
+  "film": {
+    "ariaLabel": "Un passeig per Pension Mylos",
+    "hint": "Desplaça't per explorar",
+    "routeLabel": "Escenes del vídeo",
+    "loading": "Carregant el vídeo",
+    "scenes": [
+      {
+        "label": "Agios Nikolaos",
+        "eyebrow": "Agios Nikolaos, Creta",
+        "title": "Has trobat el millor lloc d'Agios Nikolaos.",
+        "body": "Una petita pensió familiar a la zona marinera de Mylos, amb vistes al golf de Mirabello.",
+        "tags": [
+          "#1 a TripAdvisor",
+          "Negoci familiar des dels anys 80"
+        ]
+      },
+      {
+        "label": "La pensió",
+        "eyebrow": "Pension Mylos",
+        "title": "La teva casa lluny de casa.",
+        "body": "Un negoci familiar que acull viatgers des dels anys 80. Autèntica hospitalitat cretenca, un ambient acollidor i una atenció personal i propera.",
+        "tags": [
+          "Hospitalitat cretenca",
+          "Atenció personal"
+        ]
+      },
+      {
+        "label": "Habitacions",
+        "eyebrow": "Les habitacions",
+        "title": "Acollidores, netes i tranquil·les.",
+        "body": "Habitacions dobles, triples i individuals, totes amb vista panoràmica, instal·lacions netes i una tranquil·litat total durant tot el dia.",
+        "tags": [
+          "Doble",
+          "Triple",
+          "Individual"
+        ]
+      },
+      {
+        "label": "La vista",
+        "eyebrow": "Golf de Mirabello",
+        "title": "La sortida del sol des del teu balcó.",
+        "body": "Gaudeix d'una sortida de sol espectacular sobre el golf i adorm-te a la nit amb el so de les onades.",
+        "tags": [
+          "Vistes panoràmiques al mar"
+        ]
+      },
+      {
+        "label": "Ubicació",
+        "eyebrow": "La nostra ubicació de somni",
+        "title": "A prop de tot, però mai massa.",
+        "body": "La platja, els restaurants i els cafès són a pocs minuts a peu, i el dia sencer transcorre en calma.",
+        "tags": [
+          "Platja de Kitroplatia, 1 min",
+          "Port, 3 min",
+          "Llac Voulismeni, 6 min"
+        ]
+      },
+      {
+        "label": "Reserva",
+        "eyebrow": "Reserva directament amb la família",
+        "title": "La teva comoditat és cosa nostra. Tu només gaudeix.",
+        "body": "Tria les dates i mira quines habitacions són lliures.",
+        "tags": [],
+        "ctaPrimary": "Consulta la disponibilitat",
+        "ctaSecondary": "Explora la zona"
+      }
+    ]
+  },
+  "about": {
+    "hostAlt": "Qui t'acull a Pension Mylos",
+    "heading": "Et donem la benvinguda a <em>casa teva</em>, lluny de casa",
+    "text": "Som un petit negoci familiar que funciona des dels anys 80 i ofereix als viatgers d'arreu del món un refugi on sentir-se com a casa. Viu l'autèntica hospitalitat cretenca i gaudeix de la tranquil·litat del nostre ambient acollidor, unes instal·lacions netes i una atenció personal i propera. La teva comoditat i el teu descans són cosa nostra… Tu només gaudeix!",
+    "roomsTitle": "Habitacions amb vistes",
+    "roomsCta": "Veure habitacions i preus"
+  },
+  "rooms": [
+    {
+      "name": "Habitació doble",
+      "detail": "Vista panoràmica al mar"
+    },
+    {
+      "name": "Habitació triple",
+      "detail": "Vista panoràmica al mar"
+    },
+    {
+      "name": "Habitació individual",
+      "detail": "Vista panoràmica"
+    }
+  ],
+  "gallery": {
+    "seeAll": "Veure les {n} fotos",
+    "openPhoto": "Obre la foto:",
+    "dialogLabel": "Galeria de fotos",
+    "close": "Tanca",
+    "previous": "Foto anterior",
+    "next": "Foto següent",
+    "alts": {
+      "slider-5": "Taula al balcó amb flors fresques, amb vistes al golf de Mirabello",
+      "slider-4": "Habitació doble amb mobles de fusta i porta al balcó",
+      "slider-12": "Porticons oberts que emmarquen el mar i una illa",
+      "slider-3": "Passadís amb fotos de família i una porta en arc",
+      "slider-1": "Teulades de Mylos i el golf, amb una illa a l'horitzó",
+      "slider-13": "Te al balcó sobre el mar",
+      "slider-15": "El port d'Agios Nikolaos il·luminat al capvespre",
+      "slider-2": "Flors fresques sobre un llit acabat de fer",
+      "slider-6": "Vista sobre les teulades cap al golf i les muntanyes",
+      "slider-9": "Porticons de fusta que s'obren al mar",
+      "slider-11": "Racó per seure amb butaques i un mirall de fusta",
+      "slider-7": "El golf i les muntanyes des de la terrassa",
+      "slider-10": "Un hoste al balcó sobre el mar",
+      "slider-14": "El passeig marítim d'Agios Nikolaos amb la llum del vespre",
+      "slider-16": "Cel del vespre sobre la ciutat",
+      "slider-17": "Barques al llac Voulismeni de nit"
+    }
+  },
+  "location": {
+    "heading": "La nostra <em>ubicació</em> de somni",
+    "text": "Pension Mylos és sinònim de vistes panoràmiques del golf de Mirabello. Som al lloc perfecte: molt a prop de la platja, els restaurants i els cafès i, alhora, no massa a prop, de manera que hi ha una tranquil·litat total durant tot el dia. Agios Nikolaos té una aigua de mar molt neta, moltes platges precioses i és la base ideal per fer excursions d'un dia per tota la prefectura de Lassithi.",
+    "mapTitle": "Pension Mylos a Google Maps",
+    "openMaps": "Obre a Google Maps",
+    "fromDoor": "Des de la nostra porta, 24 Sarolidi Str.",
+    "onFoot": "A peu",
+    "byCar": "En cotxe",
+    "sights": [
+      {
+        "name": "Platja de Kitroplatia",
+        "time": "1 min",
+        "distance": "100 m",
+        "text": "Una platja molt agradable i neta, envoltada de cafès i restaurants tradicionals, perquè ho tinguis tot a mà."
+      },
+      {
+        "name": "Port",
+        "time": "3 min",
+        "distance": "200 m",
+        "text": "El port principal d'Agios Nikolaos, amb l'estàtua del rapte d'Europa i un ampli aparcament gratuït."
+      },
+      {
+        "name": "Llac Voulismeni",
+        "time": "6 min",
+        "distance": "450 m",
+        "text": "Restaurants tradicionals per tot arreu i una vista impressionant de la ciutat i el port des de la part alta. El famós llac, el fons del qual ni Jacques Cousteau va aconseguir trobar."
+      },
+      {
+        "name": "Centre de la ciutat",
+        "time": "9 min",
+        "distance": "600 m",
+        "text": "Un centre animat amb cafès, botigues de tota mena i una bonica església ortodoxa."
+      },
+      {
+        "name": "Platja d'Ámmos",
+        "time": "10 min",
+        "distance": "650 m",
+        "text": "Una petita platja de sorra amb aigües tranquil·les i molts llocs als voltants per picar alguna cosa i prendre una copa."
+      },
+      {
+        "name": "Platja d'Ammoudi",
+        "time": "18 min",
+        "distance": "1,2 km",
+        "text": "Una platja gran de sorra i aigües verdes, amb xiringuitos per prendre alguna cosa fresca i restaurants de cuina tradicional."
+      },
+      {
+        "name": "Platja d'Almirós",
+        "time": "26 min",
+        "distance": "2,1 km",
+        "text": "Aigües cristal·lines i sorra daurada on el riu Almirós es troba amb el mar, amb un bar molt agradable, lavabos i un tracte molt amable."
+      },
+      {
+        "name": "Spinalonga i Elounda",
+        "time": "23 min",
+        "distance": "15 km",
+        "text": "El poble mariner d'Elounda i l'illa de Spinalonga: fortalesa veneciana, carrerons tortuosos i la història d'una de les últimes leproseries d'Europa."
+      },
+      {
+        "name": "Illa de Chrissi, Ierapetra",
+        "time": "42 min",
+        "distance": "36 km",
+        "text": "Una excursió d'un dia a una illa que et farà dubtar si ets a Creta o al Carib."
+      },
+      {
+        "name": "Aeroport d'Heraklion",
+        "time": "50 min",
+        "distance": "62 km",
+        "text": "L'aeroport Nikos Kazantzakis, el més gran de Creta i el que té més moviment durant tot l'any."
+      },
+      {
+        "name": "Cova de Zeus",
+        "time": "1 h",
+        "distance": "45 km",
+        "text": "La gloriosa cova de Zeus, autèntics pobles cretencs i la natura verge de l'est de Creta."
+      },
+      {
+        "name": "Palau de Cnossos",
+        "time": "1 h",
+        "distance": "65 km",
+        "text": "El jaciment arqueològic de fama mundial i el Museu d'Heraklion: 3.500 anys de civilització."
+      }
+    ]
+  },
+  "book": {
+    "heading": "Reserva la teva <em>estada</em>",
+    "text": "Tria les dates per veure quines habitacions són lliures. Reserves directament amb la família, a través de la nostra pàgina de reserves segura.",
+    "phonePrompt": "Prefereixes parlar abans? Truca al",
+    "checkin": "Entrada",
+    "checkout": "Sortida",
+    "guests": "Hostes",
+    "guestOptions": [
+      "1 adult",
+      "2 adults",
+      "3 adults",
+      "4 adults",
+      "5 adults",
+      "6 adults"
+    ],
+    "submit": "Consulta la disponibilitat"
+  },
+  "blog": {
+    "homeHeading": "Del <em>blog</em>",
+    "allPosts": "Tots els articles",
+    "indexTitle": "Blog",
+    "indexHeading": "Històries d'<em>Agios Nikolaos</em>",
+    "indexIntro": "Platges, excursions i consells per a la teva estada, de part de la família de Pension Mylos.",
+    "indexDescription": "Platges, excursions i consells per a la teva estada a Agios Nikolaos, de part de la família de Pension Mylos.",
+    "empty": "Encara no hi ha articles en aquest idioma.",
+    "back": "Blog",
+    "updated": "Actualitzat",
+    "ctaTitle": "Allotja't amb nosaltres a Agios Nikolaos",
+    "ctaText": "Habitacions amb vistes panoràmiques del golf de Mirabello.",
+    "cta": "Consulta la disponibilitat",
+    "moreHeading": "Més del <em>blog</em>",
+    "rssTitle": "Blog de Pension Mylos",
+    "rssDescription": "Platges, excursions i consells per a la teva estada a Agios Nikolaos, Creta."
+  },
+  "newsletter": {
+    "heading": "Subscriu-te al nostre <em>butlletí</em>",
+    "text": "Rep ofertes exclusives i notícies de viatge importants.",
+    "emailLabel": "Correu electrònic",
+    "placeholder": "El teu correu electrònic",
+    "submit": "Subscriu-me"
+  },
+  "contact": {
+    "heading": "Parlem, <em>contacta'ns</em>",
+    "text": "Dubtes sobre les habitacions, com arribar-hi o què fer per Agios Nikolaos? Escriu-nos, truca'ns o passa a veure'ns.",
+    "phone": "Telèfon",
+    "email": "Correu electrònic",
+    "address": "Adreça",
+    "formTitle": "Necessites parlar amb nosaltres?",
+    "name": "Nom complet",
+    "emailField": "Correu electrònic",
+    "message": "Missatge",
+    "send": "Envia el missatge",
+    "sending": "Enviant…",
+    "error": "No hem pogut enviar el teu missatge. Torna-ho a provar d'aquí a una estona o escriu-nos a {email}."
+  },
+  "footer": {
+    "tagline": "Una petita pensió familiar per sobre del golf de Mirabello, a Agios Nikolaos, Creta.",
+    "contactHeading": "Dades de <em>contacte</em>",
+    "explore": "Explora",
+    "social": "Xarxes socials",
+    "rights": "© {year} Pension Mylos, Agios Nikolaos. Tots els drets reservats.",
+    "cookieSettings": "Configuració de cookies"
+  },
+  "cookies": {
+    "region": "Avís de cookies",
+    "text": "Fem servir cookies perquè aquest lloc web funcioni i, només si ho permets, per mesurar les visites.",
+    "acceptAll": "Accepta-les totes",
+    "onlyNecessary": "Només les necessàries",
+    "configure": "Configura",
+    "title": "Configuració de cookies",
+    "intro": "Tria quines cookies podem fer servir. Ho pots canviar quan vulguis des de «Configuració de cookies», al final de la pàgina.",
+    "necessary": "Necessàries",
+    "necessaryText": "Imprescindibles perquè el lloc web funcioni, per exemple per recordar aquesta elecció. Sempre actives.",
+    "necessaryOn": "Les cookies necessàries sempre estan activades",
+    "analytics": "Analítiques",
+    "analyticsText": "Estadístiques anònimes sobre les visites, amb Google Analytics.",
+    "save": "Desa les preferències",
+    "close": "Tanca"
+  },
+  "reservations": {
+    "title": "Reserves",
+    "description": "Consulta la disponibilitat i reserva la teva habitació a Pension Mylos, Agios Nikolaos, directament amb la família.",
+    "heading": "Reserva la teva <em>estada</em>",
+    "intro": "Tria les dates i l'habitació aquí sota. Reserves directament amb la família a través de la nostra pàgina de reserves segura de Beds24.",
+    "loading": "Carregant la disponibilitat…",
+    "iframeTitle": "Reserva en línia de Pension Mylos (Beds24)",
+    "bookNow": "Reserva ara",
+    "fallbackText": "No apareix el formulari de reserva?",
+    "fallbackLink": "Obre'l en una pestanya nova",
+    "roomsTitle": "Les nostres habitacions",
+    "questionsTitle": "Dubtes abans de reservar?",
+    "questionsText": "Estarem encantats d'ajudar-te amb les dates, les habitacions i com arribar-hi.",
+    "address": "Adreça",
+    "nearby": "Què hi ha a prop",
+    "searchTitle": "Troba la teva habitació",
+    "chooseDates": "Tria les dates per veure quines habitacions són lliures i quant costen.",
+    "search": "Consulta la disponibilitat",
+    "searching": "Consultant la disponibilitat…",
+    "resultsTitle": "Disponibles per a les teves dates",
+    "total": "Total de la teva estada",
+    "taxes": "Inclou IVA ({vat}), taxa municipal ({municipal}) i taxa climàtica ({climate} per habitació i nit). Al pas següent veuràs el desglossament final.",
+    "lastOne": "Última disponible",
+    "none": "No hi ha habitacions lliures per a aquestes dates i aquest nombre de persones. Prova altres dates o escriu-nos i t'ajudarem a trobar una opció.",
+    "error": "Ara mateix no hem pogut consultar la disponibilitat. Torna-ho a provar d'aquí a uns minuts o contacta amb nosaltres.",
+    "invalidDates": "La data de sortida ha de ser posterior a la d'entrada.",
+    "secure": "Introduiràs les teves dades i pagaràs a la nostra pàgina de reserves segura.",
+    "firstArrival": "Primera arribada disponible: {date}",
+    "chooseRooms": "Tria quantes habitacions vols de cada tipus.",
+    "maxGuests": "Màx. {guests}",
+    "continue": "Continua amb la reserva",
+    "notTogether": "Aquestes habitacions no es poden reservar juntes. Reserva-les per separat.",
+    "selectOne": "Tria com a mínim una habitació.",
+    "detailsTitle": "Les teves dades i el pagament",
+    "detailsIntro": "Omple les teves dades, confirma i paga. Aquest pas el gestiona el nostre sistema de reserves segur (Beds24).",
+    "changeRooms": "Canvia les habitacions",
+    "frameTitle": "Reserva a Pension Mylos: dades de l'hoste i pagament (Beds24)",
+    "openFull": "Problemes amb el formulari? Obre'l en una pàgina completa",
+    "colRoom": "Tipus d'habitació",
+    "colSleeps": "Capacitat",
+    "colPrice": "Preu de l'estada",
+    "taxesIncluded": "Impostos inclosos",
+    "colSelect": "Tria habitacions",
+    "capacityNote": "Les habitacions triades són per a {capacity} com a màxim; has cercat per a {adults}."
+  },
+  "notFound": {
+    "title": "Pàgina no trobada",
+    "heading": "Aquesta pàgina <em>no existeix</em>",
+    "text": "Pot ser que l'enllaç sigui antic o tingui algun error. Aquests enllaços t'ajudaran a tornar:",
+    "home": "Vés a la pàgina d'inici",
+    "reservations": "Reserves"
+  },
+  "thanks": {
+    "title": "Missatge enviat",
+    "description": "Gràcies per escriure a Pension Mylos.",
+    "heading": "Gràcies, <em>missatge enviat</em>",
+    "text": "Hem rebut el teu missatge i et respondrem per correu electrònic tan aviat com puguem.",
+    "urgent": "Si és urgent, truca'ns:",
+    "home": "Torna a la pàgina d'inici",
+    "blog": "Llegeix el blog"
+  },
+  "bookingDone": {
+    "title": "Reserva confirmada",
+    "description": "La teva reserva a Pension Mylos està confirmada.",
+    "heading": "Gràcies, <em>ens veiem a Creta</em>",
+    "text": "La teva reserva s'ha completat. Rebràs un correu de confirmació amb tots els detalls.",
+    "contact": "Dubtes sobre la teva estada? Escriu-nos a {email} o truca'ns al",
+    "home": "Torna a la pàgina d'inici",
+    "blog": "Idees per a la teva estada"
+  }
+}

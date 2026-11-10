@@ -1,0 +1,32 @@
+---
+/**
+ * Thank-you page after the contact form (one per language). It's the
+ * conversion URL for Analytics (/thanks/, /es/thanks/, …), kept out of search
+ * engines and the sitemap.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../data/site';
+import { getMessages, localeFromParam, localeParams, localePath } from '../../i18n/utils';
+
+export const getStaticPaths = localeParams;
+
+const locale = localeFromParam(Astro.params.locale);
+const t = getMessages(locale).thanks;
+---
+
+<BaseLayout locale={locale} title={t.title} description={t.description} noindex>
+  <section class="mx-auto flex min-h-[75vh] max-w-3xl flex-col justify-center px-5 pt-32 pb-20 sm:px-8">
+    <span class="grid size-14 place-items-center rounded-full bg-sea-100 text-sea-700" aria-hidden="true">
+      <svg viewBox="0 0 24 24" class="size-7" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+    </span>
+    <h1 class="mylos-heading mt-8" set:html={t.heading} />
+    <p class="mt-8 text-lg text-ink-soft">{t.text}</p>
+    <p class="mt-4 text-lg text-ink-soft">
+      {t.urgent} <a class="text-ink underline underline-offset-4 hover:text-mylos-700" href={site.phoneHref}>{site.phone}</a>
+    </p>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href={localePath(locale, '/')} class="btn-primary">{t.home}</a>
+      <a href={localePath(locale, '/blog/')} class="btn-outline">{t.blog}</a>
+    </div>
+  </section>
+</BaseLayout>

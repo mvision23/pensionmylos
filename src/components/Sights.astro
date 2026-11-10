@@ -1,0 +1,73 @@
+---
+import { sightModes, site } from '../data/site';
+import type { Locale } from '../i18n/config';
+import { getMessages } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+const m = getMessages(Astro.props.locale);
+const t = m.location;
+const sights = t.sights.map((s, i) => ({ ...s, mode: sightModes[i] }));
+const groups = [
+  { mode: 'walk', title: t.onFoot, items: sights.filter((s) => s.mode === 'walk') },
+  { mode: 'drive', title: t.byCar, items: sights.filter((s) => s.mode === 'drive') },
+] as const;
+---
+
+<div class="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
+  <div class="lg:sticky lg:top-28 lg:self-start">
+    <h2 class="mylos-heading" set:html={t.heading} />
+    <p class="mt-8 max-w-prose text-ink-soft">{t.text}</p>
+    <div class="mt-10 overflow-hidden border border-stone bg-white">
+      <iframe
+        src={site.mapEmbed}
+        title={t.mapTitle}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="block h-72 w-full lg:h-80"></iframe>
+    </div>
+    <p class="mt-3 text-ink-soft">{m.meta.address}</p>
+    <a class="mt-1 inline-block text-mylos-700 underline underline-offset-4 hover:no-underline" href={site.mapsUrl} target="_blank" rel="noopener">
+      {t.openMaps}
+    </a>
+  </div>
+
+  <div>
+    <div class="flex items-center gap-4">
+      <span class="relative grid size-5 place-items-center">
+        <span class="absolute size-5 rounded-full bg-mylos-500/25"></span>
+        <span class="size-2.5 rounded-full bg-mylos-500"></span>
+      </span>
+      <p class="text-lg font-medium">{t.fromDoor}</p>
+    </div>
+
+    {
+      groups.map((g) => (
+        <section class="mt-2" aria-labelledby={`sights-${g.mode}`}>
+          <h3 id={`sights-${g.mode}`} class="ml-[0.5625rem] border-l border-dashed border-stone pt-8 pb-3 pl-8 text-sm font-medium text-ink-soft">
+            {g.title}
+          </h3>
+          <ol class="ml-[0.5625rem] border-l border-stone">
+            {g.items.map((s) => (
+              <li class="relative grid grid-cols-[4.75rem_1fr] gap-x-4 py-5 pl-8 sm:grid-cols-[6rem_1fr]">
+                <span
+                  aria-hidden="true"
+                  class="absolute top-[1.85rem] -left-[5px] size-[9px] rounded-full border-2 border-white bg-sea-500 ring-1 ring-sea-500"
+                />
+                <p class="pt-1 text-2xl leading-none font-light tabular-nums text-ink">{s.time}</p>
+                <div>
+                  <h4 class="text-xl font-medium text-ink">
+                    {s.name}
+                    <span class="ml-2 text-base font-normal text-ink-soft">{s.distance}</span>
+                  </h4>
+                  <p class="mt-1.5 max-w-[56ch] text-ink-soft">{s.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+  </div>
+</div>
