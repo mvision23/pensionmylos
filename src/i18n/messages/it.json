@@ -269,7 +269,9 @@
     "message": "Messaggio",
     "send": "Invia messaggio",
     "sending": "Invio in corso…",
-    "error": "Non siamo riusciti a inviare il tuo messaggio. Riprova tra un momento o scrivici a {email}."
+    "error": "Non siamo riusciti a inviare il tuo messaggio. Riprova tra un momento o scrivici a {email}.",
+    "challenge": "Ancora un passo: spunta «Non sono un robot» qui sotto e il tuo messaggio verrà inviato.",
+    "unavailable": "Il controllo antispam non si è caricato, quindi il modulo non può essere inviato (forse lo blocca un ad blocker). Ricarica la pagina oppure scrivici a {email}."
   },
   "footer": {
     "tagline": "Una piccola pensione a conduzione familiare sul golfo di Mirabello, ad Agios Nikolaos, Creta.",

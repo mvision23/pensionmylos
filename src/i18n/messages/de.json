@@ -269,7 +269,9 @@
     "message": "Nachricht",
     "send": "Nachricht senden",
     "sending": "Wird gesendet…",
-    "error": "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es gleich noch einmal oder schreiben Sie uns an {email}."
+    "error": "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es gleich noch einmal oder schreiben Sie uns an {email}.",
+    "challenge": "Noch ein Schritt: Kreuzen Sie unten „Ich bin kein Roboter“ an, dann wird Ihre Nachricht gesendet.",
+    "unavailable": "Die Spam-Prüfung konnte nicht geladen werden, daher lässt sich das Formular nicht senden (vielleicht blockiert sie ein Werbeblocker). Bitte laden Sie die Seite neu oder schreiben Sie uns an {email}."
   },
   "footer": {
     "tagline": "Eine kleine familiengeführte Pension über der Mirabello-Bucht in Agios Nikolaos, Kreta.",

@@ -13,15 +13,28 @@ export const site = {
     instagram: 'https://instagram.com/pensionmylos',
   },
   kayak: 'https://www.kayak.co.uk/Agios-Nikolaos-Hotels-Pension-Mylos.518337.ksp',
-  formspree: 'https://formspree.io/f/mdowyaeq',
   /**
-   * Cloudflare Turnstile site key (public). Leave empty until Turnstile is set up:
-   * create a widget for pensionmylos.com in Cloudflare, paste its SECRET key in the
-   * Formspree form settings (Spam protection → CAPTCHA → Cloudflare Turnstile),
-   * and put the SITE key here. The contact form then shows the (mostly invisible)
-   * check on our own page, so JavaScript submissions pass Formspree's CAPTCHA.
+   * Formspree form that emails contact messages to the pension. The browser no
+   * longer posts here directly: the Netlify function /api/contact
+   * (netlify/functions/contact.mts) checks reCAPTCHA first, then forwards.
    */
-  turnstileSiteKey: '',
+  formspree: 'https://formspree.io/f/mdowyaeq',
+  /** Netlify function that receives the contact form. */
+  contactEndpoint: '/api/contact',
+  /**
+   * reCAPTCHA v3 (Google Cloud Fraud Defense) SITE key — public, safe to commit.
+   * The matching SECRET key lives only in the Netlify environment variable
+   * RECAPTCHA_SECRET_KEY.
+   */
+  recaptchaSiteKey: '6Ld94RsuAAAAAIUoXcfrfvBZfLRlFphkjtAjfe6s',
+  /**
+   * reCAPTCHA Enterprise checkbox key (Google Cloud project "pension-mylos"),
+   * loaded via enterprise.js only when the v3 score is too low. It has no
+   * secret: the function verifies its tokens by creating an assessment, using
+   * the API key in the Netlify environment variable RECAPTCHA_ENTERPRISE_API_KEY.
+   * Leave empty to reject low scores instead.
+   */
+  recaptchaChallengeSiteKey: '6LcBkBsuAAAAALXF-_13L7V7qBZNoN0uxa5hXkmf',
   mailchimp: {
     action: 'https://pensionmylos.us10.list-manage.com/subscribe/post?u=f48d4d634ff736e7fd7478dcd&id=d9029da3c9',
     honeypot: 'PensionMylos_form',

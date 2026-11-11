@@ -269,7 +269,9 @@
     "message": "Mesaj",
     "send": "Trimite mesajul",
     "sending": "Se trimite…",
-    "error": "Nu am putut trimite mesajul. Încearcă din nou peste câteva momente sau scrie-ne la {email}."
+    "error": "Nu am putut trimite mesajul. Încearcă din nou peste câteva momente sau scrie-ne la {email}.",
+    "challenge": "Încă un pas: bifați „Nu sunt robot” mai jos și mesajul dvs. va fi trimis.",
+    "unavailable": "Verificarea antispam nu s-a putut încărca, așa că formularul nu poate fi trimis (poate o blochează un blocant de reclame). Reîncărcați pagina sau scrieți-ne la {email}."
   },
   "footer": {
     "tagline": "O mică pensiune de familie deasupra golfului Mirabello, în Agios Nikolaos, Creta.",

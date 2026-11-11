@@ -1,15 +1,25 @@
 ---
 /**
- * Contact form → Formspree, submitted with JavaScript so the visitor stays on
- * the site and lands on our own thank-you page (/<lang>/thanks/), which is the
- * conversion URL for Analytics. A `generate_lead` event is sent too.
+ * Contact form → Netlify function /api/contact → Formspree.
  *
- * If Formspree rejects the JavaScript submission for a non-field reason (e.g.
- * its own reCAPTCHA is still enabled for the form), the form is re-submitted
- * the classic way so the message is never lost — the visitor then goes through
- * Formspree's CAPTCHA page instead of ours.
+ * Bot check: Google reCAPTCHA (Cloud Fraud Defense).
+ *  - Invisible v3: on submit the page gets a v3 token for the action "contact"
+ *    and posts it with the form. The function scores it with Google.
+ *  - Challenge on low score: only if the function answers `challenge`, the
+ *    page loads reCAPTCHA Enterprise (enterprise.js) and shows its "I'm not a
+ *    robot" checkbox (with an image test when Google is unsure); ticking it
+ *    resends the form automatically. Needs site.recaptchaChallengeSiteKey;
+ *    without it low scores are just rejected.
+ *  - Lazy: the reCAPTCHA script is not part of the page load. It is fetched
+ *    when the form comes near the viewport or the visitor interacts with it,
+ *    and the Send button stays disabled until it is ready.
  *
- * Without JavaScript the form posts directly to Formspree, as before.
+ * After a successful send the visitor lands on our own thank-you page
+ * (/<lang>/thanks/), the conversion URL for Analytics, and a `generate_lead`
+ * event is sent too.
+ *
+ * reCAPTCHA needs JavaScript, so without it the form cannot be sent; the phone
+ * number and email address shown next to it remain available.
  */
 import { site } from '../data/site';
 import type { Locale } from '../i18n/config';
@@ -21,7 +31,6 @@ interface Props {
 const { locale } = Astro.props;
 const m = getMessages(locale);
 const t = m.contact;
-const turnstileLang = locale === 'zh' ? 'zh-cn' : locale;
 ---
 
 <div class="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
@@ -47,7 +56,7 @@ const turnstileLang = locale === 'zh' ? 'zh-cn' : locale;
   </div>
 
   <form
-    action={site.formspree}
+    action={site.contactEndpoint}
     method="post"
     class="grid gap-5 self-start border border-stone bg-white p-6 sm:p-10"
     data-contact-form
@@ -55,6 +64,11 @@ const turnstileLang = locale === 'zh' ? 'zh-cn' : locale;
     data-lang={locale}
     data-sending={t.sending}
     data-error={fmt(t.error, { email: site.email })}
+    data-unavailable={fmt(t.unavailable, { email: site.email })}
+    data-challenge-text={t.challenge}
+    data-recaptcha={site.recaptchaSiteKey}
+    data-recaptcha-challenge={site.recaptchaChallengeSiteKey}
+    data-recaptcha-hl={locale === 'zh' ? 'zh-CN' : locale}
   >
     <p class="text-2xl font-normal">{t.formTitle}</p>
     <div class="grid gap-5 sm:grid-cols-2">
@@ -75,39 +89,162 @@ const turnstileLang = locale === 'zh' ? 'zh-cn' : locale;
     <!-- Context for the email the pension receives -->
     <input type="hidden" name="language" value={locale} />
     <input type="hidden" name="_subject" value={`Pension Mylos website — new message (${locale.toUpperCase()})`} />
-    <!-- Formspree bot trap -->
+    <!-- Bot trap, checked by the Netlify function -->
     <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-    {
-      site.turnstileSiteKey && (
-        <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-language={turnstileLang} data-size="flexible" />
-      )
-    }
 
     <p data-form-status role="alert" class="hidden border-l-2 border-mylos-600 bg-mylos-50 px-4 py-3 text-ink"></p>
 
-    <button type="submit" class="btn-primary justify-self-start disabled:cursor-wait disabled:opacity-70">{t.send}</button>
+    <!-- reCAPTCHA v2 checkbox, rendered here only when the v3 score is too low -->
+    <div data-challenge class="hidden"></div>
+
+    <!-- Disabled until reCAPTCHA has loaded (enabled by the script below) -->
+    <button type="submit" disabled class="btn-primary justify-self-start disabled:cursor-wait disabled:opacity-70">{t.send}</button>
   </form>
 </div>
 
-{site.turnstileSiteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
-
 <script>
-  type FsError = { field?: string; code?: string; message?: string };
+  type Grecaptcha = {
+    ready: (cb: () => void) => void;
+    execute: (siteKey: string, opts: { action: string }) => Promise<string>;
+    render: (el: HTMLElement, opts: Record<string, unknown>) => number;
+    getResponse: (widgetId?: number) => string;
+    reset: (widgetId?: number) => void;
+  };
+
+  const LOAD_TIMEOUT = 20_000;
+  const loads = new Map<string, Promise<Grecaptcha>>();
+
+  /**
+   * Injects a reCAPTCHA script once (shared by all forms on the page) and
+   * resolves with its API object once it is ready. A failed load is forgotten
+   * so the next attempt retries.
+   */
+  const loadScript = (src: string, pick: (w: any) => Grecaptcha | undefined) => {
+    let p = loads.get(src);
+    if (!p) {
+      p = new Promise<Grecaptcha>((resolve, reject) => {
+        const fail = () => {
+          clearTimeout(timer);
+          loads.delete(src);
+          reject(new Error(`failed to load ${src}`));
+        };
+        const timer = setTimeout(fail, LOAD_TIMEOUT);
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.onerror = fail;
+        script.onload = () => {
+          const g = pick(window);
+          if (!g) return fail();
+          g.ready(() => { clearTimeout(timer); resolve(g); });
+        };
+        document.head.appendChild(script);
+      });
+      loads.set(src, p);
+    }
+    return p;
+  };
+
+  /** Invisible v3 (classic api.js) — loaded lazily near/at the form. */
+  const loadV3 = (siteKey: string, hl: string) =>
+    loadScript(
+      `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}&hl=${encodeURIComponent(hl)}`,
+      (w) => w.grecaptcha,
+    );
+
+  /** Enterprise checkbox (enterprise.js) — loaded only after a low v3 score. */
+  const loadChallenge = (hl: string) =>
+    loadScript(
+      `https://www.google.com/recaptcha/enterprise.js?render=explicit&hl=${encodeURIComponent(hl)}`,
+      (w) => w.grecaptcha?.enterprise,
+    );
 
   document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
     const status = form.querySelector<HTMLElement>('[data-form-status]')!;
+    const challengeBox = form.querySelector<HTMLElement>('[data-challenge]')!;
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     const label = button.textContent ?? '';
-    const { thanks = '/thanks/', lang = 'en', sending = '…', error = '' } = form.dataset;
+    const {
+      thanks = '/thanks/',
+      lang = 'en',
+      sending = '…',
+      error = '',
+      unavailable = error,
+      challengeText = '',
+      recaptcha = '',
+      recaptchaChallenge = '',
+      recaptchaHl = lang,
+    } = form.dataset;
+
+    // Keep our own references: enterprise.js may replace window.grecaptcha.
+    let grecaptcha: Grecaptcha | null = null;
+    let enterprise: Grecaptcha | null = null;
+    let challengeId: number | null = null;
 
     const setBusy = (busy: boolean) => {
       button.disabled = busy;
       button.textContent = busy ? sending : label;
     };
-    const showError = (text: string) => {
+    const showStatus = (text: string) => {
       status.textContent = text;
       status.classList.remove('hidden');
+    };
+    const fail = (text: string) => {
+      showStatus(text);
+      setBusy(false);
+    };
+
+    // --- Lazy loading ------------------------------------------------------
+    // Fetch reCAPTCHA only when the form is about to be seen or used, so it
+    // doesn't compete with the page itself.
+    const start = () => {
+      observer?.disconnect();
+      form.removeEventListener('focusin', start);
+      form.removeEventListener('pointerenter', start);
+      loadV3(recaptcha, recaptchaHl).then(
+        (g) => {
+          grecaptcha = g;
+          status.classList.add('hidden');
+          button.disabled = false;
+        },
+        () => {
+          showStatus(unavailable);
+          // Try again if the visitor comes back to the form.
+          form.addEventListener('focusin', start, { once: true });
+        },
+      );
+    };
+    const observer =
+      'IntersectionObserver' in window
+        ? new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && start(), { rootMargin: '400px 0px' })
+        : null;
+    if (observer) observer.observe(form);
+    else start();
+    form.addEventListener('focusin', start, { once: true });
+    form.addEventListener('pointerenter', start, { once: true });
+
+    // --- Low-score challenge ----------------------------------------------
+    // The Enterprise checkbox script is fetched only now, after the function
+    // reported a low v3 score.
+    const showChallenge = async () => {
+      try {
+        enterprise ??= await loadChallenge(recaptchaHl);
+      } catch {
+        fail(unavailable);
+        return;
+      }
+      if (challengeId === null) {
+        challengeBox.classList.remove('hidden');
+        challengeId = enterprise.render(challengeBox, {
+          sitekey: recaptchaChallenge,
+          action: 'contact',
+          // Ticking the box (and passing any image test) sends the form.
+          callback: () => form.requestSubmit(),
+        });
+      } else {
+        enterprise.reset(challengeId);
+      }
+      fail(challengeText);
     };
 
     // Tell Analytics about the lead, then go to the thank-you page. The redirect
@@ -128,32 +265,40 @@ const turnstileLang = locale === 'zh' ? 'zh-cn' : locale;
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
+      const g = grecaptcha;
+      if (!g || button.disabled) return;
       status.classList.add('hidden');
+
+      const body = new FormData(form);
+      if (enterprise && challengeId !== null) {
+        const answer = enterprise.getResponse(challengeId);
+        if (!answer) { showStatus(challengeText); return; }
+        body.set('recaptchaChallengeToken', answer);
+      }
+
       setBusy(true);
       try {
+        if (challengeId === null) {
+          // v3 tokens expire after 2 minutes, so get a fresh one per send.
+          body.set('recaptchaToken', await g.execute(recaptcha, { action: 'contact' }));
+        }
         const res = await fetch(form.action, {
           method: 'POST',
-          body: new FormData(form),
+          body,
           headers: { Accept: 'application/json' },
         });
-        if (res.ok) {
+        const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+        if (res.ok && data.ok) {
           succeed();
-          return;
+        } else if (data.error === 'challenge' && recaptchaChallenge) {
+          await showChallenge();
+        } else {
+          // Failed bot check, a rejected field, or the service is down: the
+          // message includes our email address as an alternative.
+          fail(error);
         }
-        const data = (await res.json().catch(() => ({}))) as { errors?: FsError[] };
-        const errors = data.errors ?? [];
-        if (errors.some((e) => e.field)) {
-          // A field Formspree didn't accept (the browser already checks the basics).
-          showError(error);
-          setBusy(false);
-          return;
-        }
-        // Rejected for another reason (typically Formspree's own CAPTCHA):
-        // fall back to the classic submission so the message still gets through.
-        HTMLFormElement.prototype.submit.call(form);
       } catch {
-        showError(error);
-        setBusy(false);
+        fail(error);
       }
     });
   });

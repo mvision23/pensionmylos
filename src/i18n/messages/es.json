@@ -269,7 +269,9 @@
     "message": "Mensaje",
     "send": "Enviar mensaje",
     "sending": "Enviando…",
-    "error": "No hemos podido enviar tu mensaje. Inténtalo de nuevo en un momento o escríbenos a {email}."
+    "error": "No hemos podido enviar tu mensaje. Inténtalo de nuevo en un momento o escríbenos a {email}.",
+    "challenge": "Un paso más: marca «No soy un robot» aquí abajo y tu mensaje se enviará.",
+    "unavailable": "No se ha podido cargar la verificación antispam, así que el formulario no se puede enviar (quizá la bloquea un bloqueador de anuncios). Recarga la página o escríbenos a {email}."
   },
   "footer": {
     "tagline": "Una pequeña pensión familiar sobre la bahía de Mirabello, en Agios Nikolaos, Creta.",

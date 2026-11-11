@@ -269,7 +269,9 @@
     "message": "Message",
     "send": "Send message",
     "sending": "Sending…",
-    "error": "We couldn't send your message. Please try again in a moment, or write to us at {email}."
+    "error": "We couldn't send your message. Please try again in a moment, or write to us at {email}.",
+    "challenge": "One more step: tick “I'm not a robot” below and your message will be sent.",
+    "unavailable": "The spam check couldn't load, so the form can't be sent (an ad blocker may be blocking it). Please reload the page, or write to us at {email}."
   },
   "footer": {
     "tagline": "A small family-run pension above the Mirabello Bay, in Agios Nikolaos, Crete.",
