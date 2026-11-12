@@ -92,14 +92,14 @@ export const film = [
  * Rooms as set up in Beds24 (ids from the booking page). `msg` = index in
  * messages.rooms for the translated name; rooms without it show `name`
  * (their Beds24 name). Photos are from src/assets/gallery.
- * `group`: rooms can only be booked together within the same group — Beds24
- * rejects mixing the regular rooms with the two Airbnb-imported listings
- * ("Not all of this selection is available"), tested Nov 2026.
+ * Any mix of room types can be booked together: each room becomes its own
+ * Beds24 booking, grouped (Beds24's own booking page refused to mix the two
+ * Airbnb-imported listings with the other rooms; the API has no such limit).
  */
 export const bookableRooms = [
-  { id: '261964', msg: 0, name: 'Twin Room Panoramic Sea View', photo: 'slider-4', group: 'rooms' },
-  { id: '265730', msg: 1, name: 'Triple Room Panoramic Sea View', photo: 'slider-2', group: 'rooms' },
-  { id: '314270', msg: 2, name: 'Single Room Panoramic View', photo: 'slider-12', group: 'rooms' },
-  { id: '352782', msg: null, name: 'Your First Seat to Mirabello Bay', photo: 'slider-5', group: 'listings' },
-  { id: '352783', msg: null, name: 'Panorama Mirabello Bay', photo: 'slider-7', group: 'listings' },
+  { id: '261964', msg: 0, name: 'Twin Room Panoramic Sea View', photo: 'slider-4' },
+  { id: '265730', msg: 1, name: 'Triple Room Panoramic Sea View', photo: 'slider-2' },
+  { id: '314270', msg: 2, name: 'Single Room Panoramic View', photo: 'slider-12' },
+  { id: '352782', msg: null, name: 'Your First Seat to Mirabello Bay', photo: 'slider-5' },
+  { id: '352783', msg: null, name: 'Panorama Mirabello Bay', photo: 'slider-7' },
 ] as const;

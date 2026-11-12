@@ -324,7 +324,6 @@
     "chooseRooms": "Elige cuántas habitaciones quieres de cada tipo.",
     "maxGuests": "Máx. {guests}",
     "continue": "Continuar con la reserva",
-    "notTogether": "Estas habitaciones no se pueden reservar juntas. Resérvalas por separado.",
     "selectOne": "Elige al menos una habitación.",
     "changeRooms": "Cambiar habitaciones",
     "colRoom": "Tipo de habitación",

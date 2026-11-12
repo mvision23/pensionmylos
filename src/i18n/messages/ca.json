@@ -324,7 +324,6 @@
     "chooseRooms": "Tria quantes habitacions vols de cada tipus.",
     "maxGuests": "Màx. {guests}",
     "continue": "Continua amb la reserva",
-    "notTogether": "Aquestes habitacions no es poden reservar juntes. Reserva-les per separat.",
     "selectOne": "Tria com a mínim una habitació.",
     "changeRooms": "Canvia les habitacions",
     "colRoom": "Tipus d'habitació",

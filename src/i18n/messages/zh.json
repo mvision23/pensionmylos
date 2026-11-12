@@ -324,7 +324,6 @@
     "chooseRooms": "请选择每种房型需要的房间数。",
     "maxGuests": "最多{guests}",
     "continue": "继续预订",
-    "notTogether": "这些房间无法一起预订，请分开预订。",
     "selectOne": "请至少选择一间房。",
     "changeRooms": "更改房间",
     "colRoom": "房型",

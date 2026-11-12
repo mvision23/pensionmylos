@@ -88,7 +88,6 @@ export function parseCheckoutInput(body: unknown): { selection: Selection; guest
     if (q > 0) { rooms[r.id] = q; units += q; }
   }
   if (units < 1 || units > MAX_UNITS) fail('rooms');
-  if (new Set(Object.keys(rooms).map((id) => bookableRooms.find((r) => r.id === id)!.group)).size > 1) fail('rooms from different groups');
 
   const g = (b.guest && typeof b.guest === 'object' ? b.guest : {}) as Record<string, unknown>;
   const email = str(g.email, 254, 3);

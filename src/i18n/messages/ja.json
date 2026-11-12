@@ -324,7 +324,6 @@
     "chooseRooms": "タイプごとにご希望の部屋数をお選びください。",
     "maxGuests": "最大{guests}",
     "continue": "予約手続きへ進む",
-    "notTogether": "これらのお部屋は同時に予約できません。別々にご予約ください。",
     "selectOne": "少なくとも1室お選びください。",
     "changeRooms": "部屋を変更",
     "colRoom": "客室タイプ",

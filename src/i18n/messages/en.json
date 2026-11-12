@@ -324,7 +324,6 @@
     "chooseRooms": "Choose how many rooms you'd like of each type.",
     "maxGuests": "Max. {guests}",
     "continue": "Continue to booking",
-    "notTogether": "These rooms can't be booked together. Please book them separately.",
     "selectOne": "Select at least one room.",
     "changeRooms": "Change rooms",
     "colRoom": "Room type",

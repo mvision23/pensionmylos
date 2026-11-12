@@ -9,7 +9,7 @@
  * 2. Like booking.com: a table of room types with a quantity select each.
  *    Prices don't depend on occupancy, so adults per room aren't asked: they
  *    are spread over the chosen rooms (src/lib/booking-math.ts, shared with
- *    the server). Rooms from different `group`s can't be booked together.
+ *    the server). Any mix of room types can be booked together.
  * 3. "Continue to booking": the guest's details, on our own form.
  * 4. "Continue to payment": POST /api/booking/checkout re-prices the stay on
  *    the server, creates the Beds24 booking(s) as a 30-minute "request" hold
@@ -59,11 +59,10 @@ const config = {
   lang: locale,
   dateLocale: localeInfo[locale].dateLocale,
   maxOccupancy: 3,
-  groups: Object.fromEntries(bookableRooms.map((r) => [r.id, r.group])),
 };
 const strings = {
   searching: t.searching, none: t.none, error: t.error, invalid: t.invalidDates, choose: t.chooseDates,
-  search: t.search, maxGuests: t.maxGuests, notTogether: t.notTogether, capacityNote: t.capacityNote,
+  search: t.search, maxGuests: t.maxGuests, capacityNote: t.capacityNote,
   selectOne: t.selectOne, guestOptions: b.guestOptions, countrySelect: t.countrySelect, total: t.total,
   toPayment: t.toPayment, preparing: t.preparing,
   errInvalid: t.errInvalid, errSoldOut: t.errSoldOut, errPriceChanged: t.errPriceChanged,
@@ -368,7 +367,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
   type Cfg = {
     api: string; checkoutApi: string; cancelApi: string; stripeJs: string; lang: string; dateLocale: string;
     recaptcha: string; recaptchaChallenge: string; recaptchaHl: string;
-    opening: { arrival: string; departure: string } | null; maxOccupancy: number; groups: Record<string, string>;
+    opening: { arrival: string; departure: string } | null; maxOccupancy: number;
   };
   type ApiRoom = { roomId: string; roomsavail?: string | number; price?: number; currency?: string };
   type Offer = { avail: number; cap: number; price: Record<number, number>; currency: string };
@@ -494,7 +493,6 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
       const units = priced();
       const chosen = Object.keys(qty).filter((id) => offers[id] && qty[id] > 0);
       rows.forEach((row) => row.toggleAttribute('data-selected', chosen.includes(row.dataset.room!)));
-      const mixed = new Set(chosen.map((id) => cfg.groups[id])).size > 1;
       const requested = Number(adults.value);
       const capacity = units.reduce((s, u) => s + u.cap, 0);
       currentTotal = cents(units.reduce((s, u) => s + u.lines.total, 0));
@@ -502,12 +500,11 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
       cart.total.textContent = units.length ? money(currentTotal, currency) : '—';
       cart.lines.textContent = chosen.map((id) => `${qty[id]} × ${nameOf(id)}`).join(' · ');
       const msg = !units.length ? S.selectOne
-        : mixed ? S.notTogether
         : capacity < requested ? S.capacityNote.replace('{capacity}', guestLabel(capacity)).replace('{adults}', guestLabel(requested))
         : '';
       cart.msg.textContent = msg;
       cart.msg.hidden = !msg;
-      cart.book.setAttribute('aria-disabled', String(!(units.length > 0 && !mixed)));
+      cart.book.setAttribute('aria-disabled', String(units.length === 0));
     }
 
     rows.forEach((row) => {
