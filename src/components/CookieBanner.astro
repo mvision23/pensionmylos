@@ -9,12 +9,14 @@
  * choice. Gate it on `mylosConsent.analytics` before going live.
  */
 import type { Locale } from '../i18n/config';
-import { getMessages } from '../i18n/utils';
+import { getMessages, localePath } from '../i18n/utils';
 
 interface Props {
   locale: Locale;
 }
-const t = getMessages(Astro.props.locale).cookies;
+const m = getMessages(Astro.props.locale);
+const t = m.cookies;
+const policyHref = localePath(Astro.props.locale, '/privacy/#cookies');
 ---
 
 <div
@@ -26,7 +28,8 @@ const t = getMessages(Astro.props.locale).cookies;
 >
   <div class="bg-sea-900/95 px-4 py-3.5 text-[0.8125rem] leading-snug text-white/85 shadow-[0_8px_30px_rgb(0_0_0/0.3)] backdrop-blur">
     <p>
-      {t.text}
+      {t.text}{' '}
+      <a href={policyHref} class="underline underline-offset-2 hover:text-mylos-400">{m.legal.link}</a>
     </p>
     <div class="mt-3 flex flex-wrap items-center gap-2">
       <button type="button" data-cookie-accept class="bg-mylos-600 px-3 py-1.5 text-xs font-semibold tracking-wide text-white uppercase hover:bg-mylos-700">
@@ -46,7 +49,8 @@ const t = getMessages(Astro.props.locale).cookies;
   <form method="dialog" class="p-6 sm:p-8">
     <h2 id="cookie-settings-title" class="text-2xl font-normal">{t.title}</h2>
     <p class="mt-2 text-ink-soft">
-      {t.intro}
+      {t.intro}{' '}
+      <a href={policyHref} class="text-mylos-700 underline underline-offset-4 hover:no-underline">{m.legal.link}</a>
     </p>
 
     <ul class="mt-6 divide-y divide-stone-100 border-y border-stone-100">

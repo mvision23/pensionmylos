@@ -271,7 +271,8 @@
     "sending": "Envoi en cours…",
     "error": "Nous n’avons pas pu envoyer votre message. Réessayez dans un instant ou écrivez-nous à {email}.",
     "challenge": "Encore une étape : cochez « Je ne suis pas un robot » ci-dessous et votre message sera envoyé.",
-    "unavailable": "La vérification anti-spam n'a pas pu se charger, le formulaire ne peut donc pas être envoyé (un bloqueur de publicités l'empêche peut-être). Rechargez la page ou écrivez-nous à {email}."
+    "unavailable": "La vérification anti-spam n'a pas pu se charger, le formulaire ne peut donc pas être envoyé (un bloqueur de publicités l'empêche peut-être). Rechargez la page ou écrivez-nous à {email}.",
+    "recaptchaNote": "Ce formulaire est protégé par Google reCAPTCHA."
   },
   "footer": {
     "tagline": "Une petite pension familiale au-dessus de la baie de Mirabello, à Agios Nikolaos, en Crète.",
@@ -366,5 +367,8 @@
     "contact": "Une question sur votre séjour ? Écrivez-nous à {email} ou appelez le",
     "home": "Retour à l’accueil",
     "blog": "Idées pour votre séjour"
+  },
+  "legal": {
+    "link": "Politique de confidentialité et de cookies"
   }
 }

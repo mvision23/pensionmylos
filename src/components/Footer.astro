@@ -65,7 +65,10 @@ const year = new Date().getFullYear();
   <div class="border-t border-white/10">
     <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-sm text-white/60 sm:px-8">
       <p>{fmt(t.footer.rights, { year })}</p>
-      <button type="button" data-cookie-settings class="underline underline-offset-4 hover:text-mylos-400">{t.footer.cookieSettings}</button>
+      <div class="flex flex-wrap gap-x-6 gap-y-2">
+        <a href={localePath(locale, '/privacy/')} class="underline underline-offset-4 hover:text-mylos-400">{t.legal.link}</a>
+        <button type="button" data-cookie-settings class="underline underline-offset-4 hover:text-mylos-400">{t.footer.cookieSettings}</button>
+      </div>
     </div>
   </div>
 </footer>

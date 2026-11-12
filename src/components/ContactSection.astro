@@ -99,6 +99,11 @@ const t = m.contact;
 
     <!-- Disabled until reCAPTCHA has loaded (enabled by the script below) -->
     <button type="submit" disabled class="btn-primary justify-self-start disabled:cursor-wait disabled:opacity-70">{t.send}</button>
+
+    <p class="text-xs text-ink-soft">
+      {t.recaptchaNote}{' '}
+      <a class="underline underline-offset-2 hover:text-mylos-700" href={localePath(locale, '/privacy/')}>{m.legal.link}</a>
+    </p>
   </form>
 </div>
 

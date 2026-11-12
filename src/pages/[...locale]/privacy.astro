@@ -1,0 +1,27 @@
+---
+/**
+ * Privacy & cookie policy (one per language: /privacy/, /es/privacy/, …).
+ * The text lives in src/content/legal/<lang>.md; a missing language falls back
+ * to English. Linked from the footer, the cookie banner and the contact form.
+ */
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { defaultLocale } from '../../i18n/config';
+import { localeFromParam, localeParams } from '../../i18n/utils';
+
+export const getStaticPaths = localeParams;
+
+const locale = localeFromParam(Astro.params.locale);
+const entry = (await getEntry('legal', locale)) ?? (await getEntry('legal', defaultLocale));
+if (!entry) throw new Error('Missing src/content/legal/en.md');
+const { Content } = await render(entry);
+---
+
+<BaseLayout locale={locale} title={entry.data.title} description={entry.data.description}>
+  <article class="mx-auto max-w-3xl px-5 pt-32 pb-20 sm:px-8 md:pt-40">
+    <h1 class="mylos-heading">{entry.data.title}</h1>
+    <div class="prose prose-mylos mt-10 max-w-none">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

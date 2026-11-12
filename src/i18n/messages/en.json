@@ -271,7 +271,8 @@
     "sending": "Sending…",
     "error": "We couldn't send your message. Please try again in a moment, or write to us at {email}.",
     "challenge": "One more step: tick “I'm not a robot” below and your message will be sent.",
-    "unavailable": "The spam check couldn't load, so the form can't be sent (an ad blocker may be blocking it). Please reload the page, or write to us at {email}."
+    "unavailable": "The spam check couldn't load, so the form can't be sent (an ad blocker may be blocking it). Please reload the page, or write to us at {email}.",
+    "recaptchaNote": "This form is protected by Google reCAPTCHA."
   },
   "footer": {
     "tagline": "A small family-run pension above the Mirabello Bay, in Agios Nikolaos, Crete.",
@@ -366,5 +367,8 @@
     "contact": "Questions about your stay? Write to us at {email} or call",
     "home": "Back to the home page",
     "blog": "Ideas for your stay"
+  },
+  "legal": {
+    "link": "Privacy & cookie policy"
   }
 }

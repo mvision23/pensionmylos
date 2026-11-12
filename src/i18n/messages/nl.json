@@ -271,7 +271,8 @@
     "sending": "Bezig met verzenden…",
     "error": "Je bericht kon niet worden verzonden. Probeer het zo opnieuw of mail ons op {email}.",
     "challenge": "Nog één stap: vink hieronder „Ik ben geen robot” aan en je bericht wordt verstuurd.",
-    "unavailable": "De spamcontrole kon niet laden, dus het formulier kan niet worden verstuurd (misschien blokkeert een adblocker deze). Laad de pagina opnieuw of mail ons via {email}."
+    "unavailable": "De spamcontrole kon niet laden, dus het formulier kan niet worden verstuurd (misschien blokkeert een adblocker deze). Laad de pagina opnieuw of mail ons via {email}.",
+    "recaptchaNote": "Dit formulier wordt beschermd door Google reCAPTCHA."
   },
   "footer": {
     "tagline": "Een kleine familiepension boven de baai van Mirabello, in Agios Nikolaos, Kreta.",
@@ -366,5 +367,8 @@
     "contact": "Vragen over je verblijf? Mail ons op {email} of bel",
     "home": "Terug naar de homepage",
     "blog": "Ideeën voor je verblijf"
+  },
+  "legal": {
+    "link": "Privacy- en cookiebeleid"
   }
 }

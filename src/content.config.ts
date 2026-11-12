@@ -26,4 +26,16 @@ const blog = defineCollection({
       }),
 });
 
-export const collections = { blog };
+/**
+ * Legal pages, one Markdown file per language: src/content/legal/<lang>.md
+ * (entry id = language). Rendered by src/pages/[...locale]/privacy.astro.
+ */
+const legal = defineCollection({
+  loader: glob({ base: './src/content/legal', pattern: '*.md' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+  }),
+});
+
+export const collections = { blog, legal };

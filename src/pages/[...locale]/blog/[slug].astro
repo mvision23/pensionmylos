@@ -96,32 +96,3 @@ const more = (await getPosts(locale)).filter((p) => p.id !== post.id).slice(0, 2
     )
   }
 </BaseLayout>
-
-<style is:global>
-  .prose-mylos {
-    --tw-prose-body: var(--color-ink);
-    --tw-prose-headings: var(--color-ink);
-    --tw-prose-links: var(--color-mylos-700);
-    --tw-prose-bold: var(--color-ink);
-    --tw-prose-hr: var(--color-stone);
-    --tw-prose-bullets: var(--color-mylos-500);
-    --tw-prose-counters: var(--color-mylos-700);
-    --tw-prose-quotes: var(--color-ink);
-    --tw-prose-quote-borders: var(--color-mylos-500);
-  }
-  .prose-mylos :where(h2, h3) {
-    font-weight: 500;
-  }
-  .prose-mylos :where(a):hover {
-    text-decoration: none;
-  }
-  /* In-article photos: full column width, 3:2, a little breathing room. */
-  .prose-mylos :where(img) {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-    margin-block: 2.25em;
-  }
-</style>

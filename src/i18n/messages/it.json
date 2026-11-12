@@ -271,7 +271,8 @@
     "sending": "Invio in corso…",
     "error": "Non siamo riusciti a inviare il tuo messaggio. Riprova tra un momento o scrivici a {email}.",
     "challenge": "Ancora un passo: spunta «Non sono un robot» qui sotto e il tuo messaggio verrà inviato.",
-    "unavailable": "Il controllo antispam non si è caricato, quindi il modulo non può essere inviato (forse lo blocca un ad blocker). Ricarica la pagina oppure scrivici a {email}."
+    "unavailable": "Il controllo antispam non si è caricato, quindi il modulo non può essere inviato (forse lo blocca un ad blocker). Ricarica la pagina oppure scrivici a {email}.",
+    "recaptchaNote": "Questo modulo è protetto da Google reCAPTCHA."
   },
   "footer": {
     "tagline": "Una piccola pensione a conduzione familiare sul golfo di Mirabello, ad Agios Nikolaos, Creta.",
@@ -366,5 +367,8 @@
     "contact": "Domande sul soggiorno? Scrivici a {email} o chiama il",
     "home": "Torna alla home",
     "blog": "Idee per il tuo soggiorno"
+  },
+  "legal": {
+    "link": "Informativa su privacy e cookie"
   }
 }

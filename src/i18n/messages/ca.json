@@ -271,7 +271,8 @@
     "sending": "Enviant…",
     "error": "No hem pogut enviar el teu missatge. Torna-ho a provar d'aquí a una estona o escriu-nos a {email}.",
     "challenge": "Un pas més: marca «No sóc un robot» aquí sota i el teu missatge s'enviarà.",
-    "unavailable": "No s'ha pogut carregar la verificació antispam, així que el formulari no es pot enviar (potser la bloqueja un bloquejador d'anuncis). Torna a carregar la pàgina o escriu-nos a {email}."
+    "unavailable": "No s'ha pogut carregar la verificació antispam, així que el formulari no es pot enviar (potser la bloqueja un bloquejador d'anuncis). Torna a carregar la pàgina o escriu-nos a {email}.",
+    "recaptchaNote": "Aquest formulari està protegit per Google reCAPTCHA."
   },
   "footer": {
     "tagline": "Una petita pensió familiar per sobre del golf de Mirabello, a Agios Nikolaos, Creta.",
@@ -366,5 +367,8 @@
     "contact": "Dubtes sobre la teva estada? Escriu-nos a {email} o truca'ns al",
     "home": "Torna a la pàgina d'inici",
     "blog": "Idees per a la teva estada"
+  },
+  "legal": {
+    "link": "Política de privacitat i de galetes"
   }
 }
