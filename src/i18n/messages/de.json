@@ -357,7 +357,13 @@
     "errPayment": "Das Zahlungsformular konnte nicht geladen werden. Bitte versuchen Sie es erneut oder schreiben Sie uns an {email}.",
     "fallbackBeds24": "Probleme? Buchen Sie stattdessen auf unserer Beds24-Seite",
     "challenge": "Noch ein Schritt: Kreuzen Sie unten „Ich bin kein Roboter“ an, um zur Zahlung zu gelangen.",
-    "unavailable": "Die Spam-Prüfung konnte nicht geladen werden, daher kann die Buchung nicht fortgesetzt werden (vielleicht blockiert sie ein Werbeblocker). Bitte laden Sie die Seite neu oder schreiben Sie uns an {email}."
+    "unavailable": "Die Spam-Prüfung konnte nicht geladen werden, daher kann die Buchung nicht fortgesetzt werden (vielleicht blockiert sie ein Werbeblocker). Bitte laden Sie die Seite neu oder schreiben Sie uns an {email}.",
+    "breakdownTitle": "So setzt sich der Gesamtbetrag zusammen",
+    "perNight": "{rate} pro Nacht",
+    "roomsSubtotal": "Zimmer, vor Steuern",
+    "vat": "MwSt. ({rate})",
+    "municipalTax": "Gemeindesteuer ({rate})",
+    "climateFee": "Klimaabgabe ({amount} pro Zimmer und Nacht · {nights} · {rooms} Zimmer)"
   },
   "notFound": {
     "title": "Seite nicht gefunden",

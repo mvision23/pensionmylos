@@ -357,7 +357,13 @@
     "errPayment": "No s'ha pogut carregar el formulari de pagament. Torna-ho a provar o escriu-nos a {email}.",
     "fallbackBeds24": "Problemes? Reserva a la nostra pàgina de Beds24",
     "challenge": "Un pas més: marca «No sóc un robot» aquí sota per continuar amb el pagament.",
-    "unavailable": "No s'ha pogut carregar la verificació antispam, així que la reserva no pot continuar (potser la bloqueja un bloquejador d'anuncis). Torna a carregar la pàgina o escriu-nos a {email}."
+    "unavailable": "No s'ha pogut carregar la verificació antispam, així que la reserva no pot continuar (potser la bloqueja un bloquejador d'anuncis). Torna a carregar la pàgina o escriu-nos a {email}.",
+    "breakdownTitle": "Com es calcula el total",
+    "perNight": "{rate} per nit",
+    "roomsSubtotal": "Habitacions, abans d'impostos",
+    "vat": "IVA ({rate})",
+    "municipalTax": "Taxa municipal ({rate})",
+    "climateFee": "Taxa climàtica ({amount} per habitació i nit · {nights} · {rooms} habitació/ons)"
   },
   "notFound": {
     "title": "Pàgina no trobada",

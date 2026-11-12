@@ -357,7 +357,13 @@
     "errPayment": "Il modulo di pagamento non si è caricato. Riprova oppure scrivici a {email}.",
     "fallbackBeds24": "Problemi? Prenota sulla nostra pagina Beds24",
     "challenge": "Ancora un passo: spunta «Non sono un robot» qui sotto per continuare al pagamento.",
-    "unavailable": "Il controllo antispam non si è caricato, quindi la prenotazione non può continuare (forse lo blocca un ad blocker). Ricarica la pagina oppure scrivici a {email}."
+    "unavailable": "Il controllo antispam non si è caricato, quindi la prenotazione non può continuare (forse lo blocca un ad blocker). Ricarica la pagina oppure scrivici a {email}.",
+    "breakdownTitle": "Come si calcola il totale",
+    "perNight": "{rate} a notte",
+    "roomsSubtotal": "Camere, tasse escluse",
+    "vat": "IVA ({rate})",
+    "municipalTax": "Tassa comunale ({rate})",
+    "climateFee": "Tassa climatica ({amount} per camera a notte · {nights} · {rooms} camera/e)"
   },
   "notFound": {
     "title": "Pagina non trovata",

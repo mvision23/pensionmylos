@@ -64,11 +64,13 @@ const config = {
 const strings = {
   searching: t.searching, none: t.none, error: t.error, invalid: t.invalidDates, choose: t.chooseDates,
   search: t.search, maxGuests: t.maxGuests, notTogether: t.notTogether, capacityNote: t.capacityNote,
-  selectOne: t.selectOne, guestOptions: b.guestOptions, countrySelect: t.countrySelect,
+  selectOne: t.selectOne, guestOptions: b.guestOptions, countrySelect: t.countrySelect, total: t.total,
   toPayment: t.toPayment, preparing: t.preparing,
   errInvalid: t.errInvalid, errSoldOut: t.errSoldOut, errPriceChanged: t.errPriceChanged,
   errCheckout: t.errCheckout.replace('{email}', site.email), errPayment: t.errPayment.replace('{email}', site.email),
   challenge: t.challenge, unavailable: t.unavailable.replace('{email}', site.email),
+  perNight: t.perNight, roomsSubtotal: t.roomsSubtotal, vat: t.vat, municipalTax: t.municipalTax, climateFee: t.climateFee,
+  night: m.bookingDone.night, nights: m.bookingDone.nights,
 };
 const [consentBefore, consentAfter] = t.consent.split('{privacy}');
 ---
@@ -183,16 +185,22 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
       <button type="button" data-bw-change-rooms class="btn-outline px-5 py-2.5 text-sm">← {t.changeRooms}</button>
     </div>
 
-    <!-- What's being booked -->
-    <div class="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border border-stone bg-white px-5 py-4">
-      <div class="min-w-0">
-        <p class="text-sm text-ink-soft" data-bw-stay></p>
-        <p class="font-medium" data-bw-rooms></p>
+    <!-- What's being booked, with the price breakdown -->
+    <div class="mt-5 border border-stone bg-white px-5 py-4">
+      <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+        <div class="min-w-0">
+          <p class="text-sm text-ink-soft" data-bw-stay></p>
+          <p class="font-medium" data-bw-rooms></p>
+        </div>
+        <p class="text-right">
+          <span class="block text-sm text-ink-soft">{t.total}</span>
+          <span class="text-2xl font-light tabular-nums" data-bw-total></span>
+        </p>
       </div>
-      <p class="text-right">
-        <span class="block text-sm text-ink-soft">{t.total}</span>
-        <span class="text-2xl font-light tabular-nums" data-bw-total></span>
-      </p>
+      <details class="mt-3 border-t border-stone pt-3">
+        <summary class="cursor-pointer text-sm text-mylos-700 underline underline-offset-4 hover:no-underline">{t.breakdownTitle}</summary>
+        <table class="bw-breakdown mt-3 w-full text-sm" data-bw-breakdown></table>
+      </details>
     </div>
 
     <form data-bw-guest novalidate class="mt-5 grid gap-5 border border-stone bg-white p-5 sm:grid-cols-2 sm:p-8">
@@ -251,6 +259,23 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
         <p class="mt-1 max-w-[60ch] text-sm text-ink-soft">{t.paymentIntro}</p>
       </div>
       <button type="button" data-bw-change-details class="btn-outline px-5 py-2.5 text-sm">← {t.changeDetails}</button>
+    </div>
+    <!-- What's being booked, with the price breakdown -->
+    <div class="mt-5 border border-stone bg-white px-5 py-4">
+      <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+        <div class="min-w-0">
+          <p class="text-sm text-ink-soft" data-bw-stay></p>
+          <p class="font-medium" data-bw-rooms></p>
+        </div>
+        <p class="text-right">
+          <span class="block text-sm text-ink-soft">{t.total}</span>
+          <span class="text-2xl font-light tabular-nums" data-bw-total></span>
+        </p>
+      </div>
+      <details class="mt-3 border-t border-stone pt-3">
+        <summary class="cursor-pointer text-sm text-mylos-700 underline underline-offset-4 hover:no-underline">{t.breakdownTitle}</summary>
+        <table class="bw-breakdown mt-3 w-full text-sm" data-bw-breakdown></table>
+      </details>
     </div>
     <div class="relative mt-5 min-h-40 border border-stone bg-white p-2 sm:p-4">
       <p data-bw-payment-loading class="flex items-center gap-3 p-6 text-ink-soft" role="status">
@@ -313,6 +338,21 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
     .bw-c-cap { grid-area: cap; }
     .bw-c-price { grid-area: price; }
     .bw-c-qty { grid-area: qty; }
+  }
+  .bw-breakdown td {
+    padding: 0.2rem 0;
+    vertical-align: top;
+  }
+  .bw-breakdown td:last-child {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    padding-left: 1rem;
+  }
+  .bw-breakdown tr[data-total] td {
+    border-top: 1px solid var(--color-stone);
+    padding-top: 0.5rem;
+    font-weight: 500;
   }
   /* A field the server (or browser) rejected. */
   [data-bw-guest] :where(input, select, textarea)[aria-invalid='true'] {
@@ -386,9 +426,10 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
     const money = (v: number, cur = 'EUR') => new Intl.NumberFormat(cfg.dateLocale, { style: 'currency', currency: cur }).format(v);
     const fmtDate = (s: string) => new Date(`${s}T12:00:00`).toLocaleDateString(cfg.dateLocale, { day: 'numeric', month: 'short', year: 'numeric' });
     const nights = () => nightsBetween(checkin.value, checkout.value);
+    const pct = (v: number) => new Intl.NumberFormat(cfg.dateLocale, { style: 'percent', maximumFractionDigits: 2 }).format(v);
+    const nightsLabel = (n: number) => (n === 1 ? S.night : S.nights.replace('{n}', String(n)));
     {
       const el = root.querySelector<HTMLElement>('[data-cart-taxes]')!;
-      const pct = (v: number) => new Intl.NumberFormat(cfg.dateLocale, { style: 'percent', maximumFractionDigits: 2 }).format(v);
       // Same rates as the server (src/data/site.ts → beds24.taxes) via unitLines.
       const probe = unitLines(100, 1);
       el.textContent = (el.dataset.template ?? '')
@@ -524,12 +565,40 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
       showGuestError(S.challenge);
     }
 
-    function openDetails() {
+    /** The summary + "how the total is calculated" table, in every step that shows it. */
+    function renderSummary() {
       const units = priced();
-      details.querySelector<HTMLElement>('[data-bw-stay]')!.textContent =
-        `${fmtDate(checkin.value)} – ${fmtDate(checkout.value)} · ${guestLabel(Number(adults.value))}`;
-      details.querySelector<HTMLElement>('[data-bw-rooms]')!.textContent = cart.lines.textContent;
-      details.querySelector<HTMLElement>('[data-bw-total]')!.textContent = money(cents(units.reduce((s, u) => s + u.lines.total, 0)), currency);
+      const n = nights();
+      const total = cents(units.reduce((s, u) => s + u.lines.total, 0));
+      const row = (label: string, amount: number, attr?: string) => {
+        const tr = document.createElement('tr');
+        if (attr) tr.setAttribute(attr, '');
+        const a = document.createElement('td'); a.textContent = label;
+        const b = document.createElement('td'); b.textContent = money(amount, currency);
+        tr.append(a, b);
+        return tr;
+      };
+      // Rooms grouped by type: "2 × Twin room — 3 nights (€77.77 per night)".
+      const byRoom = new Map<string, { count: number; room: number }>();
+      for (const u of units) { const g = byRoom.get(u.id) ?? { count: 0, room: 0 }; g.count++; g.room = cents(g.room + u.lines.room); byRoom.set(u.id, g); }
+      const sum = (k: 'room' | 'vat' | 'municipal' | 'climate') => cents(units.reduce((s, u) => s + u.lines[k], 0));
+      const probe = unitLines(100, 1);
+      const rows = [
+        ...[...byRoom].map(([id, g]) => row(`${g.count > 1 ? `${g.count} × ` : ''}${nameOf(id)} — ${nightsLabel(n)} (${S.perNight.replace('{rate}', money(cents(g.room / g.count / n), currency))})`, g.room)),
+        row(S.roomsSubtotal, sum('room')),
+        row(S.vat.replace('{rate}', pct(probe.vat / 100)), sum('vat')),
+        row(S.municipalTax.replace('{rate}', pct(probe.municipal / 100)), sum('municipal')),
+        row(S.climateFee.replace('{amount}', money(probe.climate, currency)).replace('{nights}', nightsLabel(n)).replace('{rooms}', String(units.length)), sum('climate')),
+        row(S.total, total, 'data-total'),
+      ];
+      root.querySelectorAll<HTMLElement>('[data-bw-stay]').forEach((el) => { el.textContent = `${fmtDate(checkin.value)} – ${fmtDate(checkout.value)} · ${guestLabel(Number(adults.value))}`; });
+      root.querySelectorAll<HTMLElement>('[data-bw-rooms]').forEach((el) => { el.textContent = cart.lines.textContent; });
+      root.querySelectorAll<HTMLElement>('[data-bw-total]').forEach((el) => { el.textContent = money(total, currency); });
+      root.querySelectorAll<HTMLTableElement>('[data-bw-breakdown]').forEach((table) => table.replaceChildren(...rows.map((r) => r.cloneNode(true))));
+    }
+
+    function openDetails() {
+      renderSummary();
       guestError.hidden = true;
       armRecaptcha();
       show('details');

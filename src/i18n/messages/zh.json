@@ -357,7 +357,13 @@
     "errPayment": "无法加载付款表单。请重试，或发送邮件至 {email}。",
     "fallbackBeds24": "遇到问题？改为在我们的 Beds24 页面预订",
     "challenge": "还差一步：勾选下方的“进行人机身份验证”即可前往付款。",
-    "unavailable": "反垃圾验证未能加载，因此无法继续预订（可能被广告拦截器阻止）。请刷新页面，或发送邮件至 {email}。"
+    "unavailable": "反垃圾验证未能加载，因此无法继续预订（可能被广告拦截器阻止）。请刷新页面，或发送邮件至 {email}。",
+    "breakdownTitle": "总价如何计算",
+    "perNight": "每晚 {rate}",
+    "roomsSubtotal": "房费（税前）",
+    "vat": "增值税（{rate}）",
+    "municipalTax": "市政税（{rate}）",
+    "climateFee": "气候税（每间客房每晚 {amount} · {nights} · {rooms} 间）"
   },
   "notFound": {
     "title": "页面未找到",

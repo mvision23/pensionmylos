@@ -357,7 +357,13 @@
     "errPayment": "Het betaalformulier kon niet worden geladen. Probeer het opnieuw of mail ons via {email}.",
     "fallbackBeds24": "Problemen? Boek dan via onze Beds24-pagina",
     "challenge": "Nog één stap: vink hieronder „Ik ben geen robot” aan om verder te gaan naar betalen.",
-    "unavailable": "De spamcontrole kon niet laden, dus de boeking kan niet verdergaan (misschien blokkeert een adblocker deze). Laad de pagina opnieuw of mail ons via {email}."
+    "unavailable": "De spamcontrole kon niet laden, dus de boeking kan niet verdergaan (misschien blokkeert een adblocker deze). Laad de pagina opnieuw of mail ons via {email}.",
+    "breakdownTitle": "Hoe het totaal is berekend",
+    "perNight": "{rate} per nacht",
+    "roomsSubtotal": "Kamers, exclusief belastingen",
+    "vat": "Btw ({rate})",
+    "municipalTax": "Gemeentebelasting ({rate})",
+    "climateFee": "Klimaatheffing ({amount} per kamer per nacht · {nights} · {rooms} kamer(s))"
   },
   "notFound": {
     "title": "Pagina niet gevonden",

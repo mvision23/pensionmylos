@@ -357,7 +357,13 @@
     "errPayment": "The payment form couldn't be loaded. Please try again, or contact us at {email}.",
     "fallbackBeds24": "Problems? Book on our Beds24 page instead",
     "challenge": "One more step: tick “I'm not a robot” below to continue to payment.",
-    "unavailable": "The spam check couldn't load, so the booking can't continue (an ad blocker may be blocking it). Please reload the page, or write to us at {email}."
+    "unavailable": "The spam check couldn't load, so the booking can't continue (an ad blocker may be blocking it). Please reload the page, or write to us at {email}.",
+    "breakdownTitle": "How the total is calculated",
+    "perNight": "{rate} per night",
+    "roomsSubtotal": "Rooms, before taxes",
+    "vat": "VAT ({rate})",
+    "municipalTax": "Municipal tax ({rate})",
+    "climateFee": "Climate fee ({amount} per room per night · {nights} · {rooms} room(s))"
   },
   "notFound": {
     "title": "Page not found",
