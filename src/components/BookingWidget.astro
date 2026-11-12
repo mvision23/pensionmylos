@@ -394,7 +394,9 @@ const strings = {
     // room; anything taller scrolls inside the frame.
     let frameLoads = 0;
     let frameRooms = 1;
+    let confirmedHeight = 0; // set once our /booking-confirmed/ page reports its height
     function sizeFrame() {
+      if (confirmedHeight) { frame.style.height = `${confirmedHeight}px`; return; }
       const wide = frame.clientWidth >= 768;
       let h = wide ? 1100 + 190 * (frameRooms - 1) : 1850 + 290 * (frameRooms - 1);
       if (frameLoads > 1) h = Math.max(h, wide ? 1500 : 2400);
@@ -407,6 +409,9 @@ const strings = {
       u.searchParams.set('hideheader', 'yes');
       u.searchParams.set('hidefooter', 'yes');
       frameLoads = 0;
+      confirmedHeight = 0;
+      backButton.hidden = false;
+      openFull.parentElement!.hidden = false;
       frameRooms = Math.max(1, Object.values(qty).reduce((n, q) => n + q, 0));
       frameLoading.hidden = false;
       frame.src = u.toString();
@@ -430,7 +435,27 @@ const strings = {
       // Each Beds24 step is a new page inside the frame: bring its top back into view.
       if (frameLoads > 1 && checkoutBox.getBoundingClientRect().top < 0) checkoutBox.scrollIntoView({ block: 'start' });
     });
-    root.querySelector('[data-bw-back]')!.addEventListener('click', () => closeCheckout(true));
+    const backButton = root.querySelector<HTMLButtonElement>('[data-bw-back]')!;
+    backButton.addEventListener('click', () => closeCheckout(true));
+
+    // Beds24's Return URL (/booking-confirmed/) loads inside the frame and, being
+    // our own page, reports its height: fit the frame to it and drop the
+    // "change rooms" / "open full page" links — the booking is done.
+    addEventListener('message', (e: MessageEvent) => {
+      if (e.source !== frame.contentWindow) return;
+      let host = '';
+      try { host = new URL(e.origin).hostname; } catch { return; }
+      if (host !== location.hostname && host !== 'pensionmylos.com' && !host.endsWith('.pensionmylos.com')) return;
+      const data = e.data as { type?: string; height?: number } | null;
+      if (!data || data.type !== 'mylos:booking-confirmed' || typeof data.height !== 'number') return;
+      const h = Math.max(240, Math.min(Math.round(data.height), 4000));
+      confirmedHeight = h;
+      // Only touch the frame when the size really changes (avoids resize ping-pong).
+      if (Math.abs(frame.getBoundingClientRect().height - h) > 2) frame.style.height = `${h}px`;
+      backButton.hidden = true;
+      openFull.parentElement!.hidden = true;
+      if (checkoutBox.getBoundingClientRect().top < 0) checkoutBox.scrollIntoView({ block: 'start' });
+    });
 
     // ---- availability: one call per occupancy, merged into offers ----
     let seq = 0;

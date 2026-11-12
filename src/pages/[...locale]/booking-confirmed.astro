@@ -6,6 +6,12 @@
  * Beds24 has a single return URL, so the English page forwards the guest to
  * the language they were browsing in (remembered when they left for Beds24).
  * Conversion page for Analytics; kept out of search engines and the sitemap.
+ *
+ * When Beds24 loads it inside the booking iframe on /reservations/, it stays
+ * there so the whole booking completes in the frame: it switches to an
+ * "embedded" look (no header, footer or cookie banner), tells the parent page
+ * its height (postMessage `mylos:booking-confirmed`), and its buttons open in
+ * the full window.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { site } from '../../data/site';
@@ -21,8 +27,16 @@ const targets = Object.fromEntries(locales.filter((l) => l !== defaultLocale).ma
 
 <BaseLayout locale={locale} title={t.title} description={t.description} noindex>
   <script is:inline slot="head">
-    try { if (window.top !== window.self) window.top.location.replace(location.href); } catch (e) {}
+    try { if (window.top !== window.self) document.documentElement.dataset.embedded = ''; } catch (e) {}
   </script>
+  <style is:global>
+    html[data-embedded] body > header,
+    html[data-embedded] body > footer,
+    html[data-embedded] body > a[href='#main'],
+    html[data-embedded] #cookie-banner { display: none !important; }
+    html[data-embedded], html[data-embedded] body { background: transparent; }
+    html[data-embedded] [data-booking-done] { min-height: 0; padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  </style>
   {
     locale === defaultLocale && (
       <script is:inline slot="head" define:vars={{ targets }}>
@@ -33,14 +47,14 @@ const targets = Object.fromEntries(locales.filter((l) => l !== defaultLocale).ma
       </script>
     )
   }
-  <section class="mx-auto flex min-h-[75vh] max-w-3xl flex-col justify-center px-5 pt-32 pb-20 sm:px-8">
+  <section data-booking-done class="mx-auto flex min-h-[75vh] max-w-3xl flex-col justify-center px-5 pt-32 pb-20 sm:px-8">
     <span class="grid size-14 place-items-center rounded-full bg-sea-100 text-sea-700" aria-hidden="true">
       <svg viewBox="0 0 24 24" class="size-7" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
     </span>
     <h1 class="mylos-heading mt-8" set:html={t.heading} />
     <p class="mt-8 text-lg text-ink-soft">{t.text}</p>
     <p class="mt-4 text-lg text-ink-soft">
-      {fmt(t.contact, { email: site.email })}
+      {fmt(t.contact, { email: site.email })}{' '}
       <a class="text-ink underline underline-offset-4 hover:text-mylos-700" href={site.phoneHref}>{site.phone}</a>
     </p>
     <div class="mt-10 flex flex-wrap gap-3">
@@ -48,4 +62,23 @@ const targets = Object.fromEntries(locales.filter((l) => l !== defaultLocale).ma
       <a href={localePath(locale, '/blog/')} class="btn-outline">{t.blog}</a>
     </div>
   </section>
+  <script is:inline>
+    (function () {
+      if (!('embedded' in document.documentElement.dataset)) return;
+      // Links leave the booking frame and open in the full window.
+      document.querySelectorAll('[data-booking-done] a[href^="/"]').forEach(function (a) { a.target = '_top'; });
+      // Let /reservations/ size the frame to this page and scroll it into view.
+      // Height of our content, not of the frame (scrollHeight never drops below the frame's own height).
+      var box = document.querySelector('[data-booking-done]');
+      function tell() {
+        try {
+          var height = Math.ceil(box.getBoundingClientRect().bottom + scrollY);
+          parent.postMessage({ type: 'mylos:booking-confirmed', height: height }, '*');
+        } catch (e) {}
+      }
+      tell();
+      addEventListener('load', tell);
+      addEventListener('resize', tell);
+    })();
+  </script>
 </BaseLayout>
