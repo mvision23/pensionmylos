@@ -7,7 +7,7 @@ description: How Pension Mylos handles your personal data and which cookies pens
 
 ## Who we are
 
-Pension Mylos **[legal entity name, VAT/AFM number]**, **[full address]**, Agios Nikolaos, Crete, Greece, is responsible for the personal data collected through pensionmylos.com.
+Pension Mylos, Agios Nikolaos, Crete, Greece, is responsible for the personal data collected through pensionmylos.com.
 Contact: [info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## What we collect and why
@@ -38,12 +38,12 @@ Without reCAPTCHA the contact and booking forms can't be sent. You can always re
 
 | Cookie | Provider | Purpose | Type | Duration |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Remembers your cookie choices | Necessary | **[12 months]** |
+| `mylos-cookie-consent` (browser storage, not a cookie) | pensionmylos.com | Remembers your cookie choices | Necessary | until you clear your browser data |
 | `_GRECAPTCHA` | Google (reCAPTCHA) | Bot and spam protection on the contact and booking forms | Necessary (security) | 6 months |
 | `_ga`, `_ga_*` (if used) | Google Analytics | Visit statistics | Analytics, **only with your consent** | up to 2 years |
 | Beds24 / Google Maps cookies | Beds24, Google | Booking widget, embedded map | Set by those services when you use them | See their policies |
 
-Necessary cookies don't need consent. You can change your choice at any time via **[cookie settings link]** or by deleting cookies in your browser.
+Necessary cookies don't need consent. You can change your choice at any time via the cookie settings link in the footer or by deleting cookies in your browser.
 
 ## Who receives your data
 
@@ -59,7 +59,7 @@ Some of them are based in the USA. Transfers there rely on the EU–US Data Priv
 
 ## How long we keep it
 
-- **Contact messages:** as long as needed to answer you, then at most **[24 months]**.
+- **Contact messages:** as long as needed to answer you.
 - **Booking data:** as long as tax and accounting law requires.
 - **Newsletter data:** until you unsubscribe.
 

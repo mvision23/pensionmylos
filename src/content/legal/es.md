@@ -7,7 +7,7 @@ description: Cómo trata Pension Mylos tus datos personales y qué cookies usa p
 
 ## Quiénes somos
 
-Pension Mylos **[legal entity name, VAT/AFM number]**, **[full address]**, Agios Nikolaos, Creta, Grecia, es la responsable de los datos personales recogidos a través de pensionmylos.com.
+Pension Mylos, Agios Nikolaos, Creta, Grecia, es la responsable de los datos personales recogidos a través de pensionmylos.com.
 Contacto: [info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## Qué datos recogemos y para qué
@@ -38,12 +38,12 @@ Sin reCAPTCHA no se pueden enviar los formularios de contacto y de reserva. Siem
 
 | Cookie | Proveedor | Finalidad | Tipo | Duración |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Recuerda tus preferencias de cookies | Necesaria | **[12 months]** |
+| `mylos-cookie-consent` (almacenamiento del navegador, no es una cookie) | pensionmylos.com | Recuerda tus preferencias de cookies | Necesaria | hasta que borres los datos del navegador |
 | `_GRECAPTCHA` | Google (reCAPTCHA) | Protección contra bots y spam en los formularios de contacto y de reserva | Necesaria (seguridad) | 6 meses |
 | `_ga`, `_ga_*` (si se usa) | Google Analytics | Estadísticas de visitas | Analítica, **solo con tu consentimiento** | hasta 2 años |
 | Cookies de Beds24 / Google Maps | Beds24, Google | Motor de reservas, mapa insertado | Las instalan esos servicios cuando los usas | Consulta sus políticas |
 
-Las cookies necesarias no requieren consentimiento. Puedes cambiar tu elección en cualquier momento en **[cookie settings link]** o borrando las cookies en tu navegador.
+Las cookies necesarias no requieren consentimiento. Puedes cambiar tu elección en cualquier momento en el enlace de configuración de cookies del pie de página o borrando las cookies en tu navegador.
 
 ## Quién recibe tus datos
 
@@ -59,7 +59,7 @@ Algunos tienen su sede en EE. UU. Esas transferencias se basan en el Marco de Pr
 
 ## Cuánto tiempo los conservamos
 
-- **Mensajes de contacto:** el tiempo necesario para responderte y, como máximo, **[24 months]**.
+- **Mensajes de contacto:** el tiempo necesario para responderte.
 - **Datos de reservas:** el tiempo que exija la normativa fiscal y contable.
 - **Datos de la newsletter:** hasta que te des de baja.
 

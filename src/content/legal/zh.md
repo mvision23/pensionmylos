@@ -7,7 +7,7 @@ description: Pension Mylos 如何处理您的个人数据，以及 pensionmylos.
 
 ## 我们是谁
 
-通过 pensionmylos.com 收集的个人数据由 Pension Mylos **[legal entity name, VAT/AFM number]**，**[full address]**，希腊克里特岛阿吉奥斯尼古拉奥斯负责。
+通过 pensionmylos.com 收集的个人数据由 Pension Mylos（希腊克里特岛阿吉奥斯尼古拉奥斯）负责。
 联系方式：[info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## 我们收集哪些数据及其用途
@@ -38,12 +38,12 @@ description: Pension Mylos 如何处理您的个人数据，以及 pensionmylos.
 
 | Cookie | 提供方 | 用途 | 类型 | 有效期 |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | 记住您的 Cookie 选择 | 必要 | **[12 months]** |
+| `mylos-cookie-consent`（浏览器存储，并非 Cookie） | pensionmylos.com | 记住您的 Cookie 选择 | 必要 | 直至您清除浏览器数据 |
 | `_GRECAPTCHA` | Google（reCAPTCHA） | 联系表单和预订表单的防机器人和防垃圾信息保护 | 必要（安全） | 6个月 |
 | `_ga`、`_ga_*`（如有使用） | Google Analytics | 访问统计 | 统计，**仅在您同意时** | 最长2年 |
 | Beds24／Google 地图的 Cookie | Beds24、Google | 预订系统、嵌入式地图 | 在您使用这些服务时由其设置 | 请参阅其政策 |
 
-必要 Cookie 无需征得同意。您可以随时通过 **[cookie settings link]** 更改您的选择，或在浏览器中删除 Cookie。
+必要 Cookie 无需征得同意。您可以随时通过页脚的 Cookie 设置链接更改您的选择，或在浏览器中删除 Cookie。
 
 ## 谁会收到您的数据
 
@@ -59,7 +59,7 @@ description: Pension Mylos 如何处理您的个人数据，以及 pensionmylos.
 
 ## 我们保存数据的期限
 
-- **联系留言：** 在回复您所需的时间内保存，之后最多保存 **[24 months]**。
+- **联系留言：** 在回复您所需的时间内保存。
 - **预订数据：** 按税务和会计法规要求的期限保存。
 - **新闻通讯数据：** 保存至您退订为止。
 

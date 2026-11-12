@@ -7,7 +7,7 @@ description: Come Pension Mylos tratta i tuoi dati personali e quali cookie usa 
 
 ## Chi siamo
 
-Pension Mylos **[legal entity name, VAT/AFM number]**, **[full address]**, Agios Nikolaos, Creta, Grecia, è il titolare dei dati personali raccolti tramite pensionmylos.com.
+Pension Mylos, Agios Nikolaos, Creta, Grecia, è il titolare dei dati personali raccolti tramite pensionmylos.com.
 Contatti: [info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## Quali dati raccogliamo e perché
@@ -38,12 +38,12 @@ Senza reCAPTCHA i moduli di contatto e di prenotazione non possono essere inviat
 
 | Cookie | Fornitore | Scopo | Tipo | Durata |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Ricorda le tue scelte sui cookie | Necessario | **[12 months]** |
+| `mylos-cookie-consent` (memoria del browser, non un cookie) | pensionmylos.com | Ricorda le tue scelte sui cookie | Necessario | finché non cancelli i dati del browser |
 | `_GRECAPTCHA` | Google (reCAPTCHA) | Protezione da bot e spam nei moduli di contatto e di prenotazione | Necessario (sicurezza) | 6 mesi |
 | `_ga`, `_ga_*` (se usato) | Google Analytics | Statistiche delle visite | Statistiche, **solo con il tuo consenso** | fino a 2 anni |
 | Cookie di Beds24 / Google Maps | Beds24, Google | Sistema di prenotazione, mappa incorporata | Impostati da questi servizi quando li usi | Vedi le loro informative |
 
-I cookie necessari non richiedono il consenso. Puoi modificare la tua scelta in qualsiasi momento tramite **[cookie settings link]** o eliminando i cookie dal browser.
+I cookie necessari non richiedono il consenso. Puoi modificare la tua scelta in qualsiasi momento tramite il link delle impostazioni dei cookie a piè di pagina o eliminando i cookie dal browser.
 
 ## Chi riceve i tuoi dati
 
@@ -59,7 +59,7 @@ Alcuni hanno sede negli Stati Uniti. I trasferimenti verso gli USA si basano sul
 
 ## Per quanto tempo li conserviamo
 
-- **Messaggi di contatto:** per il tempo necessario a risponderti, poi al massimo **[24 months]**.
+- **Messaggi di contatto:** per il tempo necessario a risponderti.
 - **Dati di prenotazione:** per il tempo richiesto dalla normativa fiscale e contabile.
 - **Dati della newsletter:** fino alla disiscrizione.
 

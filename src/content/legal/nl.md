@@ -7,7 +7,7 @@ description: Hoe Pension Mylos met je persoonsgegevens omgaat en welke cookies p
 
 ## Wie wij zijn
 
-Pension Mylos **[legal entity name, VAT/AFM number]**, **[full address]**, Agios Nikolaos, Kreta, Griekenland, is verantwoordelijk voor de persoonsgegevens die via pensionmylos.com worden verzameld.
+Pension Mylos, Agios Nikolaos, Kreta, Griekenland, is verantwoordelijk voor de persoonsgegevens die via pensionmylos.com worden verzameld.
 Contact: [info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## Wat we verzamelen en waarom
@@ -38,12 +38,12 @@ Zonder reCAPTCHA kunnen het contact- en het boekingsformulier niet worden verstu
 
 | Cookie | Aanbieder | Doel | Soort | Bewaartermijn |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Onthoudt je cookiekeuze | Noodzakelijk | **[12 months]** |
+| `mylos-cookie-consent` (browseropslag, geen cookie) | pensionmylos.com | Onthoudt je cookiekeuze | Noodzakelijk | tot je je browsergegevens wist |
 | `_GRECAPTCHA` | Google (reCAPTCHA) | Bescherming tegen bots en spam op het contact- en boekingsformulier | Noodzakelijk (beveiliging) | 6 maanden |
 | `_ga`, `_ga_*` (indien gebruikt) | Google Analytics | Bezoekstatistieken | Statistieken, **alleen met je toestemming** | tot 2 jaar |
 | Cookies van Beds24 / Google Maps | Beds24, Google | Boekingsmodule, ingesloten kaart | Geplaatst door die diensten wanneer je ze gebruikt | Zie hun beleid |
 
-Voor noodzakelijke cookies is geen toestemming nodig. Je kunt je keuze altijd wijzigen via **[cookie settings link]** of door cookies in je browser te verwijderen.
+Voor noodzakelijke cookies is geen toestemming nodig. Je kunt je keuze altijd wijzigen via de link naar de cookie-instellingen in de voettekst of door cookies in je browser te verwijderen.
 
 ## Wie je gegevens ontvangt
 
@@ -59,7 +59,7 @@ Sommige daarvan zijn gevestigd in de VS. Doorgifte daarheen is gebaseerd op het 
 
 ## Hoe lang we gegevens bewaren
 
-- **Contactberichten:** zo lang als nodig is om je te antwoorden, daarna maximaal **[24 months]**.
+- **Contactberichten:** zo lang als nodig is om je te antwoorden.
 - **Boekingsgegevens:** zo lang als de fiscale en boekhoudkundige wetgeving voorschrijft.
 - **Nieuwsbriefgegevens:** tot je je afmeldt.
 

@@ -7,7 +7,7 @@ description: Com tracta Pension Mylos les teves dades personals i quines galetes
 
 ## Qui som
 
-Pension Mylos **[legal entity name, VAT/AFM number]**, **[full address]**, Agios Nikolaos, Creta, Grècia, és la responsable de les dades personals recollides a través de pensionmylos.com.
+Pension Mylos, Agios Nikolaos, Creta, Grècia, és la responsable de les dades personals recollides a través de pensionmylos.com.
 Contacte: [info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## Quines dades recollim i per a què
@@ -38,12 +38,12 @@ Sense reCAPTCHA no es poden enviar els formularis de contacte i de reserva. Semp
 
 | Galeta | Proveïdor | Finalitat | Tipus | Durada |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Recorda les teves preferències de galetes | Necessària | **[12 months]** |
+| `mylos-cookie-consent` (emmagatzematge del navegador, no és una galeta) | pensionmylos.com | Recorda les teves preferències de galetes | Necessària | fins que esborris les dades del navegador |
 | `_GRECAPTCHA` | Google (reCAPTCHA) | Protecció contra bots i correu brossa als formularis de contacte i de reserva | Necessària (seguretat) | 6 mesos |
 | `_ga`, `_ga_*` (si es fa servir) | Google Analytics | Estadístiques de visites | Analítica, **només amb el teu consentiment** | fins a 2 anys |
 | Galetes de Beds24 / Google Maps | Beds24, Google | Motor de reserves, mapa inserit | Les instal·len aquests serveis quan els fas servir | Consulta les seves polítiques |
 
-Les galetes necessàries no requereixen consentiment. Pots canviar la teva elecció en qualsevol moment a **[cookie settings link]** o esborrant les galetes al navegador.
+Les galetes necessàries no requereixen consentiment. Pots canviar la teva elecció en qualsevol moment a l'enllaç de configuració de galetes del peu de pàgina o esborrant les galetes al navegador.
 
 ## Qui rep les teves dades
 
@@ -59,7 +59,7 @@ Alguns tenen la seu als EUA. Aquestes transferències es basen en el Marc de Pri
 
 ## Quant de temps les conservem
 
-- **Missatges de contacte:** el temps necessari per respondre't i, com a màxim, **[24 months]**.
+- **Missatges de contacte:** el temps necessari per respondre't.
 - **Dades de reserves:** el temps que exigeixi la normativa fiscal i comptable.
 - **Dades del butlletí:** fins que et donis de baixa.
 

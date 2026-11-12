@@ -7,7 +7,7 @@ description: Pension Mylos による個人データの取り扱いと、pensionm
 
 ## 運営者
 
-pensionmylos.com を通じて収集される個人データの管理者は、Pension Mylos **[legal entity name, VAT/AFM number]**、**[full address]**、ギリシャ・クレタ島アギオス・ニコラオスです。
+pensionmylos.com を通じて収集される個人データの管理者は、Pension Mylos（ギリシャ・クレタ島アギオス・ニコラオス）です。
 連絡先：[info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## 収集するデータとその目的
@@ -38,12 +38,12 @@ reCAPTCHA なしではお問い合わせフォームや予約フォームを送�
 
 | Cookie | 提供元 | 目的 | 種類 | 保存期間 |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Cookie に関する選択の保存 | 必須 | **[12 months]** |
+| `mylos-cookie-consent`（ブラウザのストレージ。Cookie ではありません） | pensionmylos.com | Cookie に関する選択の保存 | 必須 | ブラウザのデータを削除するまで |
 | `_GRECAPTCHA` | Google（reCAPTCHA） | お問い合わせ・予約フォームのボット・スパム対策 | 必須（セキュリティ） | 6か月 |
 | `_ga`、`_ga_*`（使用している場合） | Google Analytics | 訪問統計 | アクセス解析、**同意された場合のみ** | 最長2年 |
 | Beds24／Google マップの Cookie | Beds24、Google | 予約システム、埋め込み地図 | 各サービスの利用時に設定されます | 各社のポリシーをご覧ください |
 
-必須の Cookie には同意は不要です。選択は **[cookie settings link]** からいつでも変更でき、ブラウザで Cookie を削除することもできます。
+必須の Cookie には同意は不要です。選択はフッターの Cookie 設定リンクからいつでも変更でき、ブラウザで Cookie を削除することもできます。
 
 ## データの提供先
 
@@ -59,7 +59,7 @@ reCAPTCHA なしではお問い合わせフォームや予約フォームを送�
 
 ## 保存期間
 
-- **お問い合わせメッセージ：** 回答に必要な期間、その後最長 **[24 months]**。
+- **お問い合わせメッセージ：** 回答に必要な期間。
 - **予約データ：** 税法および会計法で定められた期間。
 - **ニュースレターのデータ：** 配信停止まで。
 

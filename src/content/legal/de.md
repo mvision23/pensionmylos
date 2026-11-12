@@ -7,7 +7,7 @@ description: Wie Pension Mylos Ihre personenbezogenen Daten verarbeitet und welc
 
 ## Wer wir sind
 
-Verantwortlich für die über pensionmylos.com erhobenen personenbezogenen Daten ist Pension Mylos **[legal entity name, VAT/AFM number]**, **[full address]**, Agios Nikolaos, Kreta, Griechenland.
+Verantwortlich für die über pensionmylos.com erhobenen personenbezogenen Daten ist Pension Mylos, Agios Nikolaos, Kreta, Griechenland.
 Kontakt: [info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## Welche Daten wir erheben und warum
@@ -38,12 +38,12 @@ Ohne reCAPTCHA können das Kontakt- und das Buchungsformular nicht gesendet werd
 
 | Cookie | Anbieter | Zweck | Art | Dauer |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Speichert Ihre Cookie-Auswahl | Notwendig | **[12 months]** |
+| `mylos-cookie-consent` (Browserspeicher, kein Cookie) | pensionmylos.com | Speichert Ihre Cookie-Auswahl | Notwendig | bis Sie Ihre Browserdaten löschen |
 | `_GRECAPTCHA` | Google (reCAPTCHA) | Schutz vor Bots und Spam im Kontakt- und Buchungsformular | Notwendig (Sicherheit) | 6 Monate |
 | `_ga`, `_ga_*` (falls verwendet) | Google Analytics | Besuchsstatistiken | Analyse, **nur mit Ihrer Einwilligung** | bis zu 2 Jahre |
 | Cookies von Beds24 / Google Maps | Beds24, Google | Buchungssystem, eingebettete Karte | Werden von diesen Diensten gesetzt, wenn Sie sie nutzen | Siehe deren Richtlinien |
 
-Notwendige Cookies erfordern keine Einwilligung. Sie können Ihre Auswahl jederzeit über **[cookie settings link]** ändern oder Cookies in Ihrem Browser löschen.
+Notwendige Cookies erfordern keine Einwilligung. Sie können Ihre Auswahl jederzeit über den Link zu den Cookie-Einstellungen in der Fußzeile ändern oder Cookies in Ihrem Browser löschen.
 
 ## Wer Ihre Daten erhält
 
@@ -59,7 +59,7 @@ Einige davon haben ihren Sitz in den USA. Übermittlungen dorthin stützen sich 
 
 ## Wie lange wir Daten speichern
 
-- **Kontaktnachrichten:** so lange, wie es zur Beantwortung nötig ist, danach höchstens **[24 months]**.
+- **Kontaktnachrichten:** so lange, wie es zur Beantwortung nötig ist.
 - **Buchungsdaten:** so lange, wie es steuer- und handelsrechtliche Vorschriften verlangen.
 - **Newsletter-Daten:** bis zu Ihrer Abmeldung.
 

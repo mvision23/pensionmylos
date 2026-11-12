@@ -7,7 +7,7 @@ description: Cum prelucrează Pension Mylos datele dumneavoastră personale și 
 
 ## Cine suntem
 
-Pension Mylos **[legal entity name, VAT/AFM number]**, **[full address]**, Agios Nikolaos, Creta, Grecia, este operatorul datelor personale colectate prin pensionmylos.com.
+Pension Mylos, Agios Nikolaos, Creta, Grecia, este operatorul datelor personale colectate prin pensionmylos.com.
 Contact: [info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## Ce date colectăm și de ce
@@ -38,12 +38,12 @@ Fără reCAPTCHA, formularele de contact și de rezervare nu pot fi trimise. Ne 
 
 | Cookie | Furnizor | Scop | Tip | Durată |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Reține opțiunile dumneavoastră privind cookie-urile | Necesar | **[12 months]** |
+| `mylos-cookie-consent` (stocare în browser, nu un cookie) | pensionmylos.com | Reține opțiunile dumneavoastră privind cookie-urile | Necesar | până când ștergeți datele browserului |
 | `_GRECAPTCHA` | Google (reCAPTCHA) | Protecție împotriva roboților și a spamului în formularele de contact și de rezervare | Necesar (securitate) | 6 luni |
 | `_ga`, `_ga_*` (dacă este folosit) | Google Analytics | Statistici de vizitare | Statistici, **doar cu consimțământul dumneavoastră** | până la 2 ani |
 | Cookie-uri Beds24 / Google Maps | Beds24, Google | Modulul de rezervări, harta încorporată | Setate de aceste servicii când le folosiți | Consultați politicile lor |
 
-Cookie-urile necesare nu necesită consimțământ. Vă puteți schimba oricând opțiunea prin **[cookie settings link]** sau ștergând cookie-urile din browser.
+Cookie-urile necesare nu necesită consimțământ. Vă puteți schimba oricând opțiunea prin linkul de setări cookie din subsolul paginii sau ștergând cookie-urile din browser.
 
 ## Cine primește datele dumneavoastră
 
@@ -59,7 +59,7 @@ Unii dintre ei au sediul în SUA. Transferurile către SUA se bazează pe Cadrul
 
 ## Cât timp păstrăm datele
 
-- **Mesajele de contact:** cât este necesar pentru a vă răspunde, apoi cel mult **[24 months]**.
+- **Mesajele de contact:** cât este necesar pentru a vă răspunde.
 - **Datele de rezervare:** cât impune legislația fiscală și contabilă.
 - **Datele pentru newsletter:** până la dezabonare.
 

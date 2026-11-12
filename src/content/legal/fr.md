@@ -7,7 +7,7 @@ description: Comment Pension Mylos traite vos données personnelles et quels coo
 
 ## Qui sommes-nous
 
-Pension Mylos **[legal entity name, VAT/AFM number]**, **[full address]**, Agios Nikolaos, Crète, Grèce, est responsable des données personnelles collectées via pensionmylos.com.
+Pension Mylos, Agios Nikolaos, Crète, Grèce, est responsable des données personnelles collectées via pensionmylos.com.
 Contact : [info@pensionmylos.com](mailto:info@pensionmylos.com) · +30 2841 14 15 17
 
 ## Données collectées et finalités
@@ -38,12 +38,12 @@ Sans reCAPTCHA, les formulaires de contact et de réservation ne peuvent pas êt
 
 | Cookie | Fournisseur | Finalité | Type | Durée |
 |---|---|---|---|---|
-| **[name used by the cookie banner]** | pensionmylos.com | Mémorise vos choix en matière de cookies | Nécessaire | **[12 months]** |
+| `mylos-cookie-consent` (stockage du navigateur, pas un cookie) | pensionmylos.com | Mémorise vos choix en matière de cookies | Nécessaire | jusqu'à ce que vous effaciez les données de votre navigateur |
 | `_GRECAPTCHA` | Google (reCAPTCHA) | Protection contre les robots et le spam sur les formulaires de contact et de réservation | Nécessaire (sécurité) | 6 mois |
 | `_ga`, `_ga_*` (si utilisé) | Google Analytics | Statistiques de visite | Mesure d'audience, **uniquement avec votre consentement** | jusqu'à 2 ans |
 | Cookies Beds24 / Google Maps | Beds24, Google | Module de réservation, carte intégrée | Déposés par ces services lorsque vous les utilisez | Voir leurs politiques |
 
-Les cookies nécessaires ne requièrent pas de consentement. Vous pouvez modifier votre choix à tout moment via **[cookie settings link]** ou en supprimant les cookies dans votre navigateur.
+Les cookies nécessaires ne requièrent pas de consentement. Vous pouvez modifier votre choix à tout moment via le lien des paramètres des cookies en pied de page ou en supprimant les cookies dans votre navigateur.
 
 ## Destinataires de vos données
 
@@ -59,7 +59,7 @@ Certains sont établis aux États-Unis. Ces transferts reposent sur le cadre de 
 
 ## Durée de conservation
 
-- **Messages de contact :** le temps nécessaire pour vous répondre, puis **[24 months]** au maximum.
+- **Messages de contact :** le temps nécessaire pour vous répondre.
 - **Données de réservation :** la durée imposée par la législation fiscale et comptable.
 - **Données de la newsletter :** jusqu'à votre désabonnement.
 
