@@ -1,84 +1,151 @@
 ---
 /**
- * Where Beds24 sends the guest after a completed booking — set
- * https://pensionmylos.com/booking-confirmed/ as the "Booking Return URL" in
- * Beds24 (Settings → Booking Engine → Property Booking Page → Behaviour).
- * Beds24 has a single return URL, so the English page forwards the guest to
- * the language they were browsing in (remembered when they left for Beds24).
+ * Where Stripe sends the guest after the payment step on /reservations/
+ * (…/booking-confirmed/?session_id=cs_…). The page asks
+ * /api/booking/status, which verifies the payment with Stripe, confirms the
+ * booking in Beds24 and returns the Beds24 booking number(s) shown here.
  * Conversion page for Analytics; kept out of search engines and the sitemap.
- *
- * When Beds24 loads it inside the booking iframe on /reservations/, it stays
- * there so the whole booking completes in the frame: it switches to an
- * "embedded" look (no header, footer or cookie banner), tells the parent page
- * its height (postMessage `mylos:booking-confirmed`), and its buttons open in
- * the full window.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { site } from '../../data/site';
-import { defaultLocale, locales } from '../../i18n/config';
+import { bookableRooms, site } from '../../data/site';
+import { localeInfo } from '../../i18n/config';
 import { fmt, getMessages, localeFromParam, localeParams, localePath } from '../../i18n/utils';
 
 export const getStaticPaths = localeParams;
 
 const locale = localeFromParam(Astro.params.locale);
-const t = getMessages(locale).bookingDone;
-const targets = Object.fromEntries(locales.filter((l) => l !== defaultLocale).map((l) => [l, localePath(l, '/booking-confirmed/')]));
+const m = getMessages(locale);
+const t = m.bookingDone;
+const config = {
+  api: '/api/booking/status',
+  dateLocale: localeInfo[locale].dateLocale,
+  roomNames: Object.fromEntries(bookableRooms.map((r) => [r.id, r.msg === null ? r.name : m.rooms[r.msg].name])),
+  guestOptions: m.book.guestOptions,
+  night: t.night,
+  nights: t.nights,
+  sentTo: t.sentTo,
+  reservations: localePath(locale, '/reservations/'),
+};
 ---
 
 <BaseLayout locale={locale} title={t.title} description={t.description} noindex>
-  <script is:inline slot="head">
-    try { if (window.top !== window.self) document.documentElement.dataset.embedded = ''; } catch (e) {}
-  </script>
-  <style is:global>
-    html[data-embedded] body > header,
-    html[data-embedded] body > footer,
-    html[data-embedded] body > a[href='#main'],
-    html[data-embedded] #cookie-banner { display: none !important; }
-    html[data-embedded], html[data-embedded] body { background: transparent; }
-    html[data-embedded] [data-booking-done] { min-height: 0; padding-top: 2.5rem; padding-bottom: 2.5rem; }
-  </style>
-  {
-    locale === defaultLocale && (
-      <script is:inline slot="head" define:vars={{ targets }}>
-        try {
-          const l = sessionStorage.getItem('mylos-lang');
-          if (l && targets[l]) location.replace(targets[l] + location.search);
-        } catch (e) {}
-      </script>
-    )
-  }
-  <section data-booking-done class="mx-auto flex min-h-[75vh] max-w-3xl flex-col justify-center px-5 pt-32 pb-20 sm:px-8">
-    <span class="grid size-14 place-items-center rounded-full bg-sea-100 text-sea-700" aria-hidden="true">
-      <svg viewBox="0 0 24 24" class="size-7" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-    </span>
-    <h1 class="mylos-heading mt-8" set:html={t.heading} />
-    <p class="mt-8 text-lg text-ink-soft">{t.text}</p>
-    <p class="mt-4 text-lg text-ink-soft">
+  <section data-booking-done data-config={JSON.stringify(config)} class="mx-auto flex min-h-[75vh] max-w-3xl flex-col justify-center px-5 pt-32 pb-20 sm:px-8">
+    <!-- Checking (default while the status request runs) -->
+    <div data-state="checking">
+      <p class="flex items-center gap-3 text-lg text-ink-soft" role="status">
+        <span class="size-5 animate-spin rounded-full border-2 border-stone border-t-mylos-500" aria-hidden="true"></span>
+        {t.checking}
+      </p>
+    </div>
+
+    <!-- Confirmed / processing -->
+    <div data-state="confirmed" hidden>
+      <span class="grid size-14 place-items-center rounded-full bg-sea-100 text-sea-700" aria-hidden="true">
+        <svg viewBox="0 0 24 24" class="size-7" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+      </span>
+      <h1 class="mylos-heading mt-8" set:html={t.heading} />
+      <p class="mt-8 text-lg text-ink-soft" data-text-confirmed>{t.text}</p>
+      <p class="mt-8 text-lg text-ink-soft" data-text-processing hidden>{t.textProcessing}</p>
+      <p class="mt-3 text-lg text-ink-soft" data-sent-to></p>
+
+      <dl class="mt-10 grid gap-x-8 gap-y-4 border-y border-stone py-6 sm:grid-cols-[auto_1fr]">
+        <dt class="text-sm text-ink-soft sm:pt-1" data-number-label data-plural={t.bookingNumbers}>{t.bookingNumber}</dt>
+        <dd class="text-3xl font-medium tabular-nums text-mylos-700" data-number></dd>
+        <dt class="text-sm text-ink-soft">{t.stay}</dt>
+        <dd data-stay></dd>
+        <dt class="text-sm text-ink-soft">{t.rooms}</dt>
+        <dd data-rooms></dd>
+        <dt class="text-sm text-ink-soft">{t.guests}</dt>
+        <dd data-guests></dd>
+        <dt class="text-sm text-ink-soft">{t.paid}</dt>
+        <dd class="tabular-nums" data-paid></dd>
+      </dl>
+    </div>
+
+    <!-- Not paid / expired / error -->
+    <div data-state="failed" hidden>
+      <h1 class="mylos-heading" set:html={t.headingNotPaid} />
+      <p class="mt-8 text-lg text-ink-soft" data-text-open hidden>{t.textOpen}</p>
+      <p class="mt-8 text-lg text-ink-soft" data-text-expired hidden>{t.textExpired}</p>
+      <p class="mt-8 text-lg text-ink-soft" data-text-error hidden>{fmt(t.textError, { email: site.email })}</p>
+      <div class="mt-10">
+        <a href={localePath(locale, '/reservations/')} class="btn-primary">{t.retry}</a>
+      </div>
+    </div>
+
+    <p class="mt-8 text-lg text-ink-soft">
       {fmt(t.contact, { email: site.email })}{' '}
       <a class="text-ink underline underline-offset-4 hover:text-mylos-700" href={site.phoneHref}>{site.phone}</a>
     </p>
-    <div class="mt-10 flex flex-wrap gap-3">
+    <div class="mt-10 flex flex-wrap gap-3" data-links hidden>
       <a href={localePath(locale, '/')} class="btn-primary">{t.home}</a>
       <a href={localePath(locale, '/blog/')} class="btn-outline">{t.blog}</a>
     </div>
   </section>
-  <script is:inline>
-    (function () {
-      if (!('embedded' in document.documentElement.dataset)) return;
-      // Links leave the booking frame and open in the full window.
-      document.querySelectorAll('[data-booking-done] a[href^="/"]').forEach(function (a) { a.target = '_top'; });
-      // Let /reservations/ size the frame to this page and scroll it into view.
-      // Height of our content, not of the frame (scrollHeight never drops below the frame's own height).
-      var box = document.querySelector('[data-booking-done]');
-      function tell() {
-        try {
-          var height = Math.ceil(box.getBoundingClientRect().bottom + scrollY);
-          parent.postMessage({ type: 'mylos:booking-confirmed', height: height }, '*');
-        } catch (e) {}
+
+  <script>
+    type Status = {
+      ok: boolean; state?: 'confirmed' | 'processing' | 'open' | 'expired'; error?: string;
+      ref?: string; bookingIds?: number[]; arrival?: string; departure?: string; adults?: number;
+      rooms?: Record<string, number>; total?: number; currency?: string; email?: string;
+    };
+    const root = document.querySelector<HTMLElement>('[data-booking-done]')!;
+    const cfg = JSON.parse(root.dataset.config!) as {
+      api: string; dateLocale: string; roomNames: Record<string, string>; guestOptions: string[];
+      night: string; nights: string; sentTo: string; reservations: string;
+    };
+    const el = (sel: string) => root.querySelector<HTMLElement>(sel)!;
+    const setState = (state: 'checking' | 'confirmed' | 'failed') =>
+      root.querySelectorAll<HTMLElement>('[data-state]').forEach((s) => { s.hidden = s.dataset.state !== state; });
+    const fmtDate = (s: string) => new Date(`${s}T12:00:00`).toLocaleDateString(cfg.dateLocale, { day: 'numeric', month: 'short', year: 'numeric' });
+
+    function fail(kind: 'open' | 'expired' | 'error') {
+      setState('failed');
+      el('[data-text-open]').hidden = kind !== 'open';
+      el('[data-text-expired]').hidden = kind !== 'expired';
+      el('[data-text-error]').hidden = kind !== 'error';
+      el('[data-links]').hidden = false;
+    }
+
+    function succeed(d: Status) {
+      const ids = d.bookingIds ?? [];
+      el('[data-number]').textContent = ids.join(' · ');
+      if (ids.length > 1) el('[data-number-label]').textContent = el('[data-number-label]').dataset.plural ?? el('[data-number-label]').textContent;
+      const nights = d.arrival && d.departure ? Math.round((Date.parse(`${d.departure}T12:00:00Z`) - Date.parse(`${d.arrival}T12:00:00Z`)) / 864e5) : 0;
+      el('[data-stay]').textContent = d.arrival && d.departure
+        ? `${fmtDate(d.arrival)} – ${fmtDate(d.departure)} · ${nights === 1 ? cfg.night : cfg.nights.replace('{n}', String(nights))}`
+        : '';
+      el('[data-rooms]').textContent = Object.entries(d.rooms ?? {}).map(([id, q]) => `${q} × ${cfg.roomNames[id] ?? id}`).join(' · ');
+      el('[data-guests]').textContent = d.adults ? (cfg.guestOptions[d.adults - 1] ?? String(d.adults)) : '';
+      el('[data-paid]').textContent = d.total != null ? new Intl.NumberFormat(cfg.dateLocale, { style: 'currency', currency: d.currency || 'EUR' }).format(d.total) : '';
+      el('[data-sent-to]').textContent = d.email ? cfg.sentTo.replace('{email}', d.email) : '';
+      el('[data-text-confirmed]').hidden = d.state !== 'confirmed';
+      el('[data-text-processing]').hidden = d.state !== 'processing';
+      el('[data-links]').hidden = false;
+      setState('confirmed');
+      // Analytics: one purchase per payment (guarded so a reload doesn't count twice).
+      try {
+        const key = `mylos-purchase-${d.ref}`;
+        const w = window as any;
+        if (d.state === 'confirmed' && !sessionStorage.getItem(key) && typeof w.gtag === 'function') {
+          w.gtag('event', 'purchase', { transaction_id: ids.join('+'), value: d.total, currency: d.currency, items: Object.entries(d.rooms ?? {}).map(([id, q]) => ({ item_id: id, item_name: cfg.roomNames[id], quantity: q })) });
+          sessionStorage.setItem(key, '1');
+        }
+      } catch {}
+    }
+
+    (async () => {
+      const id = new URLSearchParams(location.search).get('session_id') ?? '';
+      if (!id) { location.replace(cfg.reservations); return; }
+      try {
+        const res = await fetch(`${cfg.api}?session_id=${encodeURIComponent(id)}`, { headers: { Accept: 'application/json' } });
+        const d = (await res.json().catch(() => ({}))) as Status;
+        if (!res.ok || !d.ok) { fail('error'); return; }
+        if (d.state === 'confirmed' || d.state === 'processing') succeed(d);
+        else fail(d.state === 'expired' ? 'expired' : 'open');
+      } catch {
+        fail('error');
       }
-      tell();
-      addEventListener('load', tell);
-      addEventListener('resize', tell);
     })();
   </script>
 </BaseLayout>

@@ -108,61 +108,7 @@ const t = m.contact;
 </div>
 
 <script>
-  type Grecaptcha = {
-    ready: (cb: () => void) => void;
-    execute: (siteKey: string, opts: { action: string }) => Promise<string>;
-    render: (el: HTMLElement, opts: Record<string, unknown>) => number;
-    getResponse: (widgetId?: number) => string;
-    reset: (widgetId?: number) => void;
-  };
-
-  const LOAD_TIMEOUT = 20_000;
-  const loads = new Map<string, Promise<Grecaptcha>>();
-
-  /**
-   * Injects a reCAPTCHA script once (shared by all forms on the page) and
-   * resolves with its API object once it is ready. A failed load is forgotten
-   * so the next attempt retries.
-   */
-  const loadScript = (src: string, pick: (w: any) => Grecaptcha | undefined) => {
-    let p = loads.get(src);
-    if (!p) {
-      p = new Promise<Grecaptcha>((resolve, reject) => {
-        const fail = () => {
-          clearTimeout(timer);
-          loads.delete(src);
-          reject(new Error(`failed to load ${src}`));
-        };
-        const timer = setTimeout(fail, LOAD_TIMEOUT);
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = true;
-        script.onerror = fail;
-        script.onload = () => {
-          const g = pick(window);
-          if (!g) return fail();
-          g.ready(() => { clearTimeout(timer); resolve(g); });
-        };
-        document.head.appendChild(script);
-      });
-      loads.set(src, p);
-    }
-    return p;
-  };
-
-  /** Invisible v3 (classic api.js) — loaded lazily near/at the form. */
-  const loadV3 = (siteKey: string, hl: string) =>
-    loadScript(
-      `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}&hl=${encodeURIComponent(hl)}`,
-      (w) => w.grecaptcha,
-    );
-
-  /** Enterprise checkbox (enterprise.js) — loaded only after a low v3 score. */
-  const loadChallenge = (hl: string) =>
-    loadScript(
-      `https://www.google.com/recaptcha/enterprise.js?render=explicit&hl=${encodeURIComponent(hl)}`,
-      (w) => w.grecaptcha?.enterprise,
-    );
+  import { loadChallenge, loadV3, type Grecaptcha } from '../lib/recaptcha-client';
 
   document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
     const status = form.querySelector<HTMLElement>('[data-form-status]')!;

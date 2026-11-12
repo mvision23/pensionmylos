@@ -47,19 +47,17 @@ export const beds24 = {
   propid: BEDS24_PROPID,
   /** Public availability endpoint (Beds24 JSON API v1, no key needed, CORS-enabled). */
   availabilityApi: 'https://api.beds24.com/json/getAvailabilities',
-  /** Booking page; with `br1-<roomId>=Book` it opens straight on the guest-details step. */
+  /** Beds24's own booking page: the no-JavaScript fallback of the search form. */
   bookingPage: 'https://beds24.com/booking2.php',
-  /** URL used inside the embedded iframe (the page's language is appended as `lang`). */
-  iframeSrc: `https://beds24.com/booking2.php?propid=${BEDS24_PROPID}&referer=iframe`,
-  /** Same booking page, opened full-window (fallback link). */
+  /** Same page, opened full-window: the "problems? book there instead" link. */
   directUrl: `https://beds24.com/booking2.php?propid=${BEDS24_PROPID}&referer=pensionmylos.com`,
   /**
-   * Taxes Beds24 adds on top of the API price, as configured in the Beds24
-   * account (VAT 13 %, municipal tax 0.75 %, climate fee €2 per room per night).
-   * Total = round(Σ price × (1 + vat + municipal)) + climate × nights × rooms —
-   * the "Grand Total" Beds24's booking page shows (its server-side HTML can be
-   * 1 cent higher for several rooms; its own script then corrects it). Checked
-   * Nov 2026 for 1–3 rooms. Update if the taxes change in Beds24.
+   * Taxes added on top of the per-stay room price Beds24 quotes, as configured
+   * in the Beds24 account (VAT 13 %, municipal tax 0.75 %, climate fee €2 per
+   * room per night). Applied per room by src/lib/booking-math.ts — in the
+   * browser (what the guest sees), in the Netlify functions (what Stripe
+   * charges) and as invoice lines on the Beds24 booking. Update here if the
+   * taxes change in Beds24.
    */
   taxes: { vat: 0.13, municipal: 0.0075, climatePerRoomNight: 2 },
 };

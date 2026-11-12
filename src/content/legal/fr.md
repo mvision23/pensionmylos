@@ -25,21 +25,21 @@ Nous ne vendons pas vos données et ne les utilisons pas pour prendre des décis
 
 ## Google reCAPTCHA
 
-Notre formulaire de contact est protégé par **Google reCAPTCHA** (Google Cloud Fraud Defense), fourni par Google Ireland Ltd. / Google LLC.
+Nos formulaires de contact et de réservation sont protégés par **Google reCAPTCHA** (Google Cloud Fraud Defense), fourni par Google Ireland Ltd. / Google LLC.
 
-- Le script reCAPTCHA ne se charge que lorsque vous faites défiler la page jusqu'au formulaire de contact ou que vous l'utilisez. Il analyse votre interaction avec la page (par exemple adresse IP, informations sur le navigateur, mouvements de la souris et temps passé sur la page) pour distinguer les personnes des robots.
+- Le script reCAPTCHA ne se charge que lorsque vous utilisez le formulaire de contact ou le formulaire de réservation. Il analyse votre interaction avec la page (par exemple adresse IP, informations sur le navigateur, mouvements de la souris et temps passé sur la page) pour distinguer les personnes des robots.
 - Si la vérification n'est pas concluante, il peut vous être demandé de cocher « Je ne suis pas un robot » ou de résoudre un test d'images.
 - reCAPTCHA peut déposer le cookie `_GRECAPTCHA` et lire des cookies Google existants. Ils sont nécessaires au fonctionnement de la vérification de sécurité.
 - Ces données sont transmises à Google, peuvent être traitées aux États-Unis et sont soumises aux [Règles de confidentialité](https://policies.google.com/privacy) et aux [Conditions d'utilisation](https://policies.google.com/terms) de Google.
 
-Sans reCAPTCHA, le formulaire de contact ne peut pas être envoyé. Vous pouvez toujours nous joindre par e-mail ou par téléphone.
+Sans reCAPTCHA, les formulaires de contact et de réservation ne peuvent pas être envoyés. Vous pouvez toujours nous joindre par e-mail ou par téléphone.
 
 <h2 id="cookies">Cookies</h2>
 
 | Cookie | Fournisseur | Finalité | Type | Durée |
 |---|---|---|---|---|
 | **[name used by the cookie banner]** | pensionmylos.com | Mémorise vos choix en matière de cookies | Nécessaire | **[12 months]** |
-| `_GRECAPTCHA` | Google (reCAPTCHA) | Protection contre les robots et le spam sur le formulaire de contact | Nécessaire (sécurité) | 6 mois |
+| `_GRECAPTCHA` | Google (reCAPTCHA) | Protection contre les robots et le spam sur les formulaires de contact et de réservation | Nécessaire (sécurité) | 6 mois |
 | `_ga`, `_ga_*` (si utilisé) | Google Analytics | Statistiques de visite | Mesure d'audience, **uniquement avec votre consentement** | jusqu'à 2 ans |
 | Cookies Beds24 / Google Maps | Beds24, Google | Module de réservation, carte intégrée | Déposés par ces services lorsque vous les utilisez | Voir leurs politiques |
 

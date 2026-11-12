@@ -25,21 +25,21 @@ Non vendiamo i tuoi dati e non li usiamo per prendere decisioni automatizzate ch
 
 ## Google reCAPTCHA
 
-Il nostro modulo di contatto è protetto da **Google reCAPTCHA** (Google Cloud Fraud Defense), fornito da Google Ireland Ltd. / Google LLC.
+I nostri moduli di contatto e di prenotazione sono protetti da **Google reCAPTCHA** (Google Cloud Fraud Defense), fornito da Google Ireland Ltd. / Google LLC.
 
-- Lo script di reCAPTCHA si carica solo quando scorri fino al modulo di contatto o lo usi. Analizza come interagisci con la pagina (ad esempio indirizzo IP, informazioni sul browser, movimenti del mouse e tempo trascorso sulla pagina) per distinguere le persone dai bot.
+- Lo script di reCAPTCHA si carica solo quando usi il modulo di contatto o quello di prenotazione. Analizza come interagisci con la pagina (ad esempio indirizzo IP, informazioni sul browser, movimenti del mouse e tempo trascorso sulla pagina) per distinguere le persone dai bot.
 - Se la verifica è incerta, potrebbe esserti chiesto di spuntare «Non sono un robot» o di risolvere un test con immagini.
 - reCAPTCHA può impostare il cookie `_GRECAPTCHA` e leggere cookie Google già presenti. Sono necessari per il funzionamento del controllo di sicurezza.
 - Questi dati vengono inviati a Google, possono essere trattati negli Stati Uniti e sono soggetti alle [Norme sulla privacy](https://policies.google.com/privacy) e ai [Termini di servizio](https://policies.google.com/terms) di Google.
 
-Senza reCAPTCHA il modulo di contatto non può essere inviato. Puoi sempre contattarci via email o per telefono.
+Senza reCAPTCHA i moduli di contatto e di prenotazione non possono essere inviati. Puoi sempre contattarci via email o per telefono.
 
 <h2 id="cookies">Cookie</h2>
 
 | Cookie | Fornitore | Scopo | Tipo | Durata |
 |---|---|---|---|---|
 | **[name used by the cookie banner]** | pensionmylos.com | Ricorda le tue scelte sui cookie | Necessario | **[12 months]** |
-| `_GRECAPTCHA` | Google (reCAPTCHA) | Protezione da bot e spam nel modulo di contatto | Necessario (sicurezza) | 6 mesi |
+| `_GRECAPTCHA` | Google (reCAPTCHA) | Protezione da bot e spam nei moduli di contatto e di prenotazione | Necessario (sicurezza) | 6 mesi |
 | `_ga`, `_ga_*` (se usato) | Google Analytics | Statistiche delle visite | Statistiche, **solo con il tuo consenso** | fino a 2 anni |
 | Cookie di Beds24 / Google Maps | Beds24, Google | Sistema di prenotazione, mappa incorporata | Impostati da questi servizi quando li usi | Vedi le loro informative |
 

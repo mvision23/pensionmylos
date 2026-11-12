@@ -1,8 +1,7 @@
 ---
 /**
- * Date search that hands off to the embedded Beds24 booking page on /reservations/.
- * Beds24 reads checkin / checkout (YYYY-MM-DD) and numadult from the URL; the
- * reservations page forwards them into the iframe.
+ * Date search on the home page: hands checkin / checkout (YYYY-MM-DD) and
+ * numadult to /reservations/, which searches straight away.
  */
 import type { Locale } from '../i18n/config';
 import { getMessages, localePath } from '../i18n/utils';

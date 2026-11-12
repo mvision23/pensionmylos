@@ -70,22 +70,40 @@ Genera `public/video/<escena>.mp4` (H.264 1080p, ~24 MB en total), `<escena>-m.m
 
 Cada clip se descarga entero antes de poder moverse con el scroll, así que el motor los baja de uno en uno: primero la escena en pantalla, luego las siguientes. Mientras tanto se ve el póster y, si tarda, un indicador «Loading video %» abajo a la derecha.
 
-## Reservas (Beds24)
+## Reservas (Beds24 + Stripe)
 
-`/reservations/` (en cada idioma) tiene un buscador propio (`src/components/BookingWidget.astro`):
+`/reservations/` (en cada idioma) hace toda la reserva en nuestra web (`src/components/BookingWidget.astro` + funciones de Netlify en `netlify/`):
 
 1. El huésped elige fechas y adultos. La disponibilidad, la capacidad y los precios de cada habitación se consultan en directo a la API pública de Beds24 (`getAvailabilities`, sin clave; una consulta por ocupación de 1, 2 y 3 adultos).
-2. Como en Booking.com, una tabla de tipos de habitación con un desplegable de cantidad en cada uno (sin nada preseleccionado y sin límite por adultos: cada adulto puede querer su habitación). El precio no cambia con 1 o 2 adultos, así que no se pregunta cuántos van en cada una: los adultos buscados se reparten entre las habitaciones elegidas al pasarlas a Beds24. Los precios se muestran **con impuestos**: IVA 13 %, tasa municipal 0,75 % y tasa climática de 2 € por habitación y noche, calculados igual que Beds24 (`src/data/site.ts` → `beds24.taxes`; si cambian en Beds24, hay que cambiarlos ahí).
-3. «Continuar con la reserva» carga en la misma página, en un iframe, el paso de datos del huésped y pago de Beds24 con esa selección. El formulario de datos no puede ser nuestro: Beds24 lo envía por POST ligado a su propia sesión, que nuestra web no puede leer, y no acepta los datos del huésped por la URL.
-4. El buscador de la home envía las fechas a `/reservations/`, que busca automáticamente.
+2. Como en Booking.com, una tabla de tipos de habitación con un desplegable de cantidad en cada uno. El precio no cambia con 1 o 2 adultos, así que no se pregunta cuántos van en cada una: los adultos buscados se reparten entre las habitaciones elegidas (`src/lib/booking-math.ts`, el mismo cálculo en el navegador y en el servidor). Los precios se muestran **con impuestos**: IVA 13 %, tasa municipal 0,75 % y tasa climática de 2 € por habitación y noche, por habitación y redondeados al céntimo (`src/data/site.ts` → `beds24.taxes`; si cambian en Beds24, hay que cambiarlos ahí).
+3. «Continuar con la reserva»: formulario propio con los datos del huésped (nombre, email, teléfono, país, hora de llegada, comentarios). «Continuar con el pago» está protegido por Google reCAPTCHA igual que el formulario de contacto (v3 invisible; casilla «No soy un robot» si la puntuación es baja; `netlify/lib/recaptcha.ts` y `src/lib/recaptcha-client.ts`, compartidos por los dos formularios), para que un bot no pueda bloquear habitaciones con reservas pendientes.
+4. «Continuar con el pago»: `POST /api/booking/checkout` (`netlify/functions/booking-checkout.mts`) vuelve a calcular el precio con Beds24 (nunca se fía del navegador), crea en Beds24 **una reserva por habitación** en estado *request* (bloquea la habitación 30 min y ya da el número de reserva; varias habitaciones van agrupadas) con las líneas de factura (habitación, IVA, tasa municipal, tasa climática), y crea una sesión de Stripe Checkout por el total. El formulario de pago de Stripe se incrusta en la misma página (`ui_mode: embedded_page`).
+5. Al pagar, Stripe manda al huésped a `/booking-confirmed/?session_id=…`, que llama a `GET /api/booking/status`: comprueba el pago con Stripe, pasa las reservas a *confirmed* en Beds24, anota el pago en su factura y pide a Beds24 que envíe el email de confirmación; la página muestra el **número de reserva de Beds24**, la estancia, las habitaciones y el importe pagado. El webhook de Stripe (`POST /api/stripe/webhook`) hace lo mismo por si el huésped cierra la pestaña (y Stripe reintenta hasta 3 días si Beds24 falla).
+6. Si no se paga en 30 minutos, la sesión caduca: el webhook cancela las reservas *request*. De remate, `booking-maintenance.mts` se ejecuta cada hora (función programada): refresca el token de Beds24 (si no, el *refresh token* caduca a los 30 días sin uso) y cancela las reservas *request* de la web que lleven más de 2 horas sin pagar. «Cambiar datos» antes de pagar libera las habitaciones en el acto (`POST /api/booking/cancel`).
+7. El buscador de la home envía las fechas a `/reservations/`, que busca automáticamente.
 
 Las habitaciones (ID de Beds24, nombre, foto y grupo) están en `src/data/site.ts` → `bookableRooms`. Si se añade una habitación en Beds24, hay que añadirla ahí. Beds24 no deja reservar juntas las habitaciones normales y los dos anuncios importados de Airbnb (`352782`, `352783`), por eso están en grupos distintos: si se eligen juntos, el resumen lo avisa y no deja continuar.
 
+Toda la lógica de servidor está en `netlify/lib/booking.ts` (flujo) y `netlify/lib/beds24.ts` (cliente de la API v2 de Beds24 + disponibilidad v1). Cada reserva lleva una referencia propia `PM-XXXXXXXX`, guardada como `apiReference` en Beds24 y como `client_reference_id` / metadatos en Stripe.
+
+### Variables de entorno (Netlify → Site configuration → Environment variables)
+
+| Variable | Para qué | Dónde se consigue |
+|---|---|---|
+| `BEDS24_REFRESH_TOKEN` (secreta) | Crear, leer y confirmar reservas por la API v2 | Beds24 → *Settings → Marketplace → API*: crear un *invite code* con permisos `all:bookings`, `all:bookings-personal`, `all:bookings-financial` y `read:inventory` (solo esta propiedad), y cambiarlo por un *refresh token* con `GET https://api.beds24.com/v2/authentication/setup` (cabeceras `code` y `deviceName`). El *invite code* caduca a las 24 h; el *refresh token* no caduca mientras se use (la función horaria lo usa). |
+| `STRIPE_SECRET_KEY` (secreta) | Crear sesiones de pago y comprobarlas | Stripe → *Developers → API keys* (`sk_live_…`; en pruebas `sk_test_…`) |
+| `STRIPE_PUBLISHABLE_KEY` | Mostrar el formulario de pago en el navegador | Misma página (`pk_live_…` / `pk_test_…`); la función `booking-checkout` se la pasa a la página |
+| `STRIPE_WEBHOOK_SECRET` (secreta) | Verificar que los avisos vienen de Stripe | Stripe → *Developers → Webhooks*: crear un endpoint `https://pensionmylos.com/api/stripe/webhook` con los eventos `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed` y `checkout.session.expired`; copiar su *signing secret* (`whsec_…`) |
+| `RECAPTCHA_SECRET_KEY` (secreta) | Formularios de contacto y reserva: reCAPTCHA v3 | Google reCAPTCHA (clave secreta de la clave v3) |
+| `RECAPTCHA_ENTERPRISE_API_KEY` (secreta) | Formularios de contacto y reserva: desafío si la puntuación es baja | Google Cloud → clave de API restringida a *reCAPTCHA Enterprise API* |
+
+Las claves de prueba y las reales se cambian solo aquí, sin tocar el código. Para probar en local: `npx netlify dev` con las variables en un `.env` (ignorado por git).
+
 ### Ajustes en Beds24
 
-- **Estilo del iframe**: pega el contenido de `beds24/booking-page.css` en el campo de CSS personalizado de la página de reservas de Beds24 (*Settings → Booking Engine → Booking Page*, en los ajustes de desarrollador). Le da al formulario la tipografía, los colores y los botones de la web, con fondo transparente. La fuente se carga desde pensionmylos.com: el hosting debe servir `/fonts/*` con `Access-Control-Allow-Origin: *` (`public/_headers` ya lo hace en Netlify o Cloudflare Pages). Si no, se ve con una fuente de respaldo casi igual.
-- **Pago dentro de la página**: la tarjeta se introduce en un iframe seguro de Beds24 que funciona dentro del nuestro. Si la pasarela de pago redirige a otra web (PayPal, Stripe Checkout…), el ajuste de Beds24 para iframes *Open in New Window* (ahora en *On Secure Payment*) decide si se abre en una ventana aparte. Se puede cambiar para que no abra ventana nueva, pero algunas pasarelas no se dejan mostrar dentro de un iframe; en ese caso hay que dejarlo como está.
-- **Página de confirmación**: para medir reservas completadas, configura en Beds24 → *Settings → Booking Engine → Property Booking Page → Behaviour → Booking Return URL*: `https://pensionmylos.com/booking-confirmed/`. Esa página se queda dentro del iframe (sin cabecera, pie ni aviso de cookies), avisa a `/reservations/` de su altura para ajustar el marco y reenvía al idioma en que estaba el huésped; sus botones abren la web a pantalla completa.
+- **Reservas *request* bloquean disponibilidad**: en *Settings → Properties → Booking rules → Request bookings* debe estar activado el bloqueo; si no, dos huéspedes podrían pagar la última habitación a la vez. La función de checkout además pide a Beds24 que compruebe la disponibilidad al crear cada reserva (`checkAvailability`).
+- **Email de confirmación al huésped**: lo envía Beds24 cuando la reserva pasa a *confirmed* (`notifyGuest`), con la plantilla de confirmación configurada en la cuenta. Stripe envía además su recibo de pago (`receipt_email`).
+- Ya no hace falta el CSS de la página de reservas de Beds24 ni la *Booking Return URL*: la página de Beds24 solo queda como enlace de emergencia («¿Problemas? Reserva en nuestra página de Beds24») y como destino del buscador sin JavaScript.
 
 ## Blog
 

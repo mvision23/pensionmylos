@@ -25,21 +25,21 @@ No vendemos tus datos ni los usamos para tomar decisiones automatizadas sobre ti
 
 ## Google reCAPTCHA
 
-Nuestro formulario de contacto está protegido por **Google reCAPTCHA** (Google Cloud Fraud Defense), un servicio de Google Ireland Ltd. / Google LLC.
+Nuestros formularios de contacto y de reserva están protegidos por **Google reCAPTCHA** (Google Cloud Fraud Defense), un servicio de Google Ireland Ltd. / Google LLC.
 
-- El script de reCAPTCHA solo se carga cuando llegas al formulario de contacto o lo usas. Analiza cómo interactúas con la página (por ejemplo, dirección IP, datos del navegador, movimientos del ratón y tiempo en la página) para distinguir a las personas de los bots.
+- El script de reCAPTCHA solo se carga cuando usas el formulario de contacto o el de reserva. Analiza cómo interactúas con la página (por ejemplo, dirección IP, datos del navegador, movimientos del ratón y tiempo en la página) para distinguir a las personas de los bots.
 - Si la comprobación no es concluyente, puede que se te pida marcar «No soy un robot» o resolver una prueba con imágenes.
 - reCAPTCHA puede instalar la cookie `_GRECAPTCHA` y leer cookies de Google ya existentes. Son necesarias para que funcione la comprobación de seguridad.
 - Estos datos se envían a Google, pueden tratarse en EE. UU. y están sujetos a la [Política de privacidad](https://policies.google.com/privacy) y las [Condiciones del servicio](https://policies.google.com/terms) de Google.
 
-Sin reCAPTCHA no se puede enviar el formulario de contacto. Siempre puedes escribirnos por email o llamarnos.
+Sin reCAPTCHA no se pueden enviar los formularios de contacto y de reserva. Siempre puedes escribirnos por email o llamarnos.
 
 <h2 id="cookies">Cookies</h2>
 
 | Cookie | Proveedor | Finalidad | Tipo | Duración |
 |---|---|---|---|---|
 | **[name used by the cookie banner]** | pensionmylos.com | Recuerda tus preferencias de cookies | Necesaria | **[12 months]** |
-| `_GRECAPTCHA` | Google (reCAPTCHA) | Protección contra bots y spam en el formulario de contacto | Necesaria (seguridad) | 6 meses |
+| `_GRECAPTCHA` | Google (reCAPTCHA) | Protección contra bots y spam en los formularios de contacto y de reserva | Necesaria (seguridad) | 6 meses |
 | `_ga`, `_ga_*` (si se usa) | Google Analytics | Estadísticas de visitas | Analítica, **solo con tu consentimiento** | hasta 2 años |
 | Cookies de Beds24 / Google Maps | Beds24, Google | Motor de reservas, mapa insertado | Las instalan esos servicios cuando los usas | Consulta sus políticas |
 

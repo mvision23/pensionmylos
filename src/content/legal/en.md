@@ -25,21 +25,21 @@ We don't sell your data or use it for automated decisions about you.
 
 ## Google reCAPTCHA
 
-Our contact form is protected by **Google reCAPTCHA** (Google Cloud Fraud Defense), provided by Google Ireland Ltd. / Google LLC.
+Our contact and booking forms are protected by **Google reCAPTCHA** (Google Cloud Fraud Defense), provided by Google Ireland Ltd. / Google LLC.
 
-- The reCAPTCHA script loads only when you scroll to or use the contact form. It analyses how you interact with the page (for example IP address, browser information, mouse movements and time on page) to tell people from bots.
+- The reCAPTCHA script loads only when you use the contact form or the booking form. It analyses how you interact with the page (for example IP address, browser information, mouse movements and time on page) to tell people from bots.
 - If the check is uncertain, you may be asked to tick "I'm not a robot" or solve an image test.
 - reCAPTCHA may set the `_GRECAPTCHA` cookie and read existing Google cookies. These are needed for the security check to work.
 - This data goes to Google, may be processed in the USA, and is subject to [Google's Privacy Policy](https://policies.google.com/privacy) and [Terms of Service](https://policies.google.com/terms).
 
-Without reCAPTCHA the contact form can't be sent. You can always reach us by email or phone instead.
+Without reCAPTCHA the contact and booking forms can't be sent. You can always reach us by email or phone instead.
 
 <h2 id="cookies">Cookies</h2>
 
 | Cookie | Provider | Purpose | Type | Duration |
 |---|---|---|---|---|
 | **[name used by the cookie banner]** | pensionmylos.com | Remembers your cookie choices | Necessary | **[12 months]** |
-| `_GRECAPTCHA` | Google (reCAPTCHA) | Bot and spam protection on the contact form | Necessary (security) | 6 months |
+| `_GRECAPTCHA` | Google (reCAPTCHA) | Bot and spam protection on the contact and booking forms | Necessary (security) | 6 months |
 | `_ga`, `_ga_*` (if used) | Google Analytics | Visit statistics | Analytics, **only with your consent** | up to 2 years |
 | Beds24 / Google Maps cookies | Beds24, Google | Booking widget, embedded map | Set by those services when you use them | See their policies |
 

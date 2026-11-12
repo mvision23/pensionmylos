@@ -25,21 +25,21 @@ pensionmylos.com を通じて収集される個人データの管理者は、Pen
 
 ## Google reCAPTCHA
 
-当サイトのお問い合わせフォームは、Google Ireland Ltd.／Google LLC が提供する **Google reCAPTCHA**（Google Cloud Fraud Defense）で保護されています。
+当サイトのお問い合わせフォームと予約フォームは、Google Ireland Ltd.／Google LLC が提供する **Google reCAPTCHA**（Google Cloud Fraud Defense）で保護されています。
 
-- reCAPTCHA のスクリプトは、お問い合わせフォームまでスクロールしたとき、またはフォームを使用したときにのみ読み込まれます。人間とボットを区別するため、ページ上での操作（IPアドレス、ブラウザ情報、マウスの動き、滞在時間など）を分析します。
+- reCAPTCHA のスクリプトは、お問い合わせフォームまたは予約フォームを使用したときにのみ読み込まれます。人間とボットを区別するため、ページ上での操作（IPアドレス、ブラウザ情報、マウスの動き、滞在時間など）を分析します。
 - 判定が不確かな場合、「私はロボットではありません」へのチェックや画像テストを求められることがあります。
 - reCAPTCHA は Cookie `_GRECAPTCHA` を設定し、既存の Google の Cookie を読み取ることがあります。これらはセキュリティチェックの動作に必要です。
 - これらのデータは Google に送信され、米国で処理される場合があり、Google の[プライバシーポリシー](https://policies.google.com/privacy)および[利用規約](https://policies.google.com/terms)が適用されます。
 
-reCAPTCHA なしではお問い合わせフォームを送信できません。メールまたはお電話でもいつでもご連絡いただけます。
+reCAPTCHA なしではお問い合わせフォームや予約フォームを送信できません。メールまたはお電話でもいつでもご連絡いただけます。
 
 <h2 id="cookies">Cookie</h2>
 
 | Cookie | 提供元 | 目的 | 種類 | 保存期間 |
 |---|---|---|---|---|
 | **[name used by the cookie banner]** | pensionmylos.com | Cookie に関する選択の保存 | 必須 | **[12 months]** |
-| `_GRECAPTCHA` | Google（reCAPTCHA） | お問い合わせフォームのボット・スパム対策 | 必須（セキュリティ） | 6か月 |
+| `_GRECAPTCHA` | Google（reCAPTCHA） | お問い合わせ・予約フォームのボット・スパム対策 | 必須（セキュリティ） | 6か月 |
 | `_ga`、`_ga_*`（使用している場合） | Google Analytics | 訪問統計 | アクセス解析、**同意された場合のみ** | 最長2年 |
 | Beds24／Google マップの Cookie | Beds24、Google | 予約システム、埋め込み地図 | 各サービスの利用時に設定されます | 各社のポリシーをご覧ください |
 

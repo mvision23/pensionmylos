@@ -25,21 +25,21 @@ description: Pension Mylos 如何处理您的个人数据，以及 pensionmylos.
 
 ## Google reCAPTCHA
 
-我们的联系表单受 **Google reCAPTCHA**（Google Cloud Fraud Defense）保护，该服务由 Google Ireland Ltd.／Google LLC 提供。
+我们的联系表单和预订表单受 **Google reCAPTCHA**（Google Cloud Fraud Defense）保护，该服务由 Google Ireland Ltd.／Google LLC 提供。
 
-- 只有当您滚动到联系表单或使用它时，才会加载 reCAPTCHA 脚本。它会分析您与页面的交互（例如 IP 地址、浏览器信息、鼠标移动和页面停留时间），以区分真人与机器人。
+- 只有当您使用联系表单或预订表单时，才会加载 reCAPTCHA 脚本。它会分析您与页面的交互（例如 IP 地址、浏览器信息、鼠标移动和页面停留时间），以区分真人与机器人。
 - 如果检查结果不确定，您可能需要勾选“进行人机身份验证”或完成图片验证。
 - reCAPTCHA 可能会设置 Cookie `_GRECAPTCHA` 并读取已有的 Google Cookie。这些是安全检查正常运行所必需的。
 - 这些数据会发送给 Google，可能在美国处理，并受 Google [隐私权政策](https://policies.google.com/privacy)和[服务条款](https://policies.google.com/terms)的约束。
 
-没有 reCAPTCHA，联系表单将无法提交。您随时可以通过电子邮件或电话联系我们。
+没有 reCAPTCHA，联系表单和预订表单将无法提交。您随时可以通过电子邮件或电话联系我们。
 
 <h2 id="cookies">Cookie</h2>
 
 | Cookie | 提供方 | 用途 | 类型 | 有效期 |
 |---|---|---|---|---|
 | **[name used by the cookie banner]** | pensionmylos.com | 记住您的 Cookie 选择 | 必要 | **[12 months]** |
-| `_GRECAPTCHA` | Google（reCAPTCHA） | 联系表单的防机器人和防垃圾信息保护 | 必要（安全） | 6个月 |
+| `_GRECAPTCHA` | Google（reCAPTCHA） | 联系表单和预订表单的防机器人和防垃圾信息保护 | 必要（安全） | 6个月 |
 | `_ga`、`_ga_*`（如有使用） | Google Analytics | 访问统计 | 统计，**仅在您同意时** | 最长2年 |
 | Beds24／Google 地图的 Cookie | Beds24、Google | 预订系统、嵌入式地图 | 在您使用这些服务时由其设置 | 请参阅其政策 |
 

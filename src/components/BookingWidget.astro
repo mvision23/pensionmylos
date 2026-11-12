@@ -1,36 +1,32 @@
 ---
 /**
- * Our own booking search (replaces the Beds24 iframe).
+ * The booking flow on /reservations/ — entirely on our site.
  *
  * 1. The visitor picks dates + adults. Availability, capacity and prices come
  *    live from Beds24's public JSON API (getAvailabilities — no key, CORS-
  *    enabled), asked once per occupancy (1, 2, 3 adults) so we know each
  *    room's capacity and price.
- * 2. Like booking.com: a table of room types with a quantity select each
- *    (nothing pre-selected, any number of rooms regardless of the adults
- *    searched). Prices don't depend on occupancy, so adults per room aren't
- *    asked: they're spread over the chosen rooms for Beds24. Rooms from
- *    different `group`s can't be booked together (Beds24 rejects it), which
- *    only shows as a note in the summary.
- * 3. "Continue to booking" loads Beds24's guest-details + payment step for
- *    that selection in an iframe right here (its own multi-room fields:
- *    sr1-<room>=qty, naa<unit>-1-<room>=adults, bookmult; header/footer
- *    hidden; allow="payment"). Beds24's guest form can't be built on our side:
- *    it is a POST bound to a Beds24 session we can't read (no CORS), and it
- *    ignores guest fields sent in the URL (tested). Whether the payment stays
- *    inside the iframe depends on the Beds24 account settings (see README).
- * 4. After paying, Beds24's "Booking Return URL" can send the guest back to
- *    /booking-confirmed/ for Analytics.
+ * 2. Like booking.com: a table of room types with a quantity select each.
+ *    Prices don't depend on occupancy, so adults per room aren't asked: they
+ *    are spread over the chosen rooms (src/lib/booking-math.ts, shared with
+ *    the server). Rooms from different `group`s can't be booked together.
+ * 3. "Continue to booking": the guest's details, on our own form.
+ * 4. "Continue to payment": POST /api/booking/checkout re-prices the stay on
+ *    the server, creates the Beds24 booking(s) as a 30-minute "request" hold
+ *    and a Stripe Checkout session; Stripe's payment form is embedded right
+ *    here. After paying, Stripe sends the guest to /booking-confirmed/, which
+ *    shows the Beds24 booking number (netlify/lib/booking.ts has the rest).
  *
- * Without JavaScript the form still works: it submits to the full Beds24
- * booking page with the chosen dates.
+ * Without JavaScript the search form still works: it submits to the full
+ * Beds24 booking page with the chosen dates.
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { beds24, bookableRooms, site } from '../data/site';
 import { localeInfo, type Locale } from '../i18n/config';
-import { getMessages } from '../i18n/utils';
+import { getMessages, localePath } from '../i18n/utils';
 import { getBeds24Opening } from '../lib/beds24';
+import { recaptchaLang } from '../lib/recaptcha-client';
 
 interface Props {
   locale: Locale;
@@ -54,20 +50,27 @@ const opening = await getBeds24Opening();
 const config = {
   opening,
   api: beds24.availabilityApi,
-  bookingPage: beds24.bookingPage,
-  propid: beds24.propid,
+  checkoutApi: '/api/booking/checkout',
+  cancelApi: '/api/booking/cancel',
+  stripeJs: 'https://js.stripe.com/endive/stripe.js',
+  recaptcha: site.recaptchaSiteKey,
+  recaptchaChallenge: site.recaptchaChallengeSiteKey,
+  recaptchaHl: recaptchaLang(locale),
   lang: locale,
   dateLocale: localeInfo[locale].dateLocale,
-  referer: 'pensionmylos.com',
   maxOccupancy: 3,
-  taxes: beds24.taxes,
   groups: Object.fromEntries(bookableRooms.map((r) => [r.id, r.group])),
 };
 const strings = {
   searching: t.searching, none: t.none, error: t.error, invalid: t.invalidDates, choose: t.chooseDates,
   search: t.search, maxGuests: t.maxGuests, notTogether: t.notTogether, capacityNote: t.capacityNote,
-  selectOne: t.selectOne, guestOptions: b.guestOptions,
+  selectOne: t.selectOne, guestOptions: b.guestOptions, countrySelect: t.countrySelect,
+  toPayment: t.toPayment, preparing: t.preparing,
+  errInvalid: t.errInvalid, errSoldOut: t.errSoldOut, errPriceChanged: t.errPriceChanged,
+  errCheckout: t.errCheckout.replace('{email}', site.email), errPayment: t.errPayment.replace('{email}', site.email),
+  challenge: t.challenge, unavailable: t.unavailable.replace('{email}', site.email),
 };
+const [consentBefore, consentAfter] = t.consent.split('{privacy}');
 ---
 
 <div class="booking-widget" data-booking-widget data-config={JSON.stringify(config)} data-strings={JSON.stringify(strings)}>
@@ -170,24 +173,95 @@ const strings = {
     </div>
   </section>
 
-  <!-- Guest details + payment (Beds24, embedded) -->
-  <section data-bw-checkout hidden aria-labelledby="bw-checkout-title" class="mt-8 scroll-mt-24">
+  <!-- Step 3: guest details -->
+  <section data-bw-details hidden aria-labelledby="bw-details-title" class="mt-8 scroll-mt-24">
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h2 id="bw-checkout-title" class="text-2xl">{t.detailsTitle}</h2>
-        <p class="mt-1 max-w-[60ch] text-sm text-ink-soft">{t.detailsIntro}</p>
+        <h2 id="bw-details-title" class="text-2xl">{t.guestTitle}</h2>
+        <p class="mt-1 max-w-[60ch] text-sm text-ink-soft">{t.guestIntro}</p>
       </div>
-      <button type="button" data-bw-back class="btn-outline px-5 py-2.5 text-sm">← {t.changeRooms}</button>
+      <button type="button" data-bw-change-rooms class="btn-outline px-5 py-2.5 text-sm">← {t.changeRooms}</button>
     </div>
-    <div class="relative mt-5 min-h-40">
-      <div data-bw-frame-loading class="absolute inset-x-0 top-0 flex items-center gap-3 p-8 text-ink-soft" role="status">
-        <span class="size-4 animate-spin rounded-full border-2 border-stone border-t-mylos-500" aria-hidden="true"></span>
-        {t.loading}
+
+    <!-- What's being booked -->
+    <div class="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border border-stone bg-white px-5 py-4">
+      <div class="min-w-0">
+        <p class="text-sm text-ink-soft" data-bw-stay></p>
+        <p class="font-medium" data-bw-rooms></p>
       </div>
-      <iframe data-bw-frame title={t.frameTitle} allow="payment" class="relative block w-full border-0 bg-transparent"></iframe>
+      <p class="text-right">
+        <span class="block text-sm text-ink-soft">{t.total}</span>
+        <span class="text-2xl font-light tabular-nums" data-bw-total></span>
+      </p>
+    </div>
+
+    <form data-bw-guest novalidate class="mt-5 grid gap-5 border border-stone bg-white p-5 sm:grid-cols-2 sm:p-8">
+      <div>
+        <label class="field-label" for="bw-first">{t.firstName}</label>
+        <input class="field" id="bw-first" name="firstName" type="text" autocomplete="given-name" required maxlength="100" />
+      </div>
+      <div>
+        <label class="field-label" for="bw-last">{t.lastName}</label>
+        <input class="field" id="bw-last" name="lastName" type="text" autocomplete="family-name" required maxlength="100" />
+      </div>
+      <div>
+        <label class="field-label" for="bw-email">{t.emailField}</label>
+        <input class="field" id="bw-email" name="email" type="email" autocomplete="email" required maxlength="254" />
+      </div>
+      <div>
+        <label class="field-label" for="bw-phone">{t.phone}</label>
+        <input class="field" id="bw-phone" name="phone" type="tel" autocomplete="tel" required minlength="5" maxlength="40" />
+      </div>
+      <div>
+        <label class="field-label" for="bw-country">{t.country}</label>
+        <select class="field bw-select appearance-none pr-10" id="bw-country" name="country2" autocomplete="country" required>
+          <option value="">{t.countrySelect}</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label" for="bw-arrival-time">{t.arrivalTime}</label>
+        <input class="field" id="bw-arrival-time" name="arrivalTime" type="text" maxlength="60" placeholder={t.arrivalTimeHint} />
+      </div>
+      <div class="sm:col-span-2">
+        <label class="field-label" for="bw-comments">{t.comments}</label>
+        <textarea class="field min-h-24" id="bw-comments" name="comments" rows="3" maxlength="1000"></textarea>
+      </div>
+      <!-- Bot trap -->
+      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <p class="text-sm text-ink-soft sm:col-span-2">
+        {consentBefore}<a class="underline underline-offset-4 hover:text-mylos-700" href={localePath(locale, '/privacy/')} target="_blank" rel="noopener">{m.legal.link}</a>{consentAfter}
+        {' '}{m.contact.recaptchaNote}
+      </p>
+      <!-- reCAPTCHA checkbox, rendered here only when the invisible check scores too low -->
+      <div data-bw-challenge class="hidden sm:col-span-2"></div>
+      <p data-bw-guest-error role="alert" hidden class="border-l-2 border-mylos-600 bg-mylos-50 px-4 py-3 text-ink sm:col-span-2"></p>
+      <div class="sm:col-span-2">
+        <!-- Disabled until reCAPTCHA has loaded (see armRecaptcha) -->
+        <button type="submit" disabled class="btn-primary disabled:cursor-wait disabled:opacity-70" data-bw-pay>{t.toPayment}</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Step 4: payment (Stripe, embedded) -->
+  <section data-bw-payment hidden aria-labelledby="bw-payment-title" class="mt-8 scroll-mt-24">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h2 id="bw-payment-title" class="text-2xl">{t.paymentTitle}</h2>
+        <p class="mt-1 max-w-[60ch] text-sm text-ink-soft">{t.paymentIntro}</p>
+      </div>
+      <button type="button" data-bw-change-details class="btn-outline px-5 py-2.5 text-sm">← {t.changeDetails}</button>
+    </div>
+    <div class="relative mt-5 min-h-40 border border-stone bg-white p-2 sm:p-4">
+      <p data-bw-payment-loading class="flex items-center gap-3 p-6 text-ink-soft" role="status">
+        <span class="size-4 animate-spin rounded-full border-2 border-stone border-t-mylos-500" aria-hidden="true"></span>
+        {t.preparing}
+      </p>
+      <p data-bw-payment-error role="alert" hidden class="m-4 border-l-2 border-mylos-600 bg-mylos-50 px-4 py-3 text-ink"></p>
+      <div data-bw-stripe></div>
     </div>
     <p class="mt-3 text-sm text-ink-soft">
-      <a data-bw-open class="text-mylos-700 underline underline-offset-4 hover:no-underline" href={beds24.directUrl}>{t.openFull}</a>
+      <a class="text-mylos-700 underline underline-offset-4 hover:no-underline" href={beds24.directUrl} target="_blank" rel="noopener">{t.fallbackBeds24}</a>
     </p>
   </section>
 
@@ -197,7 +271,6 @@ const strings = {
       {t.secure}
     </p>
   </div>
-  <span hidden data-email>{site.email}</span>
 </div>
 
 <style>
@@ -241,24 +314,46 @@ const strings = {
     .bw-c-price { grid-area: price; }
     .bw-c-qty { grid-area: qty; }
   }
-  /* Beds24 doesn't report its height; the script sizes the frame (see sizeFrame). */
-  [data-bw-frame] {
-    height: 1100px;
+  /* A field the server (or browser) rejected. */
+  [data-bw-guest] :where(input, select, textarea)[aria-invalid='true'] {
+    border-color: var(--color-mylos-600);
   }
 </style>
 
 <script>
+  import { cents, nightsBetween, priceFor, spreadAdults, unitLines } from '../lib/booking-math';
+  import { COUNTRY_CODES } from '../lib/countries';
+  import { loadChallenge, loadV3, type Grecaptcha } from '../lib/recaptcha-client';
+
   type Cfg = {
-    api: string; bookingPage: string; propid: string; lang: string; dateLocale: string; referer: string;
+    api: string; checkoutApi: string; cancelApi: string; stripeJs: string; lang: string; dateLocale: string;
+    recaptcha: string; recaptchaChallenge: string; recaptchaHl: string;
     opening: { arrival: string; departure: string } | null; maxOccupancy: number; groups: Record<string, string>;
-    taxes: { vat: number; municipal: number; climatePerRoomNight: number };
   };
   type ApiRoom = { roomId: string; roomsavail?: string | number; price?: number; currency?: string };
   type Offer = { avail: number; cap: number; price: Record<number, number>; currency: string };
+  type EmbeddedCheckout = { mount: (el: HTMLElement) => void; unmount?: () => void; destroy: () => void };
+  type StripeJs = {
+    createEmbeddedCheckoutPage?: (o: { fetchClientSecret: () => Promise<string> }) => Promise<EmbeddedCheckout>;
+    initEmbeddedCheckout?: (o: { fetchClientSecret: () => Promise<string> }) => Promise<EmbeddedCheckout>;
+  };
 
   const iso = (d: Date) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   const addDays = (s: string, n: number) => { const d = new Date(`${s}T12:00:00`); d.setDate(d.getDate() + n); return iso(d); };
-  const nightsBetween = (a: string, b: string) => Math.round((Date.parse(`${b}T12:00:00`) - Date.parse(`${a}T12:00:00`)) / 864e5);
+
+  /** Loads Stripe.js once (only when a guest reaches the payment step). */
+  let stripeLoading: Promise<(key: string) => StripeJs> | null = null;
+  const loadStripeJs = (src: string) =>
+    (stripeLoading ??= new Promise((resolve, reject) => {
+      const w = window as unknown as { Stripe?: (key: string) => StripeJs };
+      if (w.Stripe) return resolve(w.Stripe);
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = () => (w.Stripe ? resolve(w.Stripe) : reject(new Error('Stripe.js did not load')));
+      s.onerror = () => { stripeLoading = null; reject(new Error('Stripe.js failed to load')); };
+      document.head.appendChild(s);
+    }));
 
   document.querySelectorAll<HTMLElement>('[data-booking-widget]').forEach((root) => {
     const cfg: Cfg = JSON.parse(root.dataset.config!);
@@ -278,23 +373,27 @@ const strings = {
       msg: root.querySelector<HTMLElement>('[data-cart-msg]')!,
       book: root.querySelector<HTMLAnchorElement>('[data-book]')!,
     };
-    const checkoutBox = root.querySelector<HTMLElement>('[data-bw-checkout]')!;
-    const frame = root.querySelector<HTMLIFrameElement>('[data-bw-frame]')!;
-    const frameLoading = root.querySelector<HTMLElement>('[data-bw-frame-loading]')!;
-    const openFull = root.querySelector<HTMLAnchorElement>('[data-bw-open]')!;
+    const details = root.querySelector<HTMLElement>('[data-bw-details]')!;
+    const guestForm = root.querySelector<HTMLFormElement>('[data-bw-guest]')!;
+    const guestError = root.querySelector<HTMLElement>('[data-bw-guest-error]')!;
+    const payButton = root.querySelector<HTMLButtonElement>('[data-bw-pay]')!;
+    const payment = root.querySelector<HTMLElement>('[data-bw-payment]')!;
+    const paymentLoading = root.querySelector<HTMLElement>('[data-bw-payment-loading]')!;
+    const paymentError = root.querySelector<HTMLElement>('[data-bw-payment-error]')!;
+    const stripeBox = root.querySelector<HTMLElement>('[data-bw-stripe]')!;
+    const challengeBox = root.querySelector<HTMLElement>('[data-bw-challenge]')!;
     const guestLabel = (n: number) => S.guestOptions[n - 1] ?? String(n);
     const money = (v: number, cur = 'EUR') => new Intl.NumberFormat(cfg.dateLocale, { style: 'currency', currency: cur }).format(v);
-    // Same arithmetic as the total Beds24's page shows: percentage taxes on the summed
-    // price, rounded once, plus the climate fee per room and night.
+    const fmtDate = (s: string) => new Date(`${s}T12:00:00`).toLocaleDateString(cfg.dateLocale, { day: 'numeric', month: 'short', year: 'numeric' });
     const nights = () => nightsBetween(checkin.value, checkout.value);
-    const withTaxes = (net: number, rooms = 1) =>
-      Math.round(net * (1 + cfg.taxes.vat + cfg.taxes.municipal) * 100) / 100 + cfg.taxes.climatePerRoomNight * nights() * rooms;
     {
       const el = root.querySelector<HTMLElement>('[data-cart-taxes]')!;
       const pct = (v: number) => new Intl.NumberFormat(cfg.dateLocale, { style: 'percent', maximumFractionDigits: 2 }).format(v);
+      // Same rates as the server (src/data/site.ts → beds24.taxes) via unitLines.
+      const probe = unitLines(100, 1);
       el.textContent = (el.dataset.template ?? '')
-        .replace('{vat}', pct(cfg.taxes.vat)).replace('{municipal}', pct(cfg.taxes.municipal))
-        .replace('{climate}', new Intl.NumberFormat(cfg.dateLocale, { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(cfg.taxes.climatePerRoomNight));
+        .replace('{vat}', pct(probe.vat / 100)).replace('{municipal}', pct(probe.municipal / 100))
+        .replace('{climate}', new Intl.NumberFormat(cfg.dateLocale, { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(probe.climate));
     }
 
     // ---- dates: start at the first arrival Beds24 accepts (or today) ----
@@ -321,46 +420,45 @@ const strings = {
       status.classList.toggle('text-ink-soft', tone === 'soft');
       status.classList.toggle('text-mylos-700', tone === 'alert');
     };
-    const baseParams = () => ({
-      propid: cfg.propid, checkin: checkin.value, numnight: String(nightsBetween(checkin.value, checkout.value)),
-      lang: cfg.lang, referer: cfg.referer,
-    });
-    const urlWith = (params: Record<string, string>) => {
-      const u = new URL(cfg.bookingPage);
-      Object.entries(params).forEach(([k, v]) => u.searchParams.set(k, v));
-      return u.toString();
-    };
+
+    // ---- country list, in the visitor's language ----
+    {
+      const select = guestForm.querySelector<HTMLSelectElement>('[name=country2]')!;
+      let names: Intl.DisplayNames | null = null;
+      try { names = new Intl.DisplayNames([cfg.lang, 'en'], { type: 'region' }); } catch { /* old browser: codes only */ }
+      const options = COUNTRY_CODES.map((code) => ({ code, label: names?.of(code) ?? code }))
+        .sort((a, b) => a.label.localeCompare(b.label, cfg.lang));
+      select.append(...options.map((o) => new Option(o.label, o.code)));
+      const guess = (navigator.language.split('-')[1] ?? '').toUpperCase();
+      if (COUNTRY_CODES.includes(guess)) select.value = guess;
+    }
 
     // ---- selection: room id -> number of rooms ----
     let offers: Record<string, Offer> = {};
     const qty: Record<string, number> = {};
     const nameOf = (id: string) => rows.find((r) => r.dataset.room === id)?.querySelector('[data-name]')?.textContent ?? id;
-    // Price for n adults (the same for 1 or 2 here); the nearest occupancy Beds24 priced.
-    const priceFor = (o: Offer, n: number) => {
-      for (let a = n; a <= o.cap; a++) if (o.price[a] != null) return o.price[a];
-      return o.price[o.cap];
-    };
     const PERSON = '<svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="currentColor"><circle cx="12" cy="7.5" r="4"/><path d="M4 21a8 8 0 0 1 16 0z"/></svg>';
 
-    // Adults per room for Beds24: at least one each, then the adults searched for fill
-    // the chosen rooms up to their capacity.
-    function occupancy() {
+    /** The chosen rooms, one entry each, with adults spread over them and priced like the server does. */
+    function priced() {
+      const n = nights();
       const units = rows.map((r) => r.dataset.room!).filter((id) => offers[id] && qty[id] > 0)
-        .flatMap((id) => Array.from({ length: qty[id] }, () => ({ id, cap: offers[id].cap, n: 1 })));
-      let left = Number(adults.value) - units.length;
-      for (const u of units) while (left > 0 && u.n < u.cap) { u.n++; left--; }
-      return units;
+        .flatMap((id) => Array.from({ length: qty[id] }, () => ({ id, cap: offers[id].cap })));
+      return spreadAdults(units, Number(adults.value)).map((u) => ({ ...u, lines: unitLines(priceFor(offers[u.id].price, u.adults, u.cap), n) }));
     }
+    let currentTotal = 0;
+    let currency = 'EUR';
 
     function update() {
-      const units = occupancy();
-      let net = 0, guests = 0, capacity = 0, currency = 'EUR';
-      units.forEach((u) => { const o = offers[u.id]; net += priceFor(o, u.n); guests += u.n; capacity += u.cap; currency = o.currency; });
+      const units = priced();
       const chosen = Object.keys(qty).filter((id) => offers[id] && qty[id] > 0);
       rows.forEach((row) => row.toggleAttribute('data-selected', chosen.includes(row.dataset.room!)));
       const mixed = new Set(chosen.map((id) => cfg.groups[id])).size > 1;
       const requested = Number(adults.value);
-      cart.total.textContent = units.length ? money(withTaxes(net, units.length), currency) : '—';
+      const capacity = units.reduce((s, u) => s + u.cap, 0);
+      currentTotal = cents(units.reduce((s, u) => s + u.lines.total, 0));
+      currency = units[0] ? offers[units[0].id].currency : 'EUR';
+      cart.total.textContent = units.length ? money(currentTotal, currency) : '—';
       cart.lines.textContent = chosen.map((id) => `${qty[id]} × ${nameOf(id)}`).join(' · ');
       const msg = !units.length ? S.selectOne
         : mixed ? S.notTogether
@@ -368,17 +466,7 @@ const strings = {
         : '';
       cart.msg.textContent = msg;
       cart.msg.hidden = !msg;
-      const ok = units.length > 0 && !mixed;
-      cart.book.setAttribute('aria-disabled', String(!ok));
-      if (ok) {
-        // Beds24's own multi-room fields: sr1-<room>=quantity, naa<unit>-1-<room>=adults.
-        const p: Record<string, string> = { ...baseParams(), numadult: String(guests), bookmult: '1' };
-        chosen.forEach((id) => {
-          p[`sr1-${id}`] = String(qty[id]);
-          units.filter((u) => u.id === id).forEach((u, i) => { p[`naa${i + 1}-1-${id}`] = String(u.n); });
-        });
-        cart.book.href = urlWith(p);
-      }
+      cart.book.setAttribute('aria-disabled', String(!(units.length > 0 && !mixed)));
     }
 
     rows.forEach((row) => {
@@ -386,82 +474,163 @@ const strings = {
       select.addEventListener('change', () => { qty[row.dataset.room!] = Number(select.value); update(); });
     });
 
-    // ---- embedded guest-details + payment step ----
-    // Beds24 can't tell us its height (cross-origin, no postMessage), so estimate it from
-    // its layout: two columns from 768px wide, one column below; each extra room adds a
-    // summary block. Measured Nov 2026 with beds24/booking-page.css (1 room: 1050 / 1790 px;
-    // 3 rooms: 1200–1420 / 2360 px; unstyled it's shorter). Later steps (payment) get more
-    // room; anything taller scrolls inside the frame.
-    let frameLoads = 0;
-    let frameRooms = 1;
-    let confirmedHeight = 0; // set once our /booking-confirmed/ page reports its height
-    function sizeFrame() {
-      if (confirmedHeight) { frame.style.height = `${confirmedHeight}px`; return; }
-      const wide = frame.clientWidth >= 768;
-      let h = wide ? 1100 + 190 * (frameRooms - 1) : 1850 + 290 * (frameRooms - 1);
-      if (frameLoads > 1) h = Math.max(h, wide ? 1500 : 2400);
-      frame.style.height = `${h}px`;
-    }
-    addEventListener('resize', () => { if (!checkoutBox.hidden) sizeFrame(); });
-    function openCheckout(url: string) {
-      const u = new URL(url);
-      u.searchParams.set('referer', 'iframe');
-      u.searchParams.set('hideheader', 'yes');
-      u.searchParams.set('hidefooter', 'yes');
-      frameLoads = 0;
-      confirmedHeight = 0;
-      backButton.hidden = false;
-      openFull.parentElement!.hidden = false;
-      frameRooms = Math.max(1, Object.values(qty).reduce((n, q) => n + q, 0));
-      frameLoading.hidden = false;
-      frame.src = u.toString();
-      openFull.href = url;
-      results.hidden = true;
-      checkoutBox.hidden = false;
-      sizeFrame();
-      checkoutBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    function closeCheckout(showResults = true) {
-      if (checkoutBox.hidden) return;
-      checkoutBox.hidden = true;
-      frame.removeAttribute('src');
-      if (showResults) { results.hidden = false; results.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    }
-    frame.addEventListener('load', () => {
-      if (!frame.getAttribute('src')) return;
-      frameLoads += 1;
-      frameLoading.hidden = true;
-      sizeFrame();
-      // Each Beds24 step is a new page inside the frame: bring its top back into view.
-      if (frameLoads > 1 && checkoutBox.getBoundingClientRect().top < 0) checkoutBox.scrollIntoView({ block: 'start' });
-    });
-    const backButton = root.querySelector<HTMLButtonElement>('[data-bw-back]')!;
-    backButton.addEventListener('click', () => closeCheckout(true));
+    // ---- steps: results → details → payment ----
+    const show = (step: 'results' | 'details' | 'payment') => {
+      results.hidden = step !== 'results';
+      details.hidden = step !== 'details';
+      payment.hidden = step !== 'payment';
+      const el = step === 'results' ? results : step === 'details' ? details : payment;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
 
-    // Beds24's Return URL (/booking-confirmed/) loads inside the frame and, being
-    // our own page, reports its height: fit the frame to it and drop the
-    // "change rooms" / "open full page" links — the booking is done.
-    addEventListener('message', (e: MessageEvent) => {
-      if (e.source !== frame.contentWindow) return;
-      let host = '';
-      try { host = new URL(e.origin).hostname; } catch { return; }
-      if (host !== location.hostname && host !== 'pensionmylos.com' && !host.endsWith('.pensionmylos.com')) return;
-      const data = e.data as { type?: string; height?: number } | null;
-      if (!data || data.type !== 'mylos:booking-confirmed' || typeof data.height !== 'number') return;
-      const h = Math.max(240, Math.min(Math.round(data.height), 4000));
-      confirmedHeight = h;
-      // Only touch the frame when the size really changes (avoids resize ping-pong).
-      if (Math.abs(frame.getBoundingClientRect().height - h) > 2) frame.style.height = `${h}px`;
-      backButton.hidden = true;
-      openFull.parentElement!.hidden = true;
-      if (checkoutBox.getBoundingClientRect().top < 0) checkoutBox.scrollIntoView({ block: 'start' });
+    // ---- reCAPTCHA: loaded when the details step opens; the button waits for it ----
+    let grecaptcha: Grecaptcha | null = null;
+    let enterprise: Grecaptcha | null = null;
+    let challengeId: number | null = null;
+    function armRecaptcha() {
+      if (!cfg.recaptcha) { payButton.disabled = false; return; }
+      if (grecaptcha) return;
+      payButton.disabled = true;
+      loadV3(cfg.recaptcha, cfg.recaptchaHl).then(
+        (g) => {
+          grecaptcha = g;
+          payButton.disabled = false;
+          if (guestError.textContent === S.unavailable) guestError.hidden = true;
+        },
+        () => {
+          showGuestError(S.unavailable);
+          guestForm.addEventListener('focusin', armRecaptcha, { once: true }); // retry when the guest comes back
+        },
+      );
+    }
+    // Low score: the Enterprise checkbox (enterprise.js is fetched only now).
+    async function showChallenge() {
+      try {
+        enterprise ??= await loadChallenge(cfg.recaptchaHl);
+      } catch {
+        showGuestError(S.unavailable);
+        return;
+      }
+      if (challengeId === null) {
+        challengeBox.classList.remove('hidden');
+        challengeId = enterprise.render(challengeBox, {
+          sitekey: cfg.recaptchaChallenge,
+          action: 'booking',
+          callback: () => guestForm.requestSubmit(), // ticking the box resends the form
+        });
+      } else {
+        enterprise.reset(challengeId);
+      }
+      showGuestError(S.challenge);
+    }
+
+    function openDetails() {
+      const units = priced();
+      details.querySelector<HTMLElement>('[data-bw-stay]')!.textContent =
+        `${fmtDate(checkin.value)} – ${fmtDate(checkout.value)} · ${guestLabel(Number(adults.value))}`;
+      details.querySelector<HTMLElement>('[data-bw-rooms]')!.textContent = cart.lines.textContent;
+      details.querySelector<HTMLElement>('[data-bw-total]')!.textContent = money(cents(units.reduce((s, u) => s + u.lines.total, 0)), currency);
+      guestError.hidden = true;
+      armRecaptcha();
+      show('details');
+    }
+
+    // The pending booking + Stripe session of the current payment step (to release it if the guest goes back).
+    let pending: { sessionId: string; ref: string } | null = null;
+    let embedded: EmbeddedCheckout | null = null;
+
+    function leavePayment() {
+      embedded?.destroy();
+      embedded = null;
+      stripeBox.replaceChildren();
+      if (pending) {
+        const body = JSON.stringify(pending);
+        pending = null;
+        fetch(cfg.cancelApi, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true }).catch(() => {});
+      }
+    }
+
+    const showGuestError = (text: string) => { guestError.textContent = text; guestError.hidden = false; guestError.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+
+    guestForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      guestError.hidden = true;
+      guestForm.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+      if (!guestForm.checkValidity()) {
+        guestForm.querySelectorAll<HTMLInputElement>(':invalid').forEach((el) => el.setAttribute('aria-invalid', 'true'));
+        showGuestError(S.errInvalid);
+        guestForm.querySelector<HTMLInputElement>('[aria-invalid]')?.focus();
+        return;
+      }
+      if (cfg.recaptcha && !grecaptcha) return; // button is disabled until reCAPTCHA is ready
+      let recaptchaChallengeToken: string | undefined;
+      if (enterprise && challengeId !== null) {
+        recaptchaChallengeToken = enterprise.getResponse(challengeId);
+        if (!recaptchaChallengeToken) { showGuestError(S.challenge); return; }
+      }
+      const fd = new FormData(guestForm);
+      const guest = Object.fromEntries(['firstName', 'lastName', 'email', 'phone', 'country2', 'arrivalTime', 'comments'].map((k) => [k, String(fd.get(k) ?? '').trim()]));
+      const rooms = Object.fromEntries(Object.entries(qty).filter(([, q]) => q > 0));
+      payButton.disabled = true;
+      payButton.textContent = S.preparing;
+      try {
+        // v3 tokens expire after 2 minutes: get a fresh one per attempt (not needed once the checkbox is in use).
+        const recaptchaToken = cfg.recaptcha && !recaptchaChallengeToken ? await grecaptcha!.execute(cfg.recaptcha, { action: 'booking' }) : undefined;
+        const res = await fetch(cfg.checkoutApi, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            arrival: checkin.value, departure: checkout.value, adults: Number(adults.value), rooms, locale: cfg.lang,
+            guest, expectedTotal: currentTotal, _gotcha: fd.get('_gotcha'), recaptchaToken, recaptchaChallengeToken,
+          }),
+        });
+        const data = (await res.json().catch(() => ({}))) as {
+          ok?: boolean; error?: string; clientSecret?: string; sessionId?: string; publishableKey?: string; ref?: string; total?: number;
+        };
+        if (!res.ok || !data.ok || !data.clientSecret) {
+          if (data.error === 'sold_out') { showGuestError(S.errSoldOut); await search(); return; }
+          if (data.error === 'price_changed') { showGuestError(S.errPriceChanged); await search(); return; }
+          if (data.error === 'challenge' && cfg.recaptchaChallenge) { await showChallenge(); return; }
+          showGuestError(data.error === 'invalid' ? S.errInvalid : S.errCheckout);
+          return;
+        }
+        pending = { sessionId: data.sessionId!, ref: data.ref! };
+        paymentError.hidden = true;
+        paymentLoading.hidden = false;
+        show('payment');
+        try {
+          const Stripe = await loadStripeJs(cfg.stripeJs);
+          const stripe = Stripe(data.publishableKey!);
+          const create = stripe.createEmbeddedCheckoutPage ?? stripe.initEmbeddedCheckout;
+          if (!create) throw new Error('embedded checkout unavailable');
+          const secret = data.clientSecret;
+          embedded = await create.call(stripe, { fetchClientSecret: async () => secret });
+          embedded.mount(stripeBox);
+          paymentLoading.hidden = true;
+        } catch (err) {
+          console.error(err);
+          paymentLoading.hidden = true;
+          paymentError.textContent = S.errPayment;
+          paymentError.hidden = false;
+        }
+      } catch {
+        showGuestError(S.errCheckout);
+      } finally {
+        payButton.disabled = false;
+        payButton.textContent = S.toPayment;
+      }
     });
+
+    root.querySelector('[data-bw-change-rooms]')!.addEventListener('click', () => show('results'));
+    root.querySelector('[data-bw-change-details]')!.addEventListener('click', () => { leavePayment(); show('details'); });
 
     // ---- availability: one call per occupancy, merged into offers ----
     let seq = 0;
     async function search() {
-      closeCheckout(false);
+      leavePayment();
       results.hidden = true;
+      details.hidden = true;
+      payment.hidden = true;
       if (!checkin.value || !checkout.value) { say(S.choose); return; }
       if (checkout.value <= checkin.value) { say(S.invalid, 'alert'); return; }
       if (checkin.value < earliest) { checkin.value = earliest; if (checkout.value <= earliest) checkout.value = addDays(earliest, 2); }
@@ -473,7 +642,7 @@ const strings = {
         const ask = (n: number) => fetch(cfg.api, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain' }, // keeps it a "simple" CORS request
-          body: JSON.stringify({ propId: cfg.propid, checkIn: checkin.value.replace(/-/g, ''), checkOut: checkout.value.replace(/-/g, ''), numAdult: String(n), numChild: '0' }),
+          body: JSON.stringify({ propId: form.querySelector<HTMLInputElement>('[name=propid]')!.value, checkIn: checkin.value.replace(/-/g, ''), checkOut: checkout.value.replace(/-/g, ''), numAdult: String(n), numChild: '0' }),
         }).then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json() as Promise<Record<string, ApiRoom | unknown>>; });
         const replies = await Promise.all(Array.from({ length: cfg.maxOccupancy }, (_, i) => ask(i + 1)));
         if (mine !== seq) return;
@@ -489,13 +658,14 @@ const strings = {
         });
         Object.keys(qty).forEach((k) => delete qty[k]);
         let shown = 0;
+        const n = nights();
         rows.forEach((row) => {
           const o = offers[row.dataset.room!];
           row.hidden = !o;
           if (!o) return;
           shown++;
-          const each = priceFor(o, o.cap);
-          row.querySelector<HTMLElement>('[data-price]')!.textContent = money(withTaxes(each), o.currency);
+          const each = unitLines(priceFor(o.price, o.cap, o.cap), n).total;
+          row.querySelector<HTMLElement>('[data-price]')!.textContent = money(each, o.currency);
           const cap = row.querySelector<HTMLElement>('[data-cap]')!;
           cap.innerHTML = PERSON.repeat(o.cap);
           cap.setAttribute('aria-label', S.maxGuests.replace('{guests}', guestLabel(o.cap)));
@@ -504,10 +674,9 @@ const strings = {
           // booking.com-style select: 0, 1 (price), 2 (price)… up to the rooms left.
           const select = row.querySelector<HTMLSelectElement>('[data-qty]')!;
           select.replaceChildren(...Array.from({ length: o.avail + 1 }, (_, k) =>
-            new Option(k ? `${k}\u2002(${money(withTaxes(each * k, k), o.currency)})` : '0', String(k))));
+            new Option(k ? `${k} (${money(cents(each * k), o.currency)})` : '0', String(k))));
           select.value = '0';
         });
-        const fmtDate = (s: string) => new Date(`${s}T12:00:00`).toLocaleDateString(cfg.dateLocale, { day: 'numeric', month: 'short', year: 'numeric' });
         summary.textContent = `${fmtDate(checkin.value)} – ${fmtDate(checkout.value)} · ${guestLabel(Number(adults.value))}`;
         if (shown) { update(); results.hidden = false; say(''); }
         else say(S.none, 'alert');
@@ -525,21 +694,16 @@ const strings = {
 
     form.addEventListener('submit', (e) => { e.preventDefault(); search(); });
 
-    // Leaving for Beds24: remember the language (for the return page) and tell Analytics.
-    root.addEventListener('click', (e) => {
-      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('[data-book], [data-bw-open]');
-      if (!a) return;
-      if (a.getAttribute('aria-disabled') === 'true') { e.preventDefault(); return; }
-      if (a.matches('[data-book]') && !e.metaKey && !e.ctrlKey && !e.shiftKey) {
-        e.preventDefault();
-        openCheckout(a.href);
-      }
-      try { sessionStorage.setItem('mylos-lang', cfg.lang); } catch {}
+    // "Continue to booking": on to the guest's details (and tell Analytics).
+    cart.book.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (cart.book.getAttribute('aria-disabled') === 'true') return;
+      openDetails();
       const w = window as any;
       const items = Object.entries(qty).filter(([, q]) => q > 0).map(([id, q]) => `${id}x${q}`).join(',') || 'all';
       try {
-        if (typeof w.gtag === 'function') w.gtag('event', 'begin_checkout', { items, language: cfg.lang, transport_type: 'beacon' });
-        else if (typeof w.ga === 'function') w.ga('send', 'event', 'Booking', 'begin_checkout', items, { transport: 'beacon' });
+        if (typeof w.gtag === 'function') w.gtag('event', 'begin_checkout', { items, language: cfg.lang, value: currentTotal, currency });
+        else if (typeof w.ga === 'function') w.ga('send', 'event', 'Booking', 'begin_checkout', items);
       } catch {}
     });
 

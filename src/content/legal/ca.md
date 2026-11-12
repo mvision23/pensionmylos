@@ -25,21 +25,21 @@ No venem les teves dades ni les fem servir per prendre decisions automatitzades 
 
 ## Google reCAPTCHA
 
-El nostre formulari de contacte està protegit per **Google reCAPTCHA** (Google Cloud Fraud Defense), un servei de Google Ireland Ltd. / Google LLC.
+Els nostres formularis de contacte i de reserva estan protegits per **Google reCAPTCHA** (Google Cloud Fraud Defense), un servei de Google Ireland Ltd. / Google LLC.
 
-- L'script de reCAPTCHA només es carrega quan arribes al formulari de contacte o el fas servir. Analitza com interactues amb la pàgina (per exemple, adreça IP, informació del navegador, moviments del ratolí i temps a la pàgina) per distingir les persones dels bots.
+- L'script de reCAPTCHA només es carrega quan fas servir el formulari de contacte o el de reserva. Analitza com interactues amb la pàgina (per exemple, adreça IP, informació del navegador, moviments del ratolí i temps a la pàgina) per distingir les persones dels bots.
 - Si la comprovació no és concloent, potser se't demanarà que marquis «No sóc un robot» o que resolguis una prova amb imatges.
 - reCAPTCHA pot instal·lar la galeta `_GRECAPTCHA` i llegir galetes de Google ja existents. Són necessàries perquè funcioni la comprovació de seguretat.
 - Aquestes dades s'envien a Google, es poden tractar als EUA i estan subjectes a la [Política de privadesa](https://policies.google.com/privacy) i a les [Condicions del servei](https://policies.google.com/terms) de Google.
 
-Sense reCAPTCHA no es pot enviar el formulari de contacte. Sempre ens pots escriure per correu electrònic o trucar-nos.
+Sense reCAPTCHA no es poden enviar els formularis de contacte i de reserva. Sempre ens pots escriure per correu electrònic o trucar-nos.
 
 <h2 id="cookies">Galetes</h2>
 
 | Galeta | Proveïdor | Finalitat | Tipus | Durada |
 |---|---|---|---|---|
 | **[name used by the cookie banner]** | pensionmylos.com | Recorda les teves preferències de galetes | Necessària | **[12 months]** |
-| `_GRECAPTCHA` | Google (reCAPTCHA) | Protecció contra bots i correu brossa al formulari de contacte | Necessària (seguretat) | 6 mesos |
+| `_GRECAPTCHA` | Google (reCAPTCHA) | Protecció contra bots i correu brossa als formularis de contacte i de reserva | Necessària (seguretat) | 6 mesos |
 | `_ga`, `_ga_*` (si es fa servir) | Google Analytics | Estadístiques de visites | Analítica, **només amb el teu consentiment** | fins a 2 anys |
 | Galetes de Beds24 / Google Maps | Beds24, Google | Motor de reserves, mapa inserit | Les instal·len aquests serveis quan els fas servir | Consulta les seves polítiques |
 

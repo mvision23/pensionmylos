@@ -25,21 +25,21 @@ Nu vindem datele dumneavoastră și nu le folosim pentru decizii automatizate ca
 
 ## Google reCAPTCHA
 
-Formularul nostru de contact este protejat de **Google reCAPTCHA** (Google Cloud Fraud Defense), un serviciu oferit de Google Ireland Ltd. / Google LLC.
+Formularele noastre de contact și de rezervare sunt protejate de **Google reCAPTCHA** (Google Cloud Fraud Defense), un serviciu oferit de Google Ireland Ltd. / Google LLC.
 
-- Scriptul reCAPTCHA se încarcă doar când derulați până la formularul de contact sau îl folosiți. Analizează modul în care interacționați cu pagina (de exemplu adresa IP, informații despre browser, mișcările mouse-ului și timpul petrecut pe pagină) pentru a deosebi oamenii de roboți.
+- Scriptul reCAPTCHA se încarcă doar când folosiți formularul de contact sau cel de rezervare. Analizează modul în care interacționați cu pagina (de exemplu adresa IP, informații despre browser, mișcările mouse-ului și timpul petrecut pe pagină) pentru a deosebi oamenii de roboți.
 - Dacă verificarea nu este concludentă, vi se poate cere să bifați „Nu sunt robot” sau să rezolvați un test cu imagini.
 - reCAPTCHA poate seta cookie-ul `_GRECAPTCHA` și poate citi cookie-uri Google existente. Acestea sunt necesare pentru ca verificarea de securitate să funcționeze.
 - Aceste date ajung la Google, pot fi prelucrate în SUA și sunt supuse [Politicii de confidențialitate](https://policies.google.com/privacy) și [Termenilor și condițiilor](https://policies.google.com/terms) Google.
 
-Fără reCAPTCHA, formularul de contact nu poate fi trimis. Ne puteți contacta oricând prin email sau telefon.
+Fără reCAPTCHA, formularele de contact și de rezervare nu pot fi trimise. Ne puteți contacta oricând prin email sau telefon.
 
 <h2 id="cookies">Cookie-uri</h2>
 
 | Cookie | Furnizor | Scop | Tip | Durată |
 |---|---|---|---|---|
 | **[name used by the cookie banner]** | pensionmylos.com | Reține opțiunile dumneavoastră privind cookie-urile | Necesar | **[12 months]** |
-| `_GRECAPTCHA` | Google (reCAPTCHA) | Protecție împotriva roboților și a spamului în formularul de contact | Necesar (securitate) | 6 luni |
+| `_GRECAPTCHA` | Google (reCAPTCHA) | Protecție împotriva roboților și a spamului în formularele de contact și de rezervare | Necesar (securitate) | 6 luni |
 | `_ga`, `_ga_*` (dacă este folosit) | Google Analytics | Statistici de vizitare | Statistici, **doar cu consimțământul dumneavoastră** | până la 2 ani |
 | Cookie-uri Beds24 / Google Maps | Beds24, Google | Modulul de rezervări, harta încorporată | Setate de aceste servicii când le folosiți | Consultați politicile lor |
 
