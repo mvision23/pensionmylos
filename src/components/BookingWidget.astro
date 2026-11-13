@@ -363,6 +363,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
   import { cents, nightsBetween, priceFor, spreadAdults, unitLines } from '../lib/booking-math';
   import { COUNTRY_CODES } from '../lib/countries';
   import { loadChallenge, loadV3, type Grecaptcha } from '../lib/recaptcha-client';
+  import { formatDMY } from '../lib/dates';
 
   type Cfg = {
     api: string; checkoutApi: string; cancelApi: string; stripeJs: string; lang: string; dateLocale: string;
@@ -423,7 +424,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
     const challengeBox = root.querySelector<HTMLElement>('[data-bw-challenge]')!;
     const guestLabel = (n: number) => S.guestOptions[n - 1] ?? String(n);
     const money = (v: number, cur = 'EUR') => new Intl.NumberFormat(cfg.dateLocale, { style: 'currency', currency: cur }).format(v);
-    const fmtDate = (s: string) => new Date(`${s}T12:00:00`).toLocaleDateString(cfg.dateLocale, { day: 'numeric', month: 'short', year: 'numeric' });
+    const fmtDate = formatDMY;
     const nights = () => nightsBetween(checkin.value, checkout.value);
     const pct = (v: number) => new Intl.NumberFormat(cfg.dateLocale, { style: 'percent', maximumFractionDigits: 2 }).format(v);
     const nightsLabel = (n: number) => (n === 1 ? S.night : S.nights.replace('{n}', String(n)));
@@ -445,8 +446,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
     const first = root.querySelector<HTMLElement>('[data-bw-first]')!;
     if (opening) {
       const span = first.querySelector<HTMLElement>('span')!;
-      span.textContent = (span.dataset.template ?? '').replace('{date}',
-        new Date(`${opening.arrival}T12:00:00`).toLocaleDateString(cfg.dateLocale, { day: 'numeric', month: 'long', year: 'numeric' }));
+      span.textContent = (span.dataset.template ?? '').replace('{date}', formatDMY(opening.arrival));
       first.hidden = false;
     }
     checkin.addEventListener('change', () => {

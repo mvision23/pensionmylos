@@ -19,6 +19,7 @@ import { beds24, bookableRooms, site } from '../../src/data/site';
 import { defaultLocale, isLocale, type Locale } from '../../src/i18n/config';
 import { cents, nightsBetween, priceFor, spreadAdults, unitLines, type UnitLines } from '../../src/lib/booking-math';
 import { isCountryCode } from '../../src/lib/countries';
+import { formatDMY } from '../../src/lib/dates';
 import * as b24 from './beds24';
 
 export const REF_PREFIX = 'PM-';
@@ -200,7 +201,7 @@ export async function createCheckoutSession(origin: string, sel: Selection, gues
     rooms: Object.entries(sel.rooms).map(([id, q]) => `${id}x${q}`).join(','),
     email: guest.email,
   };
-  const stay = `${sel.arrival} → ${sel.departure}`;
+  const stay = `${formatDMY(sel.arrival)} → ${formatDMY(sel.departure)}`;
   return stripe().checkout.sessions.create({
     ui_mode: 'embedded_page',
     mode: 'payment',

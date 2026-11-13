@@ -97,7 +97,7 @@ const config = {
     const el = (sel: string) => root.querySelector<HTMLElement>(sel)!;
     const setState = (state: 'checking' | 'confirmed' | 'failed') =>
       root.querySelectorAll<HTMLElement>('[data-state]').forEach((s) => { s.hidden = s.dataset.state !== state; });
-    const fmtDate = (s: string) => new Date(`${s}T12:00:00`).toLocaleDateString(cfg.dateLocale, { day: 'numeric', month: 'short', year: 'numeric' });
+    const fmtDate = (s: string) => { const [y, m, d] = s.split('-'); return `${d}/${m}/${y}`; };
 
     function fail(kind: 'open' | 'expired' | 'error') {
       setState('failed');
