@@ -362,7 +362,12 @@
     "roomsSubtotal": "客室料金（税抜）",
     "vat": "VAT（{rate}）",
     "municipalTax": "市税（{rate}）",
-    "climateFee": "気候税（1室1泊 {amount} · {nights} · {rooms} 室）"
+    "climateFee": "気候税（1室1泊 {amount} · {nights} · {rooms} 室）",
+    "payNow": "今すぐお支払い（{rule}）",
+    "payLater": "残額（現地でお支払い）",
+    "depositPercent": "{pct} の前払い",
+    "depositFirstNight": "初日分を前払い",
+    "depositFixed": "前払い"
   },
   "notFound": {
     "title": "ページが見つかりません",
@@ -403,7 +408,9 @@
     "textOpen": "お支払いが完了しなかったため、予約は確定しておらず、料金は請求されていません。",
     "textExpired": "お支払いの制限時間を過ぎたため、予約は成立せず、料金は請求されていません。最初からやり直してください。",
     "textError": "ただいま予約を確認できませんでした。お支払い済みの場合は確認メールが届きます。そうでない場合は {email} までご連絡ください。",
-    "retry": "予約ページに戻る"
+    "retry": "予約ページに戻る",
+    "paidNow": "お支払い済み（前払い）",
+    "balanceDue": "残額（現地でお支払い）"
   },
   "legal": {
     "link": "プライバシーおよびCookieポリシー"

@@ -12,6 +12,7 @@
  *    match what the guest saw.
  */
 import { beds24 } from '../../src/data/site';
+import type { DepositRule } from '../../src/lib/booking-math';
 
 const V2 = 'https://api.beds24.com/v2';
 
@@ -136,6 +137,30 @@ export async function getBooking(id: number, includeInvoiceItems = true): Promis
 
 /** Human-readable reasons from a failed item of POST /bookings. */
 export const postErrors = (r: PostResult) => (r.errors ?? []).map((e) => [e.field, e.message].filter(Boolean).join(': ')).join('; ') || 'unknown error';
+
+// ------------------------------------------------------- property ----
+type PropertyPayment = {
+  depositNonPayment?: string;
+  depositPayment1?: { fixedAmount?: number; variableAmount?: { type?: 'percentage' | 'firstNight'; percentageValue?: number | null } };
+};
+let depositCache: { at: number; rule: DepositRule | null } | null = null;
+
+/**
+ * The deposit rule set in Beds24 (Settings → Payment collection → Deposit 1),
+ * cached for an hour. null = not configured (then the whole stay is charged).
+ * Throws if Beds24 can't be read (callers decide the fallback).
+ */
+export async function getDepositRule(): Promise<DepositRule | null> {
+  if (depositCache && Date.now() - depositCache.at < 60 * 60 * 1000) return depositCache.rule;
+  const res = await call<ListResponse<{ id: number; paymentCollection?: PropertyPayment }>>('GET', '/properties', undefined, { id: beds24.propid });
+  const pc = res.data?.[0]?.paymentCollection?.depositPayment1;
+  const fixed = Number(pc?.fixedAmount ?? 0) || 0;
+  const type = pc?.variableAmount?.type === 'firstNight' ? 'firstNight' : 'percentage';
+  const percentage = type === 'percentage' ? Number(pc?.variableAmount?.percentageValue ?? 0) || 0 : 0;
+  const rule: DepositRule | null = fixed > 0 || percentage > 0 || type === 'firstNight' ? { fixed, type, percentage } : null;
+  depositCache = { at: Date.now(), rule };
+  return rule;
+}
 
 // ------------------------------------------------- availability (v1) ----
 export type Offer = { avail: number; cap: number; price: Record<number, number>; currency: string };

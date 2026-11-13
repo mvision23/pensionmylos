@@ -3,12 +3,12 @@
  * when Stripe sends the guest back.
  *
  * Replies { ok: true, state, … } where state is:
- *   confirmed   paid; bookings confirmed in Beds24 (or being confirmed by the
+ *   confirmed   paid (the deposit or the whole stay); bookings confirmed in Beds24 (or being confirmed by the
  *               webhook if Beds24 was unreachable just now: synced=false)
  *   processing  the guest paid with a method that settles later
  *   open        no payment yet (the guest came back without paying)
  *   expired     the 30-minute hold ran out; nothing was charged
- * plus ref, bookingIds, arrival, departure, adults, rooms, total, currency, email.
+ * plus ref, bookingIds, arrival, departure, adults, rooms, paid (now), total (whole stay), balance, currency, email.
  */
 import type { Config } from '@netlify/functions';
 import { BookingError, confirmFromSession, errorResponse, json, readMeta, stripe } from '../lib/booking';
@@ -33,7 +33,9 @@ export default async (req: Request) => {
       departure: meta.departure,
       adults: meta.adults,
       rooms: meta.rooms,
-      total: (session.amount_total ?? 0) / 100,
+      paid: (session.amount_total ?? 0) / 100,
+      total: meta.totals.reduce((s, v) => s + (v || 0), 0),
+      balance: Math.max(0, Math.round((meta.totals.reduce((s, v) => s + (v || 0), 0) - (session.amount_total ?? 0) / 100) * 100) / 100),
       currency: (session.currency ?? 'eur').toUpperCase(),
       email: session.customer_details?.email ?? meta.email,
     };

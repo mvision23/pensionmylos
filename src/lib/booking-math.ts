@@ -56,3 +56,20 @@ export function priceFor(prices: Record<number, number>, n: number, cap: number)
   for (let a = n; a <= cap; a++) if (prices[a] != null) return prices[a];
   return prices[cap];
 }
+
+/**
+ * Beds24's deposit rule (Settings → Payment collection → Deposit 1): a fixed
+ * amount plus either a percentage of the booking or its first night.
+ */
+export type DepositRule = { fixed: number; type: 'percentage' | 'firstNight'; percentage: number };
+
+/**
+ * What the guest pays now for one room. A rule that works out to nothing (or
+ * more than the room) means the whole room is paid at booking.
+ */
+export function depositFor(lines: UnitLines, nights: number, rule: DepositRule | null): number {
+  if (!rule) return lines.total;
+  const variable = rule.type === 'percentage' ? (lines.total * rule.percentage) / 100 : lines.total / Math.max(1, nights);
+  const d = cents(rule.fixed + variable);
+  return d > 0 && d < lines.total ? d : lines.total;
+}

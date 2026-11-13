@@ -24,6 +24,8 @@ const config = {
   night: t.night,
   nights: t.nights,
   sentTo: t.sentTo,
+  paidNow: t.paidNow,
+  stayTotal: m.reservations.total,
   reservations: localePath(locale, '/reservations/'),
 };
 ---
@@ -57,8 +59,12 @@ const config = {
         <dd data-rooms></dd>
         <dt class="text-sm text-ink-soft">{t.guests}</dt>
         <dd data-guests></dd>
-        <dt class="text-sm text-ink-soft">{t.paid}</dt>
+        <dt class="text-sm text-ink-soft" data-paid-label>{t.paid}</dt>
         <dd class="tabular-nums" data-paid></dd>
+        <dt class="text-sm text-ink-soft" data-balance-row hidden>{t.balanceDue}</dt>
+        <dd class="tabular-nums" data-balance-row data-balance hidden></dd>
+        <dt class="text-sm text-ink-soft" data-balance-row data-total-label hidden></dt>
+        <dd class="tabular-nums" data-balance-row data-total hidden></dd>
       </dl>
     </div>
 
@@ -87,12 +93,12 @@ const config = {
     type Status = {
       ok: boolean; state?: 'confirmed' | 'processing' | 'open' | 'expired'; error?: string;
       ref?: string; bookingIds?: number[]; arrival?: string; departure?: string; adults?: number;
-      rooms?: Record<string, number>; total?: number; currency?: string; email?: string;
+      rooms?: Record<string, number>; paid?: number; total?: number; balance?: number; currency?: string; email?: string;
     };
     const root = document.querySelector<HTMLElement>('[data-booking-done]')!;
     const cfg = JSON.parse(root.dataset.config!) as {
       api: string; dateLocale: string; roomNames: Record<string, string>; guestOptions: string[];
-      night: string; nights: string; sentTo: string; reservations: string;
+      night: string; nights: string; sentTo: string; paidNow: string; stayTotal: string; reservations: string;
     };
     const el = (sel: string) => root.querySelector<HTMLElement>(sel)!;
     const setState = (state: 'checking' | 'confirmed' | 'failed') =>
@@ -117,7 +123,16 @@ const config = {
         : '';
       el('[data-rooms]').textContent = Object.entries(d.rooms ?? {}).map(([id, q]) => `${q} × ${cfg.roomNames[id] ?? id}`).join(' · ');
       el('[data-guests]').textContent = d.adults ? (cfg.guestOptions[d.adults - 1] ?? String(d.adults)) : '';
-      el('[data-paid]').textContent = d.total != null ? new Intl.NumberFormat(cfg.dateLocale, { style: 'currency', currency: d.currency || 'EUR' }).format(d.total) : '';
+      const money = (v: number) => new Intl.NumberFormat(cfg.dateLocale, { style: 'currency', currency: d.currency || 'EUR' }).format(v);
+      const paid = d.paid ?? d.total ?? 0;
+      el('[data-paid]').textContent = money(paid);
+      if ((d.balance ?? 0) > 0) {
+        el('[data-paid-label]').textContent = cfg.paidNow;
+        el('[data-balance]').textContent = money(d.balance!);
+        el('[data-total-label]').textContent = cfg.stayTotal;
+        el('[data-total]').textContent = money(d.total ?? paid + d.balance!);
+        root.querySelectorAll<HTMLElement>('[data-balance-row]').forEach((e) => { e.hidden = false; });
+      }
       el('[data-sent-to]').textContent = d.email ? cfg.sentTo.replace('{email}', d.email) : '';
       el('[data-text-confirmed]').hidden = d.state !== 'confirmed';
       el('[data-text-processing]').hidden = d.state !== 'processing';
@@ -128,7 +143,7 @@ const config = {
         const key = `mylos-purchase-${d.ref}`;
         const w = window as any;
         if (d.state === 'confirmed' && !sessionStorage.getItem(key) && typeof w.gtag === 'function') {
-          w.gtag('event', 'purchase', { transaction_id: ids.join('+'), value: d.total, currency: d.currency, items: Object.entries(d.rooms ?? {}).map(([id, q]) => ({ item_id: id, item_name: cfg.roomNames[id], quantity: q })) });
+          w.gtag('event', 'purchase', { transaction_id: ids.join('+'), value: d.paid ?? d.total, currency: d.currency, items: Object.entries(d.rooms ?? {}).map(([id, q]) => ({ item_id: id, item_name: cfg.roomNames[id], quantity: q })) });
           sessionStorage.setItem(key, '1');
         }
       } catch {}

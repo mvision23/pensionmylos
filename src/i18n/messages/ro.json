@@ -362,7 +362,12 @@
     "roomsSubtotal": "Camere, fără taxe",
     "vat": "TVA ({rate})",
     "municipalTax": "Taxa municipală ({rate})",
-    "climateFee": "Taxa climatică ({amount} pe cameră pe noapte · {nights} · {rooms} cameră/e)"
+    "climateFee": "Taxa climatică ({amount} pe cameră pe noapte · {nights} · {rooms} cameră/e)",
+    "payNow": "De plătit acum ({rule})",
+    "payLater": "Restul, plătit la pensiune",
+    "depositPercent": "avans de {pct}",
+    "depositFirstNight": "prima noapte ca avans",
+    "depositFixed": "avans"
   },
   "notFound": {
     "title": "Pagina nu a fost găsită",
@@ -403,7 +408,9 @@
     "textOpen": "Plata nu a fost finalizată, așa că rezervarea nu este confirmată și nu s-a încasat nimic.",
     "textExpired": "Timpul pentru plată a expirat, așa că rezervarea nu a fost făcută și nu s-a încasat nimic. Vă rugăm să începeți din nou.",
     "textError": "Nu am putut verifica rezervarea acum. Dacă ați plătit, emailul de confirmare este pe drum; altfel, scrieți-ne la {email}.",
-    "retry": "Înapoi la rezervări"
+    "retry": "Înapoi la rezervări",
+    "paidNow": "Plătit acum",
+    "balanceDue": "Restul, plătit la pensiune"
   },
   "legal": {
     "link": "Politica de confidențialitate și cookie-uri"

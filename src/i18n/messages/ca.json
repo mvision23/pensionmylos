@@ -362,7 +362,12 @@
     "roomsSubtotal": "Habitacions, abans d'impostos",
     "vat": "IVA ({rate})",
     "municipalTax": "Taxa municipal ({rate})",
-    "climateFee": "Taxa climàtica ({amount} per habitació i nit · {nights} · {rooms} habitació/ons)"
+    "climateFee": "Taxa climàtica ({amount} per habitació i nit · {nights} · {rooms} habitació/ons)",
+    "payNow": "A pagar ara ({rule})",
+    "payLater": "Resta, es paga a la pensió",
+    "depositPercent": "dipòsit del {pct}",
+    "depositFirstNight": "primera nit com a dipòsit",
+    "depositFixed": "dipòsit"
   },
   "notFound": {
     "title": "Pàgina no trobada",
@@ -403,7 +408,9 @@
     "textOpen": "El pagament no s'ha completat, així que la reserva no està confirmada i no s'ha cobrat res.",
     "textExpired": "S'ha esgotat el temps per pagar, així que la reserva no s'ha fet i no s'ha cobrat res. Torna a començar.",
     "textError": "No hem pogut comprovar la teva reserva ara mateix. Si has pagat, la confirmació és de camí; si no, escriu-nos a {email}.",
-    "retry": "Tornar a reserves"
+    "retry": "Tornar a reserves",
+    "paidNow": "Pagat ara",
+    "balanceDue": "Resta, es paga a la pensió"
   },
   "legal": {
     "link": "Política de privacitat i de galetes"

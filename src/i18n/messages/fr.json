@@ -362,7 +362,12 @@
     "roomsSubtotal": "Chambres, hors taxes",
     "vat": "TVA ({rate})",
     "municipalTax": "Taxe municipale ({rate})",
-    "climateFee": "Taxe climatique ({amount} par chambre et par nuit · {nights} · {rooms} chambre(s))"
+    "climateFee": "Taxe climatique ({amount} par chambre et par nuit · {nights} · {rooms} chambre(s))",
+    "payNow": "À payer maintenant ({rule})",
+    "payLater": "Solde, réglé à la pension",
+    "depositPercent": "acompte de {pct}",
+    "depositFirstNight": "première nuit en acompte",
+    "depositFixed": "acompte"
   },
   "notFound": {
     "title": "Page introuvable",
@@ -403,7 +408,9 @@
     "textOpen": "Le paiement n'a pas été effectué : la réservation n'est pas confirmée et rien n'a été débité.",
     "textExpired": "Le délai de paiement est écoulé : la réservation n'a pas été effectuée et rien n'a été débité. Veuillez recommencer.",
     "textError": "Nous n'avons pas pu vérifier votre réservation pour le moment. Si vous avez payé, votre e-mail de confirmation est en route ; sinon, écrivez-nous à {email}.",
-    "retry": "Retour aux réservations"
+    "retry": "Retour aux réservations",
+    "paidNow": "Payé maintenant",
+    "balanceDue": "Solde, réglé à la pension"
   },
   "legal": {
     "link": "Politique de confidentialité et de cookies"

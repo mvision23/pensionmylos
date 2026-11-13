@@ -17,7 +17,7 @@
 import Stripe from 'stripe';
 import { beds24, bookableRooms, site } from '../../src/data/site';
 import { defaultLocale, isLocale, type Locale } from '../../src/i18n/config';
-import { cents, nightsBetween, priceFor, spreadAdults, unitLines, type UnitLines } from '../../src/lib/booking-math';
+import { cents, depositFor, nightsBetween, priceFor, spreadAdults, unitLines, type DepositRule, type UnitLines } from '../../src/lib/booking-math';
 import { isCountryCode } from '../../src/lib/countries';
 import { formatDMY } from '../../src/lib/dates';
 import * as b24 from './beds24';
@@ -108,12 +108,22 @@ export function parseCheckoutInput(body: unknown): { selection: Selection; guest
 }
 
 // -------------------------------------------------------------- pricing ----
-export type PricedUnit = { roomId: string; name: string; adults: number; cap: number; lines: UnitLines };
-export type Priced = { units: PricedUnit[]; nights: number; total: number; currency: string };
+export type PricedUnit = { roomId: string; name: string; adults: number; cap: number; lines: UnitLines; deposit: number };
+export type Priced = { units: PricedUnit[]; nights: number; total: number; deposit: number; balance: number; rule: DepositRule | null; currency: string };
 
-/** Re-prices a selection from Beds24 (live availability + prices). */
+/** The deposit rule from Beds24; if it can't be read, the whole stay is charged (never nothing). */
+export async function depositRule(): Promise<DepositRule | null> {
+  try {
+    return await b24.getDepositRule();
+  } catch (err) {
+    console.warn('deposit rule unavailable, charging the full amount:', (err as Error).message);
+    return null;
+  }
+}
+
+/** Re-prices a selection from Beds24 (live availability + prices) and applies the deposit rule. */
 export async function priceSelection(sel: Selection): Promise<Priced> {
-  const offers = await b24.getOffers(sel.arrival, sel.departure, MAX_OCCUPANCY);
+  const [offers, rule] = await Promise.all([b24.getOffers(sel.arrival, sel.departure, MAX_OCCUPANCY), depositRule()]);
   const nights = nightsBetween(sel.arrival, sel.departure);
   const flat: { roomId: string; name: string; cap: number; offer: b24.Offer }[] = [];
   let currency = 'EUR';
@@ -125,14 +135,13 @@ export async function priceSelection(sel: Selection): Promise<Priced> {
     currency = o.currency;
     for (let i = 0; i < q; i++) flat.push({ roomId: r.id, name: r.name, cap: o.cap, offer: o });
   }
-  const units = spreadAdults(flat, sel.adults).map((u) => ({
-    roomId: u.roomId,
-    name: u.name,
-    adults: u.adults,
-    cap: u.cap,
-    lines: unitLines(priceFor(u.offer.price, u.adults, u.cap), nights),
-  }));
-  return { units, nights, total: cents(units.reduce((s, u) => s + u.lines.total, 0)), currency };
+  const units = spreadAdults(flat, sel.adults).map((u) => {
+    const lines = unitLines(priceFor(u.offer.price, u.adults, u.cap), nights);
+    return { roomId: u.roomId, name: u.name, adults: u.adults, cap: u.cap, lines, deposit: depositFor(lines, nights, rule) };
+  });
+  const total = cents(units.reduce((s, u) => s + u.lines.total, 0));
+  const deposit = cents(units.reduce((s, u) => s + u.deposit, 0));
+  return { units, nights, total, deposit, balance: cents(total - deposit), rule, currency };
 }
 
 // --------------------------------------------------------------- Stripe ----
@@ -154,12 +163,19 @@ const stripeLocale = (l: Locale): Stripe.Checkout.SessionCreateParams.Locale => 
 
 export const localePath = (locale: Locale, path: string) => (locale === defaultLocale ? path : `/${locale}${path}`);
 
+/** Short English label for the Stripe form / Beds24 notes. */
+export const describeRule = (rule: DepositRule | null) =>
+  !rule ? 'full payment' : rule.type === 'firstNight' ? 'first night as deposit' : `${rule.percentage}% deposit${rule.fixed ? ` + ${rule.fixed.toFixed(2)}` : ''}`;
+
 export const newRef = () => REF_PREFIX + Array.from(crypto.getRandomValues(new Uint8Array(8)), (b) => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[b % 32]).join('');
 
 export type SessionMeta = {
   ref: string;
   bookingIds: number[];
+  /** Paid now, per booking (the deposit, or the whole room). */
   amounts: number[];
+  /** Full price per booking. */
+  totals: number[];
   locale: Locale;
   arrival: string;
   departure: string;
@@ -180,6 +196,7 @@ export function readMeta(session: Stripe.Checkout.Session): SessionMeta | null {
     ref: m.ref,
     bookingIds: m.bookingIds.split(',').map(Number).filter(Boolean),
     amounts: (m.amounts ?? '').split(',').map(Number),
+    totals: (m.totals ?? m.amounts ?? '').split(',').map(Number),
     locale: isLocale(m.locale) ? m.locale : defaultLocale,
     arrival: m.arrival ?? '',
     departure: m.departure ?? '',
@@ -193,7 +210,8 @@ export async function createCheckoutSession(origin: string, sel: Selection, gues
   const meta: Record<string, string> = {
     ref,
     bookingIds: bookingIds.join(','),
-    amounts: priced.units.map((u) => u.lines.total.toFixed(2)).join(','),
+    amounts: priced.units.map((u) => u.deposit.toFixed(2)).join(','),
+    totals: priced.units.map((u) => u.lines.total.toFixed(2)).join(','),
     locale: sel.locale,
     arrival: sel.arrival,
     departure: sel.departure,
@@ -202,6 +220,8 @@ export async function createCheckoutSession(origin: string, sel: Selection, gues
     email: guest.email,
   };
   const stay = `${formatDMY(sel.arrival)} → ${formatDMY(sel.departure)}`;
+  const partial = priced.deposit < priced.total;
+  const ruleText = describeRule(priced.rule);
   return stripe().checkout.sessions.create({
     ui_mode: 'embedded_page',
     mode: 'payment',
@@ -215,16 +235,18 @@ export async function createCheckoutSession(origin: string, sel: Selection, gues
       quantity: 1,
       price_data: {
         currency: priced.currency.toLowerCase(),
-        unit_amount: Math.round(u.lines.total * 100),
+        unit_amount: Math.round(u.deposit * 100),
         product_data: {
-          name: `${u.name} · ${priced.nights} ${priced.nights === 1 ? 'night' : 'nights'}`,
-          description: `${stay} · ${u.adults} ${u.adults === 1 ? 'adult' : 'adults'} · taxes included`,
+          name: `${u.name} · ${priced.nights} ${priced.nights === 1 ? 'night' : 'nights'}${partial ? ` · ${ruleText}` : ''}`,
+          description: partial
+            ? `${stay} · ${u.adults} ${u.adults === 1 ? 'adult' : 'adults'} · room total ${u.lines.total.toFixed(2)} ${priced.currency} incl. taxes; the balance of ${cents(u.lines.total - u.deposit).toFixed(2)} ${priced.currency} is paid at the pension`
+            : `${stay} · ${u.adults} ${u.adults === 1 ? 'adult' : 'adults'} · taxes included`,
         },
       },
     })),
     metadata: meta,
     payment_intent_data: {
-      description: `${site.name} booking ${bookingIds.join('+')} · ${stay}`,
+      description: `${site.name} booking ${bookingIds.join('+')} · ${stay}${partial ? ` · ${ruleText}` : ''}`,
       metadata: meta,
       receipt_email: guest.email,
       statement_descriptor_suffix: 'PENSION MYLOS',
@@ -258,8 +280,9 @@ export async function createPendingBookings(sel: Selection, guest: Guest, priced
     lang: sel.locale,
     refererEditable: REFERER,
     apiReference: ref,
-    notes: `Website booking ${ref} — awaiting online card payment (Stripe). Confirmed automatically once paid; cancelled automatically if not paid within ${HOLD_MINUTES} min.`,
+    notes: `Website booking ${ref} — awaiting online card payment of ${u.deposit.toFixed(2)} ${priced.currency}${u.deposit < u.lines.total ? ` (${describeRule(priced.rule)}; balance ${cents(u.lines.total - u.deposit).toFixed(2)} ${priced.currency} at the pension)` : ''} via Stripe. Confirmed automatically once paid; cancelled automatically if not paid within ${HOLD_MINUTES} min.`,
     price: u.lines.total,
+    deposit: u.deposit,
     invoiceItems: [
       { type: 'charge', description: `${u.name} — ${priced.nights} night${priced.nights === 1 ? '' : 's'}`, qty: 1, amount: u.lines.room },
       { type: 'charge', description: `VAT ${Math.round(beds24.taxes.vat * 100)} %`, qty: 1, amount: u.lines.vat },
@@ -316,13 +339,15 @@ export async function confirmFromSession(session: Stripe.Checkout.Session): Prom
       continue;
     }
     const amount = meta.amounts[i] ?? (i === 0 ? (session.amount_total ?? 0) / 100 : 0);
+    const roomTotal = meta.totals[i] ?? amount;
+    const balance = cents(roomTotal - amount);
     const warn = booking.status === 'cancelled' ? '\nWARNING: this booking was cancelled before the payment arrived — please check the room is still free.' : '';
     const [r] = await b24.postBookings([
       {
         id,
         status: 'confirmed',
-        notes: `Website booking ${meta.ref} — PAID online by card (${marker}, ${session.currency?.toUpperCase()} ${((session.amount_total ?? 0) / 100).toFixed(2)} for the whole booking).${warn}`,
-        invoiceItems: [{ type: 'payment', description: `${marker} — online card payment`, qty: 1, amount, status: 'paid' }],
+        notes: `Website booking ${meta.ref} — PAID online by card: ${amount.toFixed(2)} ${session.currency?.toUpperCase()} (${marker}, ${((session.amount_total ?? 0) / 100).toFixed(2)} for the whole booking).${balance > 0 ? ` Balance of ${balance.toFixed(2)} ${session.currency?.toUpperCase()} to be paid at the pension.` : ''}${warn}`,
+        invoiceItems: [{ type: 'payment', description: `${marker} — online card ${balance > 0 ? 'deposit' : 'payment'}`, qty: 1, amount, status: 'paid' }],
         actions: { notifyGuest: true },
       },
     ]);

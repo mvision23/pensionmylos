@@ -52,6 +52,7 @@ const config = {
   api: beds24.availabilityApi,
   checkoutApi: '/api/booking/checkout',
   cancelApi: '/api/booking/cancel',
+  depositApi: '/api/booking/deposit',
   stripeJs: 'https://js.stripe.com/endive/stripe.js',
   recaptcha: site.recaptchaSiteKey,
   recaptchaChallenge: site.recaptchaChallengeSiteKey,
@@ -70,6 +71,7 @@ const strings = {
   challenge: t.challenge, unavailable: t.unavailable.replace('{email}', site.email),
   perNight: t.perNight, roomsSubtotal: t.roomsSubtotal, vat: t.vat, municipalTax: t.municipalTax, climateFee: t.climateFee,
   night: m.bookingDone.night, nights: m.bookingDone.nights,
+  payNow: t.payNow, payLater: t.payLater, depositPercent: t.depositPercent, depositFirstNight: t.depositFirstNight, depositFixed: t.depositFixed,
 };
 const [consentBefore, consentAfter] = t.consent.split('{privacy}');
 ---
@@ -165,6 +167,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
         <p class="text-sm text-white/75">{t.total}</p>
         <p class="text-3xl font-light tabular-nums" data-cart-total>—</p>
         <p class="text-sm text-white/80" data-cart-lines></p>
+        <p class="mt-1 text-sm font-medium text-white" data-cart-pay hidden></p>
         <p class="max-w-[62ch] text-xs text-white/65 max-sm:hidden" data-cart-taxes data-template={t.taxes}></p>
       </div>
       <div class="flex flex-col items-end gap-2">
@@ -195,6 +198,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
           <span class="block text-sm text-ink-soft">{t.total}</span>
           <span class="text-2xl font-light tabular-nums" data-bw-total></span>
         </p>
+        <p class="basis-full text-sm font-medium text-ink" data-bw-pay hidden></p>
       </div>
       <details class="mt-3 border-t border-stone pt-3">
         <summary class="cursor-pointer text-sm text-mylos-700 underline underline-offset-4 hover:no-underline">{t.breakdownTitle}</summary>
@@ -270,6 +274,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
           <span class="block text-sm text-ink-soft">{t.total}</span>
           <span class="text-2xl font-light tabular-nums" data-bw-total></span>
         </p>
+        <p class="basis-full text-sm font-medium text-ink" data-bw-pay hidden></p>
       </div>
       <details class="mt-3 border-t border-stone pt-3">
         <summary class="cursor-pointer text-sm text-mylos-700 underline underline-offset-4 hover:no-underline">{t.breakdownTitle}</summary>
@@ -364,9 +369,10 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
   import { COUNTRY_CODES } from '../lib/countries';
   import { loadChallenge, loadV3, type Grecaptcha } from '../lib/recaptcha-client';
   import { formatDMY } from '../lib/dates';
+  import { depositFor, type DepositRule } from '../lib/booking-math';
 
   type Cfg = {
-    api: string; checkoutApi: string; cancelApi: string; stripeJs: string; lang: string; dateLocale: string;
+    api: string; checkoutApi: string; cancelApi: string; depositApi: string; stripeJs: string; lang: string; dateLocale: string;
     recaptcha: string; recaptchaChallenge: string; recaptchaHl: string;
     opening: { arrival: string; departure: string } | null; maxOccupancy: number;
   };
@@ -473,6 +479,18 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
       if (COUNTRY_CODES.includes(guess)) select.value = guess;
     }
 
+    // ---- deposit rule from Beds24 (via our function); until known, or if unknown, the whole stay is shown ----
+    let depositRule: DepositRule | null = null;
+    const ruleLabel = () => !depositRule ? '' : depositRule.type === 'firstNight' ? S.depositFirstNight
+      : depositRule.percentage > 0 ? S.depositPercent.replace('{pct}', pct(depositRule.percentage / 100)) : S.depositFixed;
+    /** "To pay now (20% deposit): €54.28 · Remaining balance, paid at the pension: €217.11", or '' when everything is paid now. */
+    const payText = (deposit: number, total: number) =>
+      deposit < total ? `${S.payNow.replace('{rule}', ruleLabel())}: ${money(deposit, currency)} · ${S.payLater}: ${money(total - deposit, currency)}` : '';
+    fetch(cfg.depositApi, { headers: { Accept: 'application/json' } })
+      .then((r) => r.json())
+      .then((d: { ok?: boolean; rule?: DepositRule | null }) => { if (d.ok) { depositRule = d.rule ?? null; if (!results.hidden || !details.hidden || !payment.hidden) { update(); renderSummary(); } } })
+      .catch(() => {});
+
     // ---- selection: room id -> number of rooms ----
     let offers: Record<string, Offer> = {};
     const qty: Record<string, number> = {};
@@ -484,7 +502,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
       const n = nights();
       const units = rows.map((r) => r.dataset.room!).filter((id) => offers[id] && qty[id] > 0)
         .flatMap((id) => Array.from({ length: qty[id] }, () => ({ id, cap: offers[id].cap })));
-      return spreadAdults(units, Number(adults.value)).map((u) => ({ ...u, lines: unitLines(priceFor(offers[u.id].price, u.adults, u.cap), n) }));
+      return spreadAdults(units, Number(adults.value)).map((u) => { const lines = unitLines(priceFor(offers[u.id].price, u.adults, u.cap), n); return { ...u, lines, deposit: depositFor(lines, n, depositRule) }; });
     }
     let currentTotal = 0;
     let currency = 'EUR';
@@ -499,6 +517,10 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
       currency = units[0] ? offers[units[0].id].currency : 'EUR';
       cart.total.textContent = units.length ? money(currentTotal, currency) : '—';
       cart.lines.textContent = chosen.map((id) => `${qty[id]} × ${nameOf(id)}`).join(' · ');
+      const payNow = cents(units.reduce((s, u) => s + u.deposit, 0));
+      const payLine = root.querySelector<HTMLElement>('[data-cart-pay]')!;
+      payLine.textContent = units.length ? payText(payNow, currentTotal) : '';
+      payLine.hidden = !payLine.textContent;
       const msg = !units.length ? S.selectOne
         : capacity < requested ? S.capacityNote.replace('{capacity}', guestLabel(capacity)).replace('{adults}', guestLabel(requested))
         : '';
@@ -567,6 +589,7 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
       const units = priced();
       const n = nights();
       const total = cents(units.reduce((s, u) => s + u.lines.total, 0));
+      const payNow = cents(units.reduce((s, u) => s + u.deposit, 0));
       const row = (label: string, amount: number, attr?: string) => {
         const tr = document.createElement('tr');
         if (attr) tr.setAttribute(attr, '');
@@ -587,10 +610,12 @@ const [consentBefore, consentAfter] = t.consent.split('{privacy}');
         row(S.municipalTax.replace('{rate}', pct(probe.municipal / 100)), sum('municipal')),
         row(S.climateFee.replace('{amount}', money(probe.climate, currency)).replace('{nights}', nightsLabel(n)).replace('{rooms}', String(units.length)), sum('climate')),
         row(S.total, total, 'data-total'),
+        ...(payNow < total ? [row(S.payNow.replace('{rule}', ruleLabel()), payNow, 'data-total'), row(S.payLater, cents(total - payNow))] : []),
       ];
       root.querySelectorAll<HTMLElement>('[data-bw-stay]').forEach((el) => { el.textContent = `${fmtDate(checkin.value)} – ${fmtDate(checkout.value)} · ${guestLabel(Number(adults.value))}`; });
       root.querySelectorAll<HTMLElement>('[data-bw-rooms]').forEach((el) => { el.textContent = cart.lines.textContent; });
       root.querySelectorAll<HTMLElement>('[data-bw-total]').forEach((el) => { el.textContent = money(total, currency); });
+      root.querySelectorAll<HTMLElement>('[data-bw-pay]').forEach((el) => { el.textContent = payText(payNow, total); el.hidden = !el.textContent; });
       root.querySelectorAll<HTMLTableElement>('[data-bw-breakdown]').forEach((table) => table.replaceChildren(...rows.map((r) => r.cloneNode(true))));
     }
 

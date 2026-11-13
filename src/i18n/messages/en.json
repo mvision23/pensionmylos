@@ -362,7 +362,12 @@
     "roomsSubtotal": "Rooms, before taxes",
     "vat": "VAT ({rate})",
     "municipalTax": "Municipal tax ({rate})",
-    "climateFee": "Climate fee ({amount} per room per night · {nights} · {rooms} room(s))"
+    "climateFee": "Climate fee ({amount} per room per night · {nights} · {rooms} room(s))",
+    "payNow": "To pay now ({rule})",
+    "payLater": "Remaining balance, paid at the pension",
+    "depositPercent": "{pct} deposit",
+    "depositFirstNight": "first night as deposit",
+    "depositFixed": "deposit"
   },
   "notFound": {
     "title": "Page not found",
@@ -403,7 +408,9 @@
     "textOpen": "The payment wasn't completed, so the booking isn't confirmed and nothing was charged.",
     "textExpired": "The time to pay ran out, so the booking wasn't made and nothing was charged. Please start again.",
     "textError": "We couldn't check your booking right now. If you paid, your confirmation email is on its way; otherwise write to us at {email}.",
-    "retry": "Back to reservations"
+    "retry": "Back to reservations",
+    "paidNow": "Paid now",
+    "balanceDue": "Remaining, paid at the pension"
   },
   "legal": {
     "link": "Privacy & cookie policy"

@@ -362,7 +362,12 @@
     "roomsSubtotal": "房费（税前）",
     "vat": "增值税（{rate}）",
     "municipalTax": "市政税（{rate}）",
-    "climateFee": "气候税（每间客房每晚 {amount} · {nights} · {rooms} 间）"
+    "climateFee": "气候税（每间客房每晚 {amount} · {nights} · {rooms} 间）",
+    "payNow": "现在支付（{rule}）",
+    "payLater": "余款，到店支付",
+    "depositPercent": "{pct} 定金",
+    "depositFirstNight": "首晚房费作为定金",
+    "depositFixed": "定金"
   },
   "notFound": {
     "title": "页面未找到",
@@ -403,7 +408,9 @@
     "textOpen": "付款未完成，因此预订未确认，也未产生任何扣款。",
     "textExpired": "付款时间已过，因此预订未成立，也未产生任何扣款。请重新开始。",
     "textError": "暂时无法核实您的预订。如果您已付款，确认邮件正在发送中；否则请发送邮件至 {email}。",
-    "retry": "返回预订页面"
+    "retry": "返回预订页面",
+    "paidNow": "已支付",
+    "balanceDue": "余款，到店支付"
   },
   "legal": {
     "link": "隐私与 Cookie 政策"

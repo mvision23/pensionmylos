@@ -362,7 +362,12 @@
     "roomsSubtotal": "Zimmer, vor Steuern",
     "vat": "MwSt. ({rate})",
     "municipalTax": "Gemeindesteuer ({rate})",
-    "climateFee": "Klimaabgabe ({amount} pro Zimmer und Nacht · {nights} · {rooms} Zimmer)"
+    "climateFee": "Klimaabgabe ({amount} pro Zimmer und Nacht · {nights} · {rooms} Zimmer)",
+    "payNow": "Jetzt zu zahlen ({rule})",
+    "payLater": "Restbetrag, zahlbar in der Pension",
+    "depositPercent": "{pct} Anzahlung",
+    "depositFirstNight": "erste Nacht als Anzahlung",
+    "depositFixed": "Anzahlung"
   },
   "notFound": {
     "title": "Seite nicht gefunden",
@@ -403,7 +408,9 @@
     "textOpen": "Die Zahlung wurde nicht abgeschlossen, daher ist die Buchung nicht bestätigt und es wurde nichts abgebucht.",
     "textExpired": "Die Zeit für die Zahlung ist abgelaufen, daher wurde keine Buchung angelegt und nichts abgebucht. Bitte beginnen Sie von vorn.",
     "textError": "Wir konnten Ihre Buchung gerade nicht prüfen. Falls Sie bezahlt haben, ist Ihre Bestätigung per E-Mail unterwegs; andernfalls schreiben Sie uns an {email}.",
-    "retry": "Zurück zu den Reservierungen"
+    "retry": "Zurück zu den Reservierungen",
+    "paidNow": "Jetzt bezahlt",
+    "balanceDue": "Restbetrag, zahlbar in der Pension"
   },
   "legal": {
     "link": "Datenschutz- und Cookie-Richtlinie"

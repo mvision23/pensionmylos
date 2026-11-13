@@ -362,7 +362,12 @@
     "roomsSubtotal": "Kamers, exclusief belastingen",
     "vat": "Btw ({rate})",
     "municipalTax": "Gemeentebelasting ({rate})",
-    "climateFee": "Klimaatheffing ({amount} per kamer per nacht · {nights} · {rooms} kamer(s))"
+    "climateFee": "Klimaatheffing ({amount} per kamer per nacht · {nights} · {rooms} kamer(s))",
+    "payNow": "Nu te betalen ({rule})",
+    "payLater": "Restbedrag, te betalen in het pension",
+    "depositPercent": "{pct} aanbetaling",
+    "depositFirstNight": "eerste nacht als aanbetaling",
+    "depositFixed": "aanbetaling"
   },
   "notFound": {
     "title": "Pagina niet gevonden",
@@ -403,7 +408,9 @@
     "textOpen": "De betaling is niet voltooid, dus de boeking is niet bevestigd en er is niets afgeschreven.",
     "textExpired": "De tijd om te betalen is verstreken, dus de boeking is niet gemaakt en er is niets afgeschreven. Begin opnieuw.",
     "textError": "We konden je boeking nu niet controleren. Als je hebt betaald, is je bevestigingsmail onderweg; zo niet, mail ons dan via {email}.",
-    "retry": "Terug naar reserveringen"
+    "retry": "Terug naar reserveringen",
+    "paidNow": "Nu betaald",
+    "balanceDue": "Restbedrag, te betalen in het pension"
   },
   "legal": {
     "link": "Privacy- en cookiebeleid"
